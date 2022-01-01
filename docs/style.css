@@ -1,0 +1,148 @@
+:root {
+	--level: 0;
+	--lvl: calc(var(--level, 0.1));
+}
+
+* {
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+
+/* html, body */
+
+html {
+	font-size: max(15px, min(1.9vw, 20px));
+	line-height: 1.35;
+	font-family: 'Hack', monospace;
+	letter-spacing: 0.01rem;
+	/* filter: invert(0.05); */
+	/* cursor: none; */
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	overflow: hidden;
+	background-color: black;
+	color: white;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	height: 100vh;
+}
+
+html:not(.live) body:after {
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0) 50vh);
+	animation: pulse 6s ease-in-out alternate infinite;
+}
+
+html.live body:after {
+	--a: rgba(255, 255, 255, var(--lvl));
+	--b: rgba(0, 0, 0, 0.5);
+	background: radial-gradient(circle, var(--a) 10%, var(--b) 50vh);
+}
+
+body:after {
+	content: '';
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+}
+
+/* main */
+
+html.loading main,
+html.live main {
+	opacity: 0;
+	pointer-events: none;
+}
+
+main {
+	margin: 0 auto;
+	max-width: 800px;
+	width: 80vw;
+	z-index: 999;
+	opacity: 1;
+	transition: opacity 500ms ease-in-out;
+	will-change: opacity;
+	/* mix-blend-mode: difference; */
+}
+
+main > *:nth-child(0) {
+	color: rgb(255, 255, 255);
+}
+main > *:nth-child(1) {
+	color: rgb(228, 228, 228);
+}
+main > *:nth-child(2) {
+	color: rgb(200, 200, 200);
+}
+main > *:nth-child(3) {
+	color: rgb(172, 172, 172);
+}
+main > *:nth-child(4) {
+	color: rgb(144, 144, 144);
+}
+main > *:nth-child(5) {
+	color: rgb(116, 116, 116);
+}
+
+p,
+ol {
+	padding-bottom: 1rem;
+}
+
+ol {
+	list-style: none;
+}
+
+button {
+	display: block;
+	width: 100%;
+	padding: 1rem;
+	box-sizing: border-box;
+	font-family: inherit;
+	font-size: inherit;
+	border-radius: 0.1rem;
+	text-transform: uppercase;
+	background-color: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: 0.5rem;
+	cursor: pointer;
+	color: inherit;
+}
+
+/* img, video, audio */
+
+img,
+video {
+	pointer-events: none;
+}
+
+/* animation */
+
+@keyframes pulse {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 0.5;
+	}
+}
+
+/* import */
+
+@font-face {
+	font-family: 'Hack';
+	src: url('common/fonts/Hack-Regular.woff2') format('woff2'), url('common/fonts/Hack-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
