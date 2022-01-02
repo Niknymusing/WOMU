@@ -1,5 +1,5 @@
 const WebSocket = require('ws')
-const axios = require('axios')
+const osc = require('osc')
 
 const serverAddress = 'wss://womu-server.jonasjohansson.repl.co'
 
@@ -9,29 +9,29 @@ const socket = new WebSocket(serverAddress, {
 	},
 })
 
+const udpPort = new osc.UDPPort({
+	localAddress: '0.0.0.0',
+	localPort: 7400,
+	remoteAddress: '127.0.0.1',
+	remotePort: 7500,
+})
+
+udpPort.open()
+
 socket.on('open', function () {
 	console.log('Opened…')
 })
 
-socket.on('close', function () {
-	var now = new Date().getTime()
-	console.log(new Date(), 'Socket closed, TTL', (now - socket._created) / 1000)
-})
 socket.on('message', function incoming(message) {
 	console.log(`Received message => ${message}`)
-	console.log(parseFloat(message))
-	axios
-		.put('http://localhost:8080/api/v1/composition', {
-			speed: {
-				value: parseFloat(message),
+	const data = JSON.parse(message)
+	udpPort.send({
+		address: data.address,
+		args: [
+			{
+				type: 'f',
+				value: data.value,
 			},
-		})
-		.then(
-			(response) => {
-				// console.log(response)
-			},
-			(error) => {
-				// console.log(error)
-			}
-		)
+		],
+	})
 })
