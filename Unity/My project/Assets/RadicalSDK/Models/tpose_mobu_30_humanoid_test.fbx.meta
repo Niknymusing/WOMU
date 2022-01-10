@@ -1,0 +1,688 @@
+fileFormatVersion: 2
+guid: b95d829b100c43e4486a095cefb3ec65
+ModelImporter:
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: VICON:head
+  - first:
+      1: 100004
+    second: VICON:head_End
+  - first:
+      1: 100006
+    second: VICON:lclavicle
+  - first:
+      1: 100008
+    second: VICON:lfemur
+  - first:
+      1: 100010
+    second: VICON:lfingers
+  - first:
+      1: 100012
+    second: VICON:lfingers_End
+  - first:
+      1: 100014
+    second: VICON:lfoot
+  - first:
+      1: 100016
+    second: VICON:lhand
+  - first:
+      1: 100018
+    second: VICON:lhipjoint
+  - first:
+      1: 100020
+    second: VICON:lhumerus
+  - first:
+      1: 100022
+    second: VICON:lowerback
+  - first:
+      1: 100024
+    second: VICON:lowerneck
+  - first:
+      1: 100026
+    second: VICON:lradius
+  - first:
+      1: 100028
+    second: VICON:lthumb
+  - first:
+      1: 100030
+    second: VICON:lthumb_End
+  - first:
+      1: 100032
+    second: VICON:ltibia
+  - first:
+      1: 100034
+    second: VICON:ltoes
+  - first:
+      1: 100036
+    second: VICON:ltoes_End
+  - first:
+      1: 100038
+    second: VICON:lwrist
+  - first:
+      1: 100040
+    second: VICON:rclavicle
+  - first:
+      1: 100042
+    second: VICON:rfemur
+  - first:
+      1: 100044
+    second: VICON:rfingers
+  - first:
+      1: 100046
+    second: VICON:rfingers_End
+  - first:
+      1: 100048
+    second: VICON:rfoot
+  - first:
+      1: 100050
+    second: VICON:rhand
+  - first:
+      1: 100052
+    second: VICON:rhipjoint
+  - first:
+      1: 100054
+    second: VICON:rhumerus
+  - first:
+      1: 100056
+    second: VICON:root
+  - first:
+      1: 100058
+    second: VICON:rradius
+  - first:
+      1: 100060
+    second: VICON:rthumb
+  - first:
+      1: 100062
+    second: VICON:rthumb_End
+  - first:
+      1: 100064
+    second: VICON:rtibia
+  - first:
+      1: 100066
+    second: VICON:rtoes
+  - first:
+      1: 100068
+    second: VICON:rtoes_End
+  - first:
+      1: 100070
+    second: VICON:rwrist
+  - first:
+      1: 100072
+    second: VICON:thorax
+  - first:
+      1: 100074
+    second: VICON:upperback
+  - first:
+      1: 100076
+    second: VICON:upperneck
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: VICON:head
+  - first:
+      4: 400004
+    second: VICON:head_End
+  - first:
+      4: 400006
+    second: VICON:lclavicle
+  - first:
+      4: 400008
+    second: VICON:lfemur
+  - first:
+      4: 400010
+    second: VICON:lfingers
+  - first:
+      4: 400012
+    second: VICON:lfingers_End
+  - first:
+      4: 400014
+    second: VICON:lfoot
+  - first:
+      4: 400016
+    second: VICON:lhand
+  - first:
+      4: 400018
+    second: VICON:lhipjoint
+  - first:
+      4: 400020
+    second: VICON:lhumerus
+  - first:
+      4: 400022
+    second: VICON:lowerback
+  - first:
+      4: 400024
+    second: VICON:lowerneck
+  - first:
+      4: 400026
+    second: VICON:lradius
+  - first:
+      4: 400028
+    second: VICON:lthumb
+  - first:
+      4: 400030
+    second: VICON:lthumb_End
+  - first:
+      4: 400032
+    second: VICON:ltibia
+  - first:
+      4: 400034
+    second: VICON:ltoes
+  - first:
+      4: 400036
+    second: VICON:ltoes_End
+  - first:
+      4: 400038
+    second: VICON:lwrist
+  - first:
+      4: 400040
+    second: VICON:rclavicle
+  - first:
+      4: 400042
+    second: VICON:rfemur
+  - first:
+      4: 400044
+    second: VICON:rfingers
+  - first:
+      4: 400046
+    second: VICON:rfingers_End
+  - first:
+      4: 400048
+    second: VICON:rfoot
+  - first:
+      4: 400050
+    second: VICON:rhand
+  - first:
+      4: 400052
+    second: VICON:rhipjoint
+  - first:
+      4: 400054
+    second: VICON:rhumerus
+  - first:
+      4: 400056
+    second: VICON:root
+  - first:
+      4: 400058
+    second: VICON:rradius
+  - first:
+      4: 400060
+    second: VICON:rthumb
+  - first:
+      4: 400062
+    second: VICON:rthumb_End
+  - first:
+      4: 400064
+    second: VICON:rtibia
+  - first:
+      4: 400066
+    second: VICON:rtoes
+  - first:
+      4: 400068
+    second: VICON:rtoes_End
+  - first:
+      4: 400070
+    second: VICON:rwrist
+  - first:
+      4: 400072
+    second: VICON:thorax
+  - first:
+      4: 400074
+    second: VICON:upperback
+  - first:
+      4: 400076
+    second: VICON:upperneck
+  - first:
+      95: 9500000
+    second: //RootNode
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: VICON:root
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:lfemur
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rfemur
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:ltibia
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rtibia
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:lfoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rfoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:lowerback
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:upperneck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:head
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:lclavicle
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rclavicle
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:lhumerus
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rhumerus
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:lradius
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rradius
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:lwrist
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rwrist
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:ltoes
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: VICON:rtoes
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: tpose_mobu_30_humanoid_test(Clone)
+      parentName: 
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:root
+      parentName: tpose_mobu_30_humanoid_test(Clone)
+      position: {x: 0, y: 0.97250026, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lhipjoint
+      parentName: VICON:root
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lfemur
+      parentName: VICON:lhipjoint
+      position: {x: -0.09934987, y: -0.101691805, z: 0.021730442}
+      rotation: {x: 0.00011008856, y: -0.00001941156, z: -0.14789972, w: 0.9890024}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:ltibia
+      parentName: VICON:lfemur
+      position: {x: 0.000000107690006, y: -0.40732905, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lfoot
+      parentName: VICON:ltibia
+      position: {x: 0.00000012188356, y: -0.46101508, z: 0}
+      rotation: {x: -0.70694524, y: 0.018445373, z: -0.018445373, w: 0.70678717}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:ltoes
+      parentName: VICON:lfoot
+      position: {x: 0.0000000028327354, y: -0.108036354, z: -0.015548199}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:ltoes_End
+      parentName: VICON:ltoes
+      position: {x: 3.304999e-16, y: -0.055301275, z: -2.482086e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lowerback
+      parentName: VICON:root
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:upperback
+      parentName: VICON:lowerback
+      position: {x: -0.0031251465, y: 0.10839214, z: -0.0020958423}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:thorax
+      parentName: VICON:upperback
+      position: {x: -0.002512943, y: 0.10728562, z: 0.0061299154}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lclavicle
+      parentName: VICON:thorax
+      position: {x: -0.0010430478, y: 0.107637234, z: 0.007020427}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lhumerus
+      parentName: VICON:lclavicle
+      position: {x: -0.18524894, y: 0.047596615, z: -0.010784545}
+      rotation: {x: 0.6830127, y: 0.6830127, z: -0.18301271, w: 0.18301271}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lradius
+      parentName: VICON:lhumerus
+      position: {x: -1.1506859e-11, y: -0.2959484, z: 6.643452e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lwrist
+      parentName: VICON:lradius
+      position: {x: -6.561991e-12, y: -0.16876833, z: 3.7885463e-12}
+      rotation: {x: 2.2412593e-17, y: 0.8660254, z: 2.2412593e-17, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lhand
+      parentName: VICON:lwrist
+      position: {x: 1.5911321e-27, y: -0.084383875, z: -3.7884986e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lfingers
+      parentName: VICON:lhand
+      position: {x: 1.4342086e-27, y: -0.041020717, z: -1.841912e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lfingers_End
+      parentName: VICON:lfingers
+      position: {x: 2.2216534e-27, y: -0.033071928, z: -1.4848851e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lthumb
+      parentName: VICON:lwrist
+      position: {x: 1.5911321e-27, y: -0.084383875, z: -3.7884986e-12}
+      rotation: {x: 4.0360968e-17, y: -2.6424162e-17, z: 0.38268346, w: 0.92387956}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lthumb_End
+      parentName: VICON:lthumb
+      position: {x: -4.440892e-18, y: -0.0474849, z: -3.0149188e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:lowerneck
+      parentName: VICON:thorax
+      position: {x: -0.0010430478, y: 0.107637234, z: 0.007020427}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:upperneck
+      parentName: VICON:lowerneck
+      position: {x: -0.00050950644, y: 0.098579854, z: 0.001170458}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:head
+      parentName: VICON:upperneck
+      position: {x: 0.0048585916, y: 0.0947385, z: -0.0068188487}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:head_End
+      parentName: VICON:head
+      position: {x: 0.001987223, y: 0.10350752, z: -0.0028553333}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rclavicle
+      parentName: VICON:thorax
+      position: {x: -0.0010430478, y: 0.107637234, z: 0.007020427}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rhumerus
+      parentName: VICON:rclavicle
+      position: {x: 0.18681039, y: 0.044239286, z: 0.008051009}
+      rotation: {x: 0.6830127, y: -0.6830127, z: 0.18301271, w: 0.18301271}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rradius
+      parentName: VICON:rhumerus
+      position: {x: 1.1786537e-11, y: -0.30313206, z: 6.804923e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rwrist
+      parentName: VICON:rradius
+      position: {x: 6.425425e-12, y: -0.16526482, z: 3.7097005e-12}
+      rotation: {x: 2.2412593e-17, y: -0.8660254, z: -2.2412593e-17, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rhand
+      parentName: VICON:rwrist
+      position: {x: -1.5581115e-27, y: -0.08263241, z: -3.7099473e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rfingers
+      parentName: VICON:rhand
+      position: {x: -1.5481875e-27, y: -0.044280495, z: -1.988398e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rfingers_End
+      parentName: VICON:rfingers
+      position: {x: -2.3981697e-27, y: -0.035700094, z: -1.6023257e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rthumb
+      parentName: VICON:rwrist
+      position: {x: -1.5581115e-27, y: -0.08263241, z: -3.7099473e-12}
+      rotation: {x: 4.0360968e-17, y: 2.6424162e-17, z: -0.38268346, w: 0.92387956}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rthumb_End
+      parentName: VICON:rthumb
+      position: {x: 4.440892e-18, y: -0.051258385, z: -3.2545104e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rhipjoint
+      parentName: VICON:root
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rfemur
+      parentName: VICON:rhipjoint
+      position: {x: 0.100429446, y: -0.101691805, z: 0.021730537}
+      rotation: {x: -0.00011008856, y: -0.000019411564, z: 0.14789972, w: 0.9890024}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rtibia
+      parentName: VICON:rfemur
+      position: {x: -0.00000010994932, y: -0.41587475, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rfoot
+      parentName: VICON:rtibia
+      position: {x: -0.0000001204702, y: -0.4556692, z: 0}
+      rotation: {x: -0.70678717, y: -0.018445369, z: 0.018445369, w: 0.70694524}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rtoes
+      parentName: VICON:rfoot
+      position: {x: 0.00000000394063, y: -0.10544505, z: -0.013312333}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: VICON:rtoes_End
+      parentName: VICON:rtoes
+      position: {x: -4.676354e-16, y: -0.053937066, z: -2.4213027e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

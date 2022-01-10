@@ -1,5 +1,9 @@
 sceneSetups:
-- path: Assets/Scenes/SyphonTexture.unity
+- path: Assets/Scenes/_StudioVisualizer.unity
   isLoaded: 1
   isActive: 1
+  isSubScene: 0
+- path: Assets/Scenes/AnimationPlayer.unity
+  isLoaded: 1
+  isActive: 0
   isSubScene: 0

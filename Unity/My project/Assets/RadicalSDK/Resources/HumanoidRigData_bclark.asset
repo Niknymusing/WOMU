@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e962b0d225a9c4f9827975610d26bd, type: 3}
+  m_Name: HumanoidRigData_bclark
+  m_EditorClassIdentifier: 
+  rootBone: ASF:root
+  spineBone0: ASF:SpineDummy
+  spineBone1: ASF:Spine
+  spineBone2: ASF:Spine1
+  spineBone3: ASF:Spine2
+  neckBone0: ASF:NeckDummy
+  neckBone1: ASF:Neck
+  headBone: ASF:Head
+  rightShoulderBone0: ASF:RightShoulderDummy
+  rightShoulderBone1: ASF:RightShoulder
+  rightArmBone: ASF:RightArm
+  rightForearmBone: ASF:RightForeArm
+  rightHandBone: ASF:RightHand
+  leftShoulderBone0: ASF:LeftShoulderDummy
+  leftShoulderBone1: ASF:LeftShoulder
+  leftArmBone: ASF:LeftArm
+  leftForearmBone: ASF:LeftForeArm
+  leftHandBone: ASF:LeftHand
+  rightUpperLegBone0: ASF:RightUpLegDummy
+  rightUpperLegBone1: ASF:RightUpLeg
+  rightLegBone: ASF:RightLeg
+  rightFootBone: ASF:RightFoot
+  leftUpperLegBone0: ASF:LeftUpLegDummy
+  leftUpperLegBone1: ASF:LeftUpLeg
+  leftLegBone: ASF:LeftLeg
+  leftFootBone: ASF:LeftFoot
