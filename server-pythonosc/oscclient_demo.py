@@ -1,4 +1,5 @@
 import argparse
+import audio_pipeline as ap
 import random
 import time
 
@@ -14,6 +15,10 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   client = udp_client.SimpleUDPClient(args.ip, args.port)
+  
+  audio_sample_length = 10 #seconds
+  audio_data = ap.record_audio(audio_sample_length)
+  #print(audio_data)  #prints hexadecimal audio data array
 
   for x in range(10):
     client.send_message("/composition/dashboard/link1", random.random())
