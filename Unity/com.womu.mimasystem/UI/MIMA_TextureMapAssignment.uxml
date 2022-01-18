@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MIMA_main.uss?fileID=7433441132597879392&amp;guid=30ece24bc631fb942bdf34e09f545e1c&amp;type=3#MIMA_main" />
+    <ui:Label text="MaterialName" display-tooltip-when-elided="true" name="MaterialNameLabel" class="textureMapControl" style="width: 100%; flex-wrap: wrap-reverse; flex-direction: column;" />
+    <ui:VisualElement style="margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(108, 108, 108); border-left-color: rgb(176, 176, 176); border-right-color: rgb(176, 176, 176); border-top-color: rgb(176, 176, 176); border-bottom-color: rgb(176, 176, 176); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; flex-direction: row;">
+        <ui:VisualElement style="width: 75%;">
+            <ui:DropdownField label="Source" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="ExternalSource" class="textureMapControl" style="height: auto;" />
+            <ui:Slider picking-mode="Ignore" label="Scale" value="1" high-value="100" name="ScaleSlider" low-value="0.001" show-input-field="true" class="textureMapControl" />
+            <ui:Slider picking-mode="Ignore" label="OffsetX" value="0" high-value="1" low-value="-1" name="OffsetXSlider" show-input-field="true" class="textureMapControl" />
+            <ui:Slider picking-mode="Ignore" label="OffsetY" value="0" high-value="1" low-value="-1" name="OffsetYSlider" show-input-field="true" class="textureMapControl" />
+            <ui:Label display-tooltip-when-elided="true" name="DebugValues" style="flex-direction: column; flex-wrap: nowrap; width: 100%; flex-basis: auto;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="width: 25%; align-items: center; justify-content: center;">
+            <ui:Image name="PreviewTexture" class="previewTexture" style="width: 70px; margin-left: 5px; margin-right: 2px; margin-top: 10px; margin-bottom: 2px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; background-color: rgb(132, 132, 132); -unity-background-scale-mode: scale-and-crop; height: 70px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

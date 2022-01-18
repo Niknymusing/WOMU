@@ -1,0 +1,17 @@
+{
+    "name": "MIMA",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7cdfac5ef1f961d4ebfe51361a2020bd",
+        "GUID:21435214e6169c649985b5540a63188a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

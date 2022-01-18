@@ -1,0 +1,11 @@
+{
+    "description": "MIMA system for WOMU",
+    "displayName": "WOMU-MIMA system",
+    "name": "com.womu.mimasystem",    
+    "hideInEditor": false,
+    "type": "library",    
+    "version": "0.0.1",
+    "dependencies": {
+        "jp.keijiro.klak.spout": "2.0.3"
+    }
+}
