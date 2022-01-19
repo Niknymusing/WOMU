@@ -120,6 +120,14 @@ namespace MIMA
 
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                mainUI.rootVisualElement.visible = !mainUI.rootVisualElement.visible;
+            }
+        }
+
         private void FixedUpdate()
         {
             if (MIMA_System.Instance != null)

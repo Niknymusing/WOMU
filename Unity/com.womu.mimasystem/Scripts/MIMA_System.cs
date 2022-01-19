@@ -57,10 +57,13 @@ namespace MIMA
                     if (tex == null) Debug.LogError($"ERROR - no texture found for source {map.sourceName}");
                     else
                     {
-                        Debug.Log($"Updating material {map.targetMat.name} with {map.sourceName} at {map.textureName}");
-                        map.targetMat.SetTexture(map.textureName, tex);
-                        map.targetMat.SetTextureOffset(map.textureName, map.offset);
-                        map.targetMat.SetTextureScale(map.textureName, new Vector2(map.scale, map.scale));
+                        foreach (var texName in map.textureNames)
+                        {
+                            Debug.Log($"Updating material {map.targetMat.name} with {map.sourceName} at {texName}");
+                            map.targetMat.SetTexture(texName, tex);
+                            map.targetMat.SetTextureOffset(texName, map.offset);
+                            map.targetMat.SetTextureScale(texName, new Vector2(map.scale, map.scale));
+                        }
                     }
                 };
 

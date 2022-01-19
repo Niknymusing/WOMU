@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: TestCollection
   m_EditorClassIdentifier: 
   scenes:
+  - {fileID: 11400000, guid: 47624177974a3684fbd68a803fb2b05d, type: 2}
   - {fileID: 11400000, guid: c0da070a5caa3594a975bc6b831b0b1d, type: 2}

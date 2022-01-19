@@ -11,7 +11,7 @@ namespace MIMA
         public class ExternalTextureMap
         {
             public Material targetMat;
-            public string textureName = "_MainTex";
+            public string[] textureNames = {"_MainTex" };
             public Vector2 offset = Vector2.zero;
             public float scale = 1.0f;
             public string sourceName;
