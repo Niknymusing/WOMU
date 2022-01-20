@@ -1013,9 +1013,15 @@ VisualEffect:
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 10, y: 5, z: 5}
+        m_Name: BoundsSize
+        m_Overridden: 1
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 4.237095, y: 1.5084945, z: 0.24402116, w: 1}
+        m_Name: BaseColor
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -2685,7 +2691,7 @@ GameObject:
   - component: {fileID: 2098152688}
   - component: {fileID: 2098152687}
   m_Layer: 0
-  m_Name: TestAreaLight
+  m_Name: ScreenAreaLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2703,7 +2709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 13548.249
+  m_Intensity: 40000
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -2825,7 +2831,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 210.75026
+  m_Intensity: 622.2214
   m_Range: 9.55
   m_SpotAngle: 70.84872
   m_InnerSpotAngle: 21.80208
@@ -2883,7 +2889,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2098152686}
   m_LocalRotation: {x: 0.7002244, y: -0, z: -0, w: -0.7139228}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.027, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

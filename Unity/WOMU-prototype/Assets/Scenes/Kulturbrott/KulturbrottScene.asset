@@ -13,13 +13,46 @@ MonoBehaviour:
   m_Name: KulturbrottScene
   m_EditorClassIdentifier: 
   textureMaps:
-  - targetMat: {fileID: 2100000, guid: 02f35bfd041aa814c8629b7f2ecc5527, type: 2}
+  - TargetName: Main Screen
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 02f35bfd041aa814c8629b7f2ecc5527, type: 2}
+    targetLightName: 
+    targetProjectorName: 
     textureNames:
     - _BaseColorMap
     - _EmissiveColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: 
+    sourceName: TestBlue
+  - TargetName: ScreenLight
+    TargetType: 1
+    targetMat: {fileID: 0}
+    targetLightName: ScreenAreaLight
+    targetProjectorName: 
+    textureNames: []
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestBlue
+  - TargetName: ProjectorA
+    TargetType: 2
+    targetMat: {fileID: 2100000, guid: 9aba656c00532604f9361afdbbf9d970, type: 2}
+    targetLightName: 
+    targetProjectorName: ProjectorA
+    textureNames:
+    - _BaseColorMap
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestGreen
+  - TargetName: ProjectorB
+    TargetType: 2
+    targetMat: {fileID: 2100000, guid: 721b373c7b51b3a4dbaeef642bd75a35, type: 2}
+    targetLightName: 
+    targetProjectorName: ProjectorB
+    textureNames:
+    - _BaseColorMap
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestRedRamp
   _scenePath: Assets/Scenes/Kulturbrott/KulturbrottScene.unity
   _sceneGUID: 4e7dd0d9c15862c458a4ce3f672dde86
   _sceneName: KulturbrottScene

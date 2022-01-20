@@ -21,10 +21,12 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
     public override List<string> GetExternalSources()
     {
         #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-        return SpoutManager.GetSourceNames().ToList();
-        #endif
-        
-        #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+        var list = SpoutManager.GetSourceNames().ToList();
+        list.AddRange(new string[]{"black", "white"});
+        return list;
+#endif
+
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
             var list = Plugin_CreateServerList();
             var count = Plugin_GetServerListCount(list);
             var sourceList = new List<string>();
@@ -48,8 +50,8 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
             Plugin_DestroyServerList(list);
             return sourceList;
 
-        #endif
-        
+#endif
+
     }
     
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
@@ -86,6 +88,9 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
 
     public override Texture GetTextureForSource(string source)
     {
+        if (source == "black") return Texture2D.blackTexture;
+        if (source == "white") return Texture2D.whiteTexture;
+        
         var r = receivers.FindLast(s => s.sourceName == source);
         if (r != null) return r.targetTexture;
         else

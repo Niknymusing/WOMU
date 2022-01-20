@@ -189,7 +189,8 @@ namespace MIMA
                 visual_previewTex = r.Q<Image>("PreviewTexture");
                 label_debug = r.Q<Label>("DebugValues");
 
-                label_name.text = m.targetMat.name;
+
+                label_name.text = m.TargetName;
 
                 dropdown_sources.RegisterValueChangedCallback((evt => UpdateSettings()));
                 slider_scale.RegisterValueChangedCallback((evt => UpdateSettings()));
@@ -210,7 +211,7 @@ namespace MIMA
 
             private void UpdateSettings()
             {
-                Debug.Log($"Setting changed on {map.targetMat.name}");
+                Debug.Log($"Setting changed on {map.TargetName}");
                 map.offset = new Vector2(slider_offsetX.value, slider_offsetY.value);
                 map.scale = 1.0f / slider_scale.value;
                 map.sourceName = dropdown_sources.value;

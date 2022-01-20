@@ -4,11 +4,12 @@
 
 .textureMapControl {
     background-color: rgba(0, 0, 0, 0);
-    height: 20px;
+    height: 15px;
     width: 100%;
-    max-height: 20px;
-    min-height: 20px;
-    color: rgba(255, 213, 213, 255);
+    max-height: 15px;
+    min-height: 15px;
+    color: rgb(255, 213, 213);
+    font-size: 10px;
 }
 
 .unity-slider {
@@ -24,8 +25,7 @@
 .unity-slider .unity-text-field__input {
     width: 50px;
     background-color: rgba(0, 0, 0, 0);
-    color: rgba(255, 255, 255, 255);
-    
+    color: rgb(255, 255, 255);
 }
 
 .unity-slider .unity-base-slider__dragger {
@@ -34,10 +34,12 @@
 
 .textureMapControl .unity-label {
     left: auto;
-    top: -5px;
+    top: 3px;
     color: rgb(255, 255, 255);
     width: 20%;
     max-width: 20%;
+    font-size: 8px;
+    justify-content: center;
 }
 
 .previewTexture {

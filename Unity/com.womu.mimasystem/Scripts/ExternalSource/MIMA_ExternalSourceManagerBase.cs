@@ -14,7 +14,7 @@ public class MIMA_ExternalSourceManagerBase : MonoBehaviour
 {
     public virtual List<string> GetExternalSources()
     {
-        return new List<string>();
+        return new List<string>() {"black", "white" };
     }
     
     public Action sourcesChanged;

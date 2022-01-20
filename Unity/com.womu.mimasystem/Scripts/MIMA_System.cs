@@ -5,6 +5,7 @@ using Klak.Spout;
 using Klak.Syphon;
 using MIMA;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
 
 namespace MIMA
@@ -23,6 +24,8 @@ namespace MIMA
         public MIMA_Scene currentScene = null;
 
         public List<MIMA_ControlSourceBase> controlSources = new List<MIMA_ControlSourceBase>();
+
+        public Material defaultDecalMaterial;
 
         public MIMA_ExternalSourceManagerBase externalTextureSource
         {
@@ -71,13 +74,52 @@ namespace MIMA
                     if (tex == null) Debug.LogError($"ERROR - no texture found for source {map.sourceName}");
                     else
                     {
-                        foreach (var texName in map.textureNames)
+                        switch (map.TargetType)
                         {
-                            Debug.Log($"Updating material {map.targetMat.name} with {map.sourceName} at {texName}");
-                            map.targetMat.SetTexture(texName, tex);
-                            map.targetMat.SetTextureOffset(texName, map.offset);
-                            map.targetMat.SetTextureScale(texName, new Vector2(map.scale, map.scale));
+                            case MIMA_Scene.TEXTURE_TARGET_TYPE.MATERIAL:
+                                foreach (var texName in map.textureNames)
+                                {
+                                    Debug.Log($"Updating material {map.targetMat.name} with {map.sourceName} at {texName}");
+                                    map.targetMat.SetTexture(texName, tex);
+                                    map.targetMat.SetTextureOffset(texName, map.offset);
+                                    map.targetMat.SetTextureScale(texName, new Vector2(map.scale, map.scale));
+                                }
+                                break;
+                            case MIMA_Scene.TEXTURE_TARGET_TYPE.LIGHT_COOKIE:
+                                var targetLightGO = GameObject.Find(map.targetLightName);
+                                if (targetLightGO != null)
+                                {
+                                    Debug.Log($"Updating cookie on light {map.targetLightName} with {map.sourceName}");
+                                    var lxData = targetLightGO.GetComponent<HDAdditionalLightData>();
+                                    lxData.SetCookie(tex);
+                                }
+                                
+                                break;
+                            case MIMA_Scene.TEXTURE_TARGET_TYPE.DECAL_PROJECTOR:
+
+                                var newDecalMat = Instantiate(defaultDecalMaterial);
+                                newDecalMat.name = map.TargetName + "_DecalMaterial";
+                                
+                                foreach (var texName in map.textureNames)
+                                {
+                                    Debug.Log($"Updating material {map.targetMat.name} with {map.sourceName} at {texName}");
+                                    newDecalMat.SetTexture(texName, tex);
+                                    newDecalMat.SetTextureOffset(texName, map.offset);
+                                    newDecalMat.SetTextureScale(texName, new Vector2(map.scale, map.scale));
+                                }
+                                
+                                // find projector and replace material, because reasons
+                                var projGO = GameObject.Find(map.targetProjectorName);
+                                if (projGO != null)
+                                {
+                                    var proj = projGO.GetComponent<DecalProjector>();
+                                    proj.material = newDecalMat;
+                                }
+
+                                break;
                         }
+                        
+                        
                     }
                 };
 

@@ -52,7 +52,10 @@ public class MIMA_SyphonSourceManager : MIMA_ExternalSourceManagerBase
 
     public override List<string> GetExternalSources()
     {
-        return syphonSources.ConvertAll(s => s.AsSingleString);
+        var list = syphonSources.ConvertAll(s => s.AsSingleString);
+        list.AddRange(new string[]{ "black", "white"});
+
+        return list;
     }
 
     public float SourceUpdateIntervalSeconds = 1.0f;
@@ -77,6 +80,9 @@ public class MIMA_SyphonSourceManager : MIMA_ExternalSourceManagerBase
 
     public override Texture GetTextureForSource(string source)
     {
+        if (source == "black") return Texture2D.blackTexture;
+        if (source == "white") return Texture2D.whiteTexture;
+        
         string[] parts = source.Split('~');
         string serverName = parts[0];
         string appName = parts[1];
