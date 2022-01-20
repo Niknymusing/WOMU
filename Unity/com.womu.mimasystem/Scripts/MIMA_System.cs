@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Klak.Spout;
+using Klak.Syphon;
 using MIMA;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -98,6 +100,17 @@ namespace MIMA
 
         IEnumerator LoadSceneRoutine(MIMA_Scene scene)
         {
+            // TODO - fade in / out
+            
+            if (currentScene != null)
+            {
+                Debug.Log($"Unloading scene {currentScene._sceneName}");
+                // unload this scene first
+                var asyncUnload = SceneManager.UnloadSceneAsync(currentScene._sceneName);
+                yield return new WaitUntil(() => asyncUnload.isDone);
+                Debug.Log($"Unloaded scene {currentScene._sceneName}");
+            }
+            
             Debug.Log($"Loading scene {scene._sceneName}");
             var asyncLoad = SceneManager.LoadSceneAsync(scene._sceneName, LoadSceneMode.Additive);
             asyncLoad.allowSceneActivation = true;
@@ -112,6 +125,22 @@ namespace MIMA
             {
                 controller.UpdateUI();
             }
+            
+            // append syphon or spout behaviour to main camera
+            Debug.Log($"Searching for main camera to append Spout/Syphon behaviour");
+            while (Camera.main == null)
+            {
+                yield return null;
+            }
+            
+            #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
+                var sender = Camera.main.gameObject.AddComponent<SpoutSender>();
+                sender.captureMethod = CaptureMethod.Camera;
+                sender.sourceCamera = Camera.main;
+            #else
+                var sender = Camera.main.gameObject.AddComponent<SyphonServer>();
+            #endif
+
 
         }
 
