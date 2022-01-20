@@ -42,9 +42,18 @@ namespace MIMA
             textureMapContainer = root.Q<VisualElement>("TextureMapping");
             label_log = root.Q<Label>("LogContainer");
 
+            var logQueue = new List<string>();
+
             Application.logMessageReceived += (condition, trace, type) =>
             {
-                label_log.text = condition + "\n" + label_log.text;
+                logQueue.Add(condition);
+                while (logQueue.Count > 32)
+                {
+                    logQueue.RemoveAt(0);
+                }
+                
+                label_log.text = String.Join("\n", logQueue);
+                
                 // if (lastLog != condition)
                 // {
                 //     
