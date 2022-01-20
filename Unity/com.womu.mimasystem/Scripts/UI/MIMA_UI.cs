@@ -20,6 +20,18 @@ namespace MIMA
         // private int duplcateLogCount = 0;
 
         private List<TextureMapUIController> textureUIControllers = new List<TextureMapUIController>();
+        
+        public MIMA_ExternalSourceManagerBase externalTextureSource
+        {
+            get
+            {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+                return MIMA_SpoutSourceManager.Instance;
+#else
+                    return MIMA_SyphonSourceManager.Instance;
+#endif
+            }
+        }
 
         public void Start()
         {
@@ -48,9 +60,9 @@ namespace MIMA
                 
             };
 
-            MIMA_SpoutManager.Instance.sourcesChanged += () =>
+            externalTextureSource.sourcesChanged += () =>
             {
-                var newSources = MIMA_SpoutManager.GetExternalSources();
+                var newSources = externalTextureSource.GetExternalSources();
                 foreach (var t in textureUIControllers)
                 {
                     t.UpdateAvailableSources(newSources);
@@ -104,13 +116,13 @@ namespace MIMA
                     var controller = new TextureMapUIController(visual, map);
                     textureUIControllers.Add(controller);
                     textureMapContainer.Add(visual);
-                    controller.UpdateAvailableSources(MIMA_SpoutManager.GetExternalSources());
+                    controller.UpdateAvailableSources(externalTextureSource.GetExternalSources());
 
                     controller.SettingsChanged += c =>
                     {
                         if (TextureMapChanged != null) TextureMapChanged.Invoke(c.map);
                         // try to get preview texture
-                        c.SetPreviewTexture(MIMA_SpoutManager.Instance.GetTextureForSource(c.map.sourceName));
+                        c.SetPreviewTexture(externalTextureSource.GetTextureForSource(c.map.sourceName));
                     };
                 }
                 
@@ -134,7 +146,7 @@ namespace MIMA
             {
                 foreach (var controller in textureUIControllers)
                 {
-                    controller.UpdateAvailableSources(MIMA_SpoutManager.GetExternalSources());
+                    controller.UpdateAvailableSources(externalTextureSource.GetExternalSources());
                 }
             }
         }

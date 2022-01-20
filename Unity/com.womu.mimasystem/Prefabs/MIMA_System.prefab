@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6858254319809433086}
-  - component: {fileID: 5021376674913711932}
+  - component: {fileID: 6308170497811750427}
+  - component: {fileID: 30360584362773320}
   m_Layer: 0
-  m_Name: Spout
+  m_Name: ExternalSources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +33,7 @@ Transform:
   m_Father: {fileID: 7102357997131406743}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5021376674913711932
+--- !u!114 &6308170497811750427
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +42,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 3102487126763868402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f268181e0a248346a3b781779f81b32, type: 3}
+  m_Script: {fileID: 11500000, guid: dedd9ec04639444483fb3a05be708444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SourceUpdateIntervalSeconds: 1
+  syphonReceiverPrefab: {fileID: 4137321434466190125, guid: d15789f001d1a4443b9e80b685a57593,
+    type: 3}
+--- !u!114 &30360584362773320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3102487126763868402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36271299403b426ea0f9476c813e417f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   receivers: []
+  SourceUpdateIntervalSeconds: 1
   spoutReceiverPrefab: {fileID: 4137321434466190125, guid: b0512dcf2a2a1714483932a57d924dc0,
     type: 3}
 --- !u!1 &7102357997107787571
@@ -160,3 +177,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneCollection: {fileID: 0}
   currentScene: {fileID: 0}
+  controlSources: []

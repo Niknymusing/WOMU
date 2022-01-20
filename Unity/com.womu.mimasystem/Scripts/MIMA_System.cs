@@ -22,6 +22,18 @@ namespace MIMA
 
         public List<MIMA_ControlSourceBase> controlSources = new List<MIMA_ControlSourceBase>();
 
+        public MIMA_ExternalSourceManagerBase externalTextureSource
+        {
+            get
+            {
+                #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+                    return MIMA_SpoutSourceManager.Instance;
+                #else
+                    return MIMA_SyphonSourceManager.Instance;
+                #endif
+            }
+        }
+
         private void Awake()
         {
             if (_instance != null)
@@ -53,7 +65,7 @@ namespace MIMA
                 controller.TextureMapChanged += map =>
                 {
                     // get material, assign texture
-                    var tex = MIMA_SpoutManager.Instance.GetTextureForSource(map.sourceName);
+                    var tex = externalTextureSource.GetTextureForSource(map.sourceName);
                     if (tex == null) Debug.LogError($"ERROR - no texture found for source {map.sourceName}");
                     else
                     {
