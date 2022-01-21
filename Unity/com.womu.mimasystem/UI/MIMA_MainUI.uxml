@@ -1,12 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/MIMA_main.uss?fileID=7433441132597879392&amp;guid=30ece24bc631fb942bdf34e09f545e1c&amp;type=3#MIMA_main" />
+    <Style src="project://database/Packages/com.womu.mimasystem/UI/MIMA_main.uss?fileID=7433441132597879392&amp;guid=30ece24bc631fb942bdf34e09f545e1c&amp;type=3#MIMA_main" />
     <ui:VisualElement style="flex-direction: row; height: 100%;">
         <ui:VisualElement name="MainControls" style="width: 50%;">
             <ui:Label text="Current Scene : none" display-tooltip-when-elided="true" name="CurrentSceneLabel" class="mimadefault" style="margin-left: 5px; margin-top: 5px; font-size: 12px; color: rgb(197, 197, 197);" />
             <ui:VisualElement name="TextureMapping" class="mimadefault" />
-            <ui:VisualElement name="SceneLoading" style="margin-top: 10px; margin-bottom: 10px;">
-                <ui:DropdownField label="Available Scenes" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="AvailableScenes" class="mimadefault" style="height: 25px;" />
-                <ui:Button text="Load Selected Scene" display-tooltip-when-elided="true" name="LoadSceneButton" style="font-size: 16px; background-color: rgb(89, 17, 26); color: rgb(207, 207, 207);" />
+            <ui:VisualElement name="CameraControls" class="mimadefault" />
+            <ui:VisualElement name="SceneLoading" style="margin-top: 10px; margin-bottom: 10px; white-space: normal; flex-direction: row; align-items: center;">
+                <ui:DropdownField label="Available Scenes" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="AvailableScenes" class="mimadefault" style="height: 25px; width: 75%;" />
+                <ui:Button text="Load Selected Scene" display-tooltip-when-elided="true" name="LoadSceneButton" style="font-size: 12px; background-color: rgb(89, 17, 26); color: rgb(207, 207, 207); width: 22%;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="DebugLog" style="width: 50%; top: 40px; height: 100%;">

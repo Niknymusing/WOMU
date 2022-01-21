@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.38354, g: 325.1084, b: 430.30957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -142,6 +142,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7102357997107787573, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: cameraControlVisual
+      value: 
+      objectReference: {fileID: 9197481963319205126, guid: c98e3e1a0b4135245a4366b2530ea081,
+        type: 3}
     - target: {fileID: 7102357997131406740, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
       propertyPath: m_Name
@@ -173,6 +179,41 @@ PrefabInstance:
       propertyPath: controlSources.Array.data[0]
       value: 
       objectReference: {fileID: 63901964}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: defaultCameraMotionFrequency
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: defaultCameraMotionPosition.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: defaultCameraMotionPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: defaultCameraMotionPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: defaultCameraMotionRotation.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: defaultCameraMotionRotation.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: defaultCameraMotionRotation.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7102357997131406743, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
       propertyPath: m_RootOrder

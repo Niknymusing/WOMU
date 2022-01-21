@@ -9,7 +9,8 @@ namespace MIMA
         public Action<MIMA_Scene.ExternalTextureMap> TextureMapChanged;
 
         public Action<float> SetCameraRandomMotion;
-        public Action<int,float> GotoCameraPositionOverTime;
+        public Action<float> SetCameraOrbitSensitivity;
+        public Action<Transform,float> GotoCameraPositionOverTime;
 
         public virtual void UpdateUI()
         {

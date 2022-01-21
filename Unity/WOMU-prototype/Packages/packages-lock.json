@@ -190,7 +190,8 @@
       "depth": 0,
       "source": "local",
       "dependencies": {
-        "jp.keijiro.klak.spout": "2.0.3"
+        "jp.keijiro.klak.spout": "2.0.3",
+        "jp.keijiro.klak.motion": "1.0.2"
       }
     },
     "jp.keijiro.klak.motion": {

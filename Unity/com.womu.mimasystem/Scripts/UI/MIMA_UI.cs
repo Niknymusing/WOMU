@@ -10,15 +10,18 @@ namespace MIMA
     {
         public UIDocument mainUI;
         public VisualTreeAsset textureMapVisual;
+        public VisualTreeAsset cameraControlVisual;
 
         private DropdownField field_sceneSelect;
         private Button button_sceneLoad;
         private Label label_currentScene;
         private VisualElement textureMapContainer;
+        private VisualElement cameraControlContainer;
         private Label label_log;
         // private string lastLog = "";
         // private int duplcateLogCount = 0;
 
+        public CameraUIController cameraUIController;
         private List<TextureMapUIController> textureUIControllers = new List<TextureMapUIController>();
         
         public MIMA_ExternalSourceManagerBase externalTextureSource
@@ -40,6 +43,10 @@ namespace MIMA
             button_sceneLoad = root.Q<Button>("LoadSceneButton");
             label_currentScene = root.Q<Label>("CurrentSceneLabel");
             textureMapContainer = root.Q<VisualElement>("TextureMapping");
+            cameraControlContainer = root.Q<VisualElement>("CameraControls");
+            
+            
+            
             label_log = root.Q<Label>("LogContainer");
 
             var logQueue = new List<string>();
@@ -135,6 +142,26 @@ namespace MIMA
                     };
                 }
                 
+                // clear camera control
+                for (int i = 0; i < cameraControlContainer.childCount; i++)
+                {
+                    cameraControlContainer.RemoveAt(i);
+                }
+
+                var cameraVisual = cameraControlVisual.Instantiate();
+                cameraUIController = new CameraUIController(cameraVisual, s);
+                
+                cameraControlContainer.Add(cameraVisual);
+
+                cameraUIController.TakeCameraOverTime += (camera1, f) =>
+                {
+                    GotoCameraPositionOverTime.Invoke(camera1, f);
+                };
+
+                cameraUIController.SetCameraOrbit += f => SetCameraOrbitSensitivity.Invoke(f);
+                cameraUIController.SetCameraWobble += f => SetCameraRandomMotion.Invoke(f);
+                
+
             }
 
             field_sceneSelect.choices = MIMA_System.Instance.sceneCollection.scenes.ConvertAll(s => s.name);
@@ -221,6 +248,74 @@ namespace MIMA
             }
  
 
+        }
+
+        public class CameraUIController
+        {
+            public Action<Transform, float> TakeCameraOverTime;
+            public Action<float> SetCameraWobble;
+            public Action<float> SetCameraOrbit;
+            
+            public VisualElement root;
+            private DropdownField dropdown_camera_list;
+            
+            private Slider slider_transitionTime;
+            private Slider slider_wobble;
+            private Slider slider_orbit;
+
+            private Button button_take;
+            private Button button_set;
+
+            public CameraUIController(VisualElement r, MIMA_Scene s)
+            {
+                dropdown_camera_list = r.Q<DropdownField>("CameraSelect");
+                slider_transitionTime = r.Q<Slider>("TransitionTimeSlider");
+                slider_wobble = r.Q<Slider>("CameraWobble");
+                slider_orbit = r.Q<Slider>("OrbitSlider");
+                button_take = r.Q<Button>("ButtonTake");
+                button_set = r.Q<Button>("ButtonSet");
+
+                dropdown_camera_list.choices = s.cameraPositions;
+
+                button_take.clicked += () =>
+                {
+
+                    var c = GameObject.Find(dropdown_camera_list.value).transform;
+                    if (c != null)
+                    {
+                        Debug.Log($"Going to camera {c.name}");
+                        if (TakeCameraOverTime != null) TakeCameraOverTime.Invoke(c, slider_transitionTime.value);    
+                    }
+                };
+
+                button_set.clicked += () =>
+                {
+                    var c = GameObject.Find(dropdown_camera_list.value).transform;
+                    if (c != null)
+                    {
+                        Debug.Log($"Updating camera {c.name}");
+                        c.transform.SetPositionAndRotation(Camera.main.transform.position, Camera.main.transform.rotation);
+                    }
+                };
+
+                slider_wobble.RegisterValueChangedCallback(evt =>
+                {
+                    if (SetCameraWobble != null)
+                    {
+                        SetCameraWobble.Invoke(slider_wobble.value);
+                    }
+                });
+
+                slider_orbit.RegisterValueChangedCallback(evt =>
+                {
+                    if (SetCameraOrbit != null)
+                    {
+                        SetCameraOrbit.Invoke(slider_orbit.value);
+                    }
+                });
+            }
+            
+            
         }
     }
 }

@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Klak.Spout;
 using Klak.Syphon;
+
 using MIMA;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using Klak.Motion;
 
 namespace MIMA
 {
@@ -26,6 +29,12 @@ namespace MIMA
         public List<MIMA_ControlSourceBase> controlSources = new List<MIMA_ControlSourceBase>();
 
         public Material defaultDecalMaterial;
+        public Vector3 defaultCameraMotionPosition;
+        public Vector3 defaultCameraMotionRotation;
+        public float defaultCameraMotionFrequency = 0.05f;
+
+        private BrownianMotion cameraBrownianMotion;
+        private Tween cameraTween;
 
         public MIMA_ExternalSourceManagerBase externalTextureSource
         {
@@ -125,15 +134,41 @@ namespace MIMA
 
                 controller.SetCameraRandomMotion += f =>
                 {
-                    // todo - camera random motion
+                    if (cameraBrownianMotion == null) cameraBrownianMotion = Camera.main.GetComponent<BrownianMotion>();
+                    cameraBrownianMotion.positionAmount = defaultCameraMotionPosition * f;
+                    cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation * f;
                 };
 
-                controller.GotoCameraPositionOverTime += (i, f) =>
+                controller.GotoCameraPositionOverTime += (cam, f) =>
                 {
-                    // todo - camera position over time
+                    Debug.Log($"Moving camera to {cam.position} / {cam.rotation} over {f} seconds");
+                    if (f == 0.0f)
+                    {
+                        cameraBrownianMotion.enabled = false;
+                        Camera.main.transform.SetPositionAndRotation(cam.position, cam.rotation);
+                        cameraBrownianMotion.enabled = true;
+                    }
+                    else
+                    {
+                        cameraBrownianMotion.enabled = false;
+                        Vector3 startPos = Camera.main.transform.position;
+                        Quaternion startRot = Camera.main.transform.rotation;
+                        if (cameraTween != null) cameraTween.Kill(false);
+                        cameraTween = DOVirtual.Float(0.0f, 1.0f, f, v =>
+                        {
+                            Camera.main.transform.position = Vector3.Lerp(startPos, cam.position, v);
+                            Camera.main.transform.rotation = Quaternion.Slerp(startRot, cam.rotation, v);
+                        }).SetEase(Ease.InOutSine).OnComplete(() =>
+                        {
+                            cameraBrownianMotion.enabled = true;
+                        });
+                    }
+                    
                 };
             }
         }
+        
+        
 
         void LoadScene(MIMA_Scene scene)
         {
@@ -183,6 +218,13 @@ namespace MIMA
                 var sender = Camera.main.gameObject.AddComponent<SyphonServer>();
             #endif
 
+            // append random motion
+            cameraBrownianMotion = Camera.main.gameObject.GetComponent<BrownianMotion>();
+            if (cameraBrownianMotion == null) cameraBrownianMotion = Camera.main.gameObject.AddComponent<BrownianMotion>();
+            
+            cameraBrownianMotion.frequency = defaultCameraMotionFrequency;
+            cameraBrownianMotion.positionAmount = defaultCameraMotionPosition;
+            cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation;
 
         }
 

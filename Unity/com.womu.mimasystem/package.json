@@ -1,11 +1,21 @@
 {
-    "description": "MIMA system for WOMU",
-    "displayName": "WOMU-MIMA system",
-    "name": "com.womu.mimasystem",    
-    "hideInEditor": false,
-    "type": "library",    
-    "version": "0.0.1",
-    "dependencies": {
-        "jp.keijiro.klak.spout": "2.0.3"
+  "description": "MIMA system for WOMU",
+  "displayName": "WOMU-MIMA system",
+  "name": "com.womu.mimasystem",
+  "hideInEditor": false,
+  "type": "library",
+  "version": "0.0.1",
+  "dependencies": {
+    "jp.keijiro.klak.spout": "2.0.3",
+    "jp.keijiro.klak.motion": "1.0.2"
+  },
+  "scopedRegistries": [
+    {
+      "name": "Keijiro",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "jp.keijiro"
+      ]
     }
+  ]
 }

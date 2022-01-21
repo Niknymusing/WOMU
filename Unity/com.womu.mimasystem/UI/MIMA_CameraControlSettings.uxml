@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.womu.mimasystem/UI/MIMA_main.uss?fileID=7433441132597879392&amp;guid=30ece24bc631fb942bdf34e09f545e1c&amp;type=3#MIMA_main" />
+    <ui:Label text="Camera Control" display-tooltip-when-elided="true" name="Title" class="textureMapControl" style="width: 100%; flex-wrap: wrap-reverse; flex-direction: column; margin-top: 2px; margin-bottom: 2px; height: 17px; color: rgb(255, 255, 255);" />
+    <ui:VisualElement style="margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(108, 108, 108); border-left-color: rgb(156, 255, 189); border-right-color: rgb(156, 255, 189); border-top-color: rgb(156, 255, 189); border-bottom-color: rgb(156, 255, 189); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-direction: row; align-items: flex-start; -unity-background-scale-mode: stretch-to-fill; flex-wrap: wrap; overflow: hidden;">
+        <ui:VisualElement style="width: 75%; overflow: visible;">
+            <ui:DropdownField label="Camera" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="CameraSelect" class="textureMapControl" style="height: 14px; align-items: center; justify-content: flex-start; max-height: initial;" />
+            <ui:Slider picking-mode="Ignore" label="Transition" value="1" high-value="5" name="TransitionTimeSlider" low-value="0" show-input-field="true" class="textureMapControl" />
+            <ui:Slider picking-mode="Ignore" label="Wobble" value="0" high-value="1" low-value="0" name="CameraWobble" show-input-field="true" class="textureMapControl" />
+            <ui:Slider picking-mode="Ignore" label="Orbit" value="0" high-value="1" low-value="0" name="OrbitSlider" show-input-field="true" class="textureMapControl" />
+        </ui:VisualElement>
+        <ui:VisualElement style="width: 25%; align-items: flex-start; justify-content: flex-start; flex-direction: column;">
+            <ui:Button text="Take" display-tooltip-when-elided="true" name="ButtonTake" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; width: 75%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; position: relative; background-color: rgb(150, 207, 162); color: rgb(255, 255, 255);" />
+            <ui:Button text="Set" display-tooltip-when-elided="true" name="ButtonSet" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; width: 75%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; position: relative; background-color: rgb(207, 168, 150); color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

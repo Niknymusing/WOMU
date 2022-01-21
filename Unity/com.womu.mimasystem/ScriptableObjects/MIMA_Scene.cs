@@ -31,6 +31,8 @@ namespace MIMA
         }
 
         public List<ExternalTextureMap> textureMaps;
+
+        public List<string> cameraPositions;
         
         // internal representation for scene
         [HideInInspector] public string _scenePath;
