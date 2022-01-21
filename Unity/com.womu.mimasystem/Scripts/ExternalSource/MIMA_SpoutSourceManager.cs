@@ -10,6 +10,7 @@ using System;
 
 public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
 {
+    #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     public static MIMA_SpoutSourceManager Instance
     {
         get { return _instance;  }
@@ -167,27 +168,6 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
         }
         yield return null;
     }
-    
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-        
-        #region Syphon plugin entry points
-
-        [DllImport("KlakSyphon")]
-        static extern IntPtr Plugin_CreateServerList();
-
-        [DllImport("KlakSyphon")]
-        static extern void Plugin_DestroyServerList(IntPtr list);
-
-        [DllImport("KlakSyphon")]
-        static extern int Plugin_GetServerListCount(IntPtr list);
-
-        [DllImport("KlakSyphon")]
-        static extern IntPtr Plugin_GetNameFromServerList(IntPtr list, int index);
-
-        [DllImport("KlakSyphon")]
-        static extern IntPtr Plugin_GetAppNameFromServerList(IntPtr list, int index);
-
-        #endregion
-
 #endif
+
 }
