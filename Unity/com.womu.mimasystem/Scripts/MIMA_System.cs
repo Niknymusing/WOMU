@@ -175,7 +175,7 @@ namespace MIMA
                 yield return null;
             }
             
-            #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
+            #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
                 var sender = Camera.main.gameObject.AddComponent<SpoutSender>();
                 sender.captureMethod = CaptureMethod.Camera;
                 sender.sourceCamera = Camera.main;
