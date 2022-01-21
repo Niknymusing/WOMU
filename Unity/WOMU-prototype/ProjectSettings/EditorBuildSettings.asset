@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Kulturbrott/KulturbrottScene.unity
     guid: 4e7dd0d9c15862c458a4ce3f672dde86
+  - enabled: 1
+    path: Packages/com.womu.mimasystem/_ThirdParty/Radical/AnimationPlayer.unity
+    guid: 115bb747ced123748bcf721cd5cf5fef
+  - enabled: 1
+    path: Packages/com.womu.mimasystem/_ThirdParty/Radical/_StudioVisualizer.unity
+    guid: 4e3a029ae1d8ffe4584ff54c58a87030
   m_configObjects: {}

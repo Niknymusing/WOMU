@@ -10,6 +10,7 @@ using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using Klak.Motion;
+using UnityEngine.Rendering;
 
 namespace MIMA
 {
@@ -36,6 +37,8 @@ namespace MIMA
         private BrownianMotion cameraBrownianMotion;
         private Tween cameraTween;
 
+        public bool Vsync = true;
+
         public MIMA_ExternalSourceManagerBase externalTextureSource
         {
             get
@@ -61,6 +64,11 @@ namespace MIMA
 
         void Start()
         {
+            if (Vsync)
+            {
+                QualitySettings.vSyncCount = 1;
+            }
+            
             foreach (var controller in controlSources)
             {
                 controller.LaunchSceneCommand += sceneName =>
@@ -127,8 +135,13 @@ namespace MIMA
 
                                 break;
                         }
-                        
-                        
+                    }
+                    
+                    // update reflection probes
+                    var probes = FindObjectsOfType<ReflectionProbe>();
+                    foreach (var p in probes)
+                    {
+                        if (p.refreshMode != ReflectionProbeRefreshMode.EveryFrame) p.RenderProbe();
                     }
                 };
 
@@ -225,6 +238,27 @@ namespace MIMA
             cameraBrownianMotion.frequency = defaultCameraMotionFrequency;
             cameraBrownianMotion.positionAmount = defaultCameraMotionPosition;
             cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation;
+            
+            // apply settings to Reflection Probes
+            var probes = FindObjectsOfType<ReflectionProbe>();
+            foreach (var p in probes)
+            {
+                Debug.Log($"Setting {p.name} to {scene.reflectionProbeRefreshMode}");
+                p.refreshMode = scene.reflectionProbeRefreshMode;
+                var rData = p.GetComponent<HDAdditionalReflectionData>();
+                switch (scene.reflectionProbeRefreshMode)
+                {
+                    case ReflectionProbeRefreshMode.OnAwake:
+                        rData.realtimeMode = ProbeSettings.RealtimeMode.OnEnable;
+                        break;
+                    case ReflectionProbeRefreshMode.EveryFrame:
+                        rData.realtimeMode = ProbeSettings.RealtimeMode.EveryFrame;
+                        break;
+                    case ReflectionProbeRefreshMode.ViaScripting:
+                        rData.realtimeMode = ProbeSettings.RealtimeMode.OnDemand;
+                        break;
+                }
+            }
 
         }
 

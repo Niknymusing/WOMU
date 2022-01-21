@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
 
@@ -33,6 +34,9 @@ namespace MIMA
         public List<ExternalTextureMap> textureMaps;
 
         public List<string> cameraPositions;
+
+        public ReflectionProbeRefreshMode reflectionProbeRefreshMode;
+        
         
         // internal representation for scene
         [HideInInspector] public string _scenePath;
