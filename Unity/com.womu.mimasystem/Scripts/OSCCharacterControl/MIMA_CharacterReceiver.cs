@@ -56,5 +56,10 @@ public class MIMA_CharacterReceiver : MonoBehaviour
             numFramesProcessed++;
             HasNewFrame = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            characterController.gameObject.SetActive(characterController.gameObject.activeSelf);
+        }
     }
 }

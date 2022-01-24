@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfea45226cfb8af4fb0bc6f003e1ad0b, type: 3}
+  m_Name: FaschingScene
+  m_EditorClassIdentifier: 
+  textureMaps:
+  - TargetName: Main Screen
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 270624418a05d794c9702889bfa7fe33, type: 2}
+    targetLightName: 
+    targetProjectorName: 
+    textureNames:
+    - _BaseColorMap
+    - _EmissiveColorMap
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestBlue
+  - TargetName: ScreenLight
+    TargetType: 1
+    targetMat: {fileID: 0}
+    targetLightName: ScreenAreaLight
+    targetProjectorName: 
+    textureNames: []
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestBlue
+  - TargetName: ProjectorA
+    TargetType: 2
+    targetMat: {fileID: 2100000, guid: a518b1bbdf138dc41b64a4754ebd14e0, type: 2}
+    targetLightName: 
+    targetProjectorName: ProjectorA
+    textureNames:
+    - _BaseColorMap
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestGreen
+  - TargetName: ProjectorB
+    TargetType: 2
+    targetMat: {fileID: 2100000, guid: 1c0bf7ddb08cd2b45ac426ed00f56453, type: 2}
+    targetLightName: 
+    targetProjectorName: ProjectorB
+    textureNames:
+    - _BaseColorMap
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestRedRamp
+  - TargetName: CharacterMaterial
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 7a748ef56012fa445ba78216335c4c17, type: 2}
+    targetLightName: 
+    targetProjectorName: 
+    textureNames:
+    - _BaseColorMap
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestRedRamp
+  cameraPositions:
+  - Fasching-ScreenCamera
+  - Fasching-StageCamera
+  - Fasching-LowCamera
+  reflectionProbeRefreshMode: 0
+  RadicalCharacterStartingPos: {x: 0, y: 0.83, z: -1.7}
+  _scenePath: Assets/Scenes/Fasching/FaschingScene.unity
+  _sceneGUID: fbd67061753c3f3478dc0cd921205dc9
+  _sceneName: FaschingScene

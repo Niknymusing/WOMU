@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TestScene.unity
     guid: 9c450f9de7a95184f8e87cea8383fe81
   - enabled: 1
+    path: Assets/Scenes/Fasching/FaschingScene.unity
+    guid: fbd67061753c3f3478dc0cd921205dc9
+  - enabled: 1
     path: Assets/Scenes/Kulturbrott/KulturbrottScene.unity
     guid: 4e7dd0d9c15862c458a4ce3f672dde86
   - enabled: 1
