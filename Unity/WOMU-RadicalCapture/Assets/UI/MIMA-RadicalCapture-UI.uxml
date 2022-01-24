@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MIMA_radicalcapture_main.uss?fileID=7433441132597879392&amp;guid=05c756897d02b9a4bad1b273fc32a7ec&amp;type=3#MIMA_radicalcapture_main" />
+    <ui:VisualElement style="width: 50%; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; overflow: visible; flex-direction: column; flex-wrap: nowrap;">
+        <ui:Label text="MIMU Radical Capture" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255);" />
+        <ui:GroupBox style="border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+            <ui:GroupBox>
+                <ui:Toggle label="Spout Output" name="ToggleSpout" class="textureMapControl" />
+            </ui:GroupBox>
+            <ui:GroupBox>
+                <ui:Label text="OSC Skeleton / Meta output" display-tooltip-when-elided="true" class="textureMapControl" style="-unity-text-align: upper-center;" />
+                <ui:Toggle label="OSC send" name="ToggleOSCSend" class="textureMapControl" />
+                <ui:TextField picking-mode="Ignore" label="In Port" value="filler text" text="8888" name="Field_OSCPortIn" readonly="false" max-length="4" class="textureMapControl" />
+                <ui:TextField picking-mode="Ignore" label="Out Port" value="filler text" text="8888" name="Field_OSCPortOut" readonly="false" max-length="4" class="textureMapControl" />
+                <ui:Label text="OSC Status" name="LabelOSCStatus" display-tooltip-when-elided="true" class="textureMapControl" />
+            </ui:GroupBox>
+            <ui:GroupBox>
+                <ui:TextField picking-mode="Ignore" label="Radical Room" value="simulation_fbnwS" name="Field_RadicalRoom" readonly="false" max-length="-1" text="simulation_fbnwS" is-delayed="true" class="textureMapControl" />
+                <ui:TextField picking-mode="Ignore" label="Radical URL" value="wss://ue.getrad.co:8080" text="wss://ue.getrad.co:8080" name="Field_RadicalSocketURL" readonly="false" max-length="-1" is-delayed="false" class="textureMapControl" />
+                <ui:Button text="Connect To Radical" display-tooltip-when-elided="true" name="ButtonToggleRadical" />
+                <ui:Label text="Radical Status" name="LabelRadicalStatus" display-tooltip-when-elided="true" class="textureMapControl" />
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>
