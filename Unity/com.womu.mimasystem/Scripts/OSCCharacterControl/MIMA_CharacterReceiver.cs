@@ -21,7 +21,7 @@ public class MIMA_CharacterReceiver : MonoBehaviour
 
     // save this, and every time we get a root position, we update everything
     private Dictionary<string, object[]> oscFrameData = new Dictionary<string, object[]>();
-    
+
     // Start is called before the first frame update
     void Start()
     {

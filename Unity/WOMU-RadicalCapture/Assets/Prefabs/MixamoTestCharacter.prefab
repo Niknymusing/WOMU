@@ -286,6 +286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5685925303232029882}
+  - component: {fileID: 6835685986953314201}
   m_Layer: 0
   m_Name: mixamorig1:Hips
   m_TagString: Untagged
@@ -311,6 +312,23 @@ Transform:
   m_Father: {fileID: 184759858175547684}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6835685986953314201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297841808045866933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c141125edb68b49a13a2fb776f13bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  JointOSCName: Hips
+  velocityHistory: []
+  Velocity: 0
+  MaxVelocity: 1
+  updateFPS: 30
 --- !u!1 &1314819378681517683
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6483040382560176723}
+  - component: {fileID: 4599922055643532379}
   m_Layer: 0
   m_Name: mixamorig1:RightHand
   m_TagString: Untagged
@@ -602,6 +621,23 @@ Transform:
   m_Father: {fileID: 2593436357277673601}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4599922055643532379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589452179372810062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c141125edb68b49a13a2fb776f13bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  JointOSCName: RightHand
+  velocityHistory: []
+  Velocity: 0
+  MaxVelocity: 1
+  updateFPS: 30
 --- !u!1 &2891690203606737560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,6 +1632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7992001983211680217}
+  - component: {fileID: 4982471315082726946}
   m_Layer: 0
   m_Name: mixamorig1:LeftHand
   m_TagString: Untagged
@@ -1623,6 +1660,23 @@ Transform:
   m_Father: {fileID: 1291465699748614330}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4982471315082726946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6042407868213921589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c141125edb68b49a13a2fb776f13bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  JointOSCName: LeftHand
+  velocityHistory: []
+  Velocity: 0
+  MaxVelocity: 1
+  updateFPS: 30
 --- !u!1 &6742039103933324381
 GameObject:
   m_ObjectHideFlags: 0

@@ -60,6 +60,16 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
                AIPlayer.Instance.AssignModel(character);
                radicalAnimPlayback.StartPlaybackLive(0);
                
+               // check for joint trackers on this model
+               var velocityTrackers = characterOSC.GetComponentsInChildren<MIMA_JointVelocityTracker>();
+               foreach (var tracker in velocityTrackers)
+               {
+                    tracker.VelocityFrame += (jointName, vel) =>
+                    {
+                         if (oscManager.IsSending) oscManager.SendMessage("velocity_" + jointName, new object[] {vel});
+                    };
+               }
+               
                
 
                Debug.Log($"Connecting to radical, room: {room}, url : {url}");
