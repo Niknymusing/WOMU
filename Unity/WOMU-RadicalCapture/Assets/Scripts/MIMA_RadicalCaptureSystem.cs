@@ -19,22 +19,47 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
      public GameObject characterPrefab;
      private GameObject character;
 
+     private MIMA_CharacterPoseControl characterOSC;
+
      public int radicalNumFrames = 0;
      private bool radicalConnected = false;
      private string radicalLastErrorString = "";
+
+     public int oscFramesSent = 0;
+     public int characterFrames = 0;
 
      void Start()
      {
           radicalUI.OnStartRadical += (room, url) =>
           {
                // create character
-               if (character == null)
+               if (character != null)
                {
-                    Debug.Log($"Spawning new character from prefab {characterPrefab.name}");
-                    character = GameObject.Instantiate(characterPrefab, Vector3.zero, Quaternion.identity, null);
-                    AIPlayer.Instance.AssignModel(character);
-                    radicalAnimPlayback.StartPlaybackLive(0);
+                    Destroy(character);
                }
+
+               Debug.Log($"Spawning new character from prefab {characterPrefab.name}");
+               character = GameObject.Instantiate(characterPrefab, Vector3.zero, Quaternion.identity, null);
+
+               characterOSC = character.AddComponent<MIMA_CharacterPoseControl>();
+               characterOSC.StartExportFrames();
+               characterFrames = 0;
+
+               characterOSC.OnFrame += frame =>
+               {
+                    characterFrames++;
+                    if (oscServer.IsStarted)
+                    {
+                         var messages = MIMA_CharacterPoseControl.FrameToOsc(frame);
+                         oscServer.SendMessages(messages);
+                         oscFramesSent++;
+                    }
+               };
+               
+               
+               AIPlayer.Instance.AssignModel(character);
+               radicalAnimPlayback.StartPlaybackLive(0);
+               
                
 
                Debug.Log($"Connecting to radical, room: {room}, url : {url}");
@@ -51,6 +76,18 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
                radicalLiveInterface.Connect();
           };
 
+          radicalUI.OnToggleOSCSend += (enableOSC, portIn, portOut) =>
+          {
+               if (enableOSC)
+               {
+                    oscServer.StartOSCServer(portIn, portOut);
+               }
+               else
+               {
+                    oscServer.StopOsc();
+               }
+          };
+
           radicalUI.OnStopRadical += () =>
           {
                Debug.Log($"Disconnecting from Radical");
@@ -59,6 +96,7 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
                radicalConnected = false;
                radicalLastErrorString = "";
                radicalNumFrames = 0;
+               oscFramesSent = 0;
                if (character != null) Destroy(character);
                character = null;
           };
@@ -112,6 +150,7 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
 
      private void FixedUpdate()
      {
+          string oscStatus = $"status: {oscServer.currentStatus.ToString()} frames : {oscFramesSent}";
           radicalUI.SetOSCStatus(oscServer.currentStatus.ToString());
           string connStatus = radicalConnected ? "connected" : "disconnected";
           radicalUI.SetRadicalStatus($"{radicalLastErrorString} {connStatus}, frames : {radicalNumFrames}");

@@ -10,15 +10,23 @@ public class MIMA_OSCServer : MonoBehaviour
     public OSC.OSCStatus currentStatus = OSC.OSCStatus.Initial;
     public bool debugMode = true;
     public Action<string, object[]> OnMessage;
+
+    private bool oscStarted = false;
     
     private void Start()
     {
         
     }
 
+
+    public bool IsStarted
+    {
+        get { return oscStarted;  }
+    }
+
     public void StartOSCServer(int portIn, int portOut)
     {
-        
+        oscStarted = true;
         osc.inPort = portIn;
         osc.outPort = portOut;
         
@@ -28,6 +36,12 @@ public class MIMA_OSCServer : MonoBehaviour
         {
             currentStatus = status;
         };
+    }
+
+    public void StopOsc()
+    {
+        osc.Close();
+        oscStarted = false;
     }
 
 
@@ -50,18 +64,13 @@ public class MIMA_OSCServer : MonoBehaviour
         return msg;
     }
 
-    public void SendMessages(List<OscMessage> messages)
+    public void SendMessages(OscMessage[] messages)
     {
-        if (debugMode) Debug.Log($"Sending {messages.Count} messages");
+        // if (debugMode) Debug.Log($"Sending {messages.Length} messages");
         var msgList = new ArrayList(messages);
-        SendMessages(messages);
-    }
-    
-    public void SendMessages(ArrayList messages)
-    {
         if (osc != null && currentStatus != OSC.OSCStatus.Error)
         {   
-            osc.Send(messages);
+            osc.Send(msgList);
         }
     }
 
@@ -72,5 +81,6 @@ public class MIMA_OSCServer : MonoBehaviour
         {
             OnMessage.Invoke(msg.address, msg.values.ToArray());
         }
+        
     }
 }
