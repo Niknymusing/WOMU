@@ -285,8 +285,9 @@ public class UDPPacketIO
             System.Array.Copy(incoming, buffer, count);
             status = OSCStatus.Receiving;
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Debug.LogError(e.Message);
             status = OSCStatus.Error;
         }
         return count;

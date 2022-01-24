@@ -36,32 +36,32 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
     public string name_leftLegBone = "LeftLeg";
     public string name_leftFootBone = "LeftFoot";
 
-    private Transform transform_rootBone;
+    public Transform transform_rootBone;
 
-    private Transform transform_spineBone0;
-    private Transform transform_spineBone1;
-    private Transform transform_spineBone2;
+    public Transform transform_spineBone0;
+    public Transform transform_spineBone1;
+    public Transform transform_spineBone2;
 
-    private Transform transform_neckBone;
-    private Transform transform_headBone;
+    public Transform transform_neckBone;
+    public Transform transform_headBone;
 
-    private Transform transform_rightShoulderBone;
-    private Transform transform_rightArmBone;
-    private Transform transform_rightForearmBone;
-    private Transform transform_rightHandBone;
+    public Transform transform_rightShoulderBone;
+    public Transform transform_rightArmBone;
+    public Transform transform_rightForearmBone;
+    public Transform transform_rightHandBone;
 
-    private Transform transform_leftShoulderBone;
-    private Transform transform_leftArmBone;
-    private Transform transform_leftForearmBone;
-    private Transform transform_leftHandBone;
+    public Transform transform_leftShoulderBone;
+    public Transform transform_leftArmBone;
+    public Transform transform_leftForearmBone;
+    public Transform transform_leftHandBone;
 
-    private Transform transform_rightLegUpBone;
-    private Transform transform_rightLegBone;
-    private Transform transform_rightFootBone;
+    public Transform transform_rightLegUpBone;
+    public Transform transform_rightLegBone;
+    public Transform transform_rightFootBone;
 
-    private Transform transform_leftLegUpBone;
-    private Transform transform_leftLegBone;
-    private Transform transform_leftFootBone;
+    public Transform transform_leftLegUpBone;
+    public Transform transform_leftLegBone;
+    public Transform transform_leftFootBone;
 
     [Serializable]
     public class SkeletonFrame
@@ -97,8 +97,10 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
 
     public Action<SkeletonFrame> OnFrame;
 
-    public float frameFPS = 60.0f;
+    public float frameFPS = 30.0f;
 
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -145,6 +147,8 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
 
     IEnumerator MakeFrameRoutine()
     {
+        yield return new WaitWhile(()=> transform_rootBone == null);
+        
         while (true)
         {
             var newFrame = new SkeletonFrame();
@@ -173,7 +177,7 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
         
             if (OnFrame != null) OnFrame.Invoke(newFrame);
 
-            yield return new WaitForSeconds(60.0f / frameFPS);
+            yield return new WaitForSeconds(1.0f / frameFPS);
         }
     }
 
