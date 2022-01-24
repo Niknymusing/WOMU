@@ -5,8 +5,9 @@
         <ui:VisualElement style="width: 75%; overflow: visible;">
             <ui:DropdownField label="Camera" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="CameraSelect" class="textureMapControl" style="height: 14px; align-items: center; justify-content: flex-start; max-height: initial;" />
             <ui:Slider picking-mode="Ignore" label="Transition" value="1" high-value="5" name="TransitionTimeSlider" low-value="0" show-input-field="true" class="textureMapControl" />
-            <ui:Slider picking-mode="Ignore" label="Wobble" value="0" high-value="1" low-value="0" name="CameraWobble" show-input-field="true" class="textureMapControl" />
-            <ui:Slider picking-mode="Ignore" label="Orbit" value="0" high-value="1" low-value="0" name="OrbitSlider" show-input-field="true" class="textureMapControl" />
+            <ui:Slider picking-mode="Ignore" label="Wobble" value="1" high-value="1" low-value="0" name="CameraWobble" show-input-field="true" class="textureMapControl" />
+            <ui:Toggle label="Enable Orbit" focusable="true" name="OrbitCameraToggle" class="textureMapControl" />
+            <ui:Slider picking-mode="Ignore" label="Orbit Speed" value="1" high-value="5" low-value="0" name="OrbitSlider" show-input-field="true" class="textureMapControl" />
         </ui:VisualElement>
         <ui:VisualElement style="width: 25%; align-items: flex-start; justify-content: flex-start; flex-direction: column;">
             <ui:Button text="Take" display-tooltip-when-elided="true" name="ButtonTake" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; width: 75%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; position: relative; background-color: rgb(150, 207, 162); color: rgb(255, 255, 255);" />

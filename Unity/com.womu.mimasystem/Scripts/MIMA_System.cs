@@ -10,6 +10,7 @@ using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using Klak.Motion;
+using Unity.Mathematics;
 using UnityEngine.Rendering;
 
 namespace MIMA
@@ -33,8 +34,13 @@ namespace MIMA
         public Vector3 defaultCameraMotionPosition;
         public Vector3 defaultCameraMotionRotation;
         public float defaultCameraMotionFrequency = 0.05f;
+        public float defaultCameraPositionLerpTime = 0.1f;
+        public float defaultCameraRotationLerpTime = 0.1f;
+        
 
         private BrownianMotion cameraBrownianMotion;
+        private float lastCameraBrownianAmount = 1.0f;
+        private SimpleCameraController cameraOrbitMotion;
         private Tween cameraTween;
 
         public bool Vsync = true;
@@ -145,11 +151,52 @@ namespace MIMA
                     }
                 };
 
+                controller.SetCameraOrbitEnabled += e =>
+                {
+                    if (e)
+                    {
+                        DOVirtual.Float(1.0f, 0.0f, 2.0f, v =>
+                        {
+                            cameraBrownianMotion.positionAmount = defaultCameraMotionPosition * v * lastCameraBrownianAmount;
+                            cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation * v * lastCameraBrownianAmount;
+                        }).OnComplete(() =>
+                        {
+                            cameraBrownianMotion.enabled = false;
+                            cameraOrbitMotion.enabled = true;
+                        });
+                    }
+                    else
+                    {
+                        cameraOrbitMotion.enabled = false;
+                        cameraBrownianMotion.enabled = true;
+                        cameraBrownianMotion.positionAmount = float3.zero;
+                        cameraBrownianMotion.rotationAmount = float3.zero;
+                        DOVirtual.Float(0.0f, 1.0f, 2.0f, v =>
+                        {
+                            cameraBrownianMotion.positionAmount = defaultCameraMotionPosition * v * lastCameraBrownianAmount;
+                            cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation * v * lastCameraBrownianAmount;
+                        }).OnComplete(() =>
+                        {
+                            
+                            
+                        });
+                    }
+
+                };
+
+                controller.SetCameraOrbitSensitivity += f =>
+                {
+                    
+                    cameraOrbitMotion.positionLerpTime = f * defaultCameraPositionLerpTime;
+                    cameraOrbitMotion.rotationLerpTime = f * defaultCameraRotationLerpTime;
+                };
+                
                 controller.SetCameraRandomMotion += f =>
                 {
                     if (cameraBrownianMotion == null) cameraBrownianMotion = Camera.main.GetComponent<BrownianMotion>();
                     cameraBrownianMotion.positionAmount = defaultCameraMotionPosition * f;
                     cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation * f;
+                    lastCameraBrownianAmount = f;
                 };
 
                 controller.GotoCameraPositionOverTime += (cam, f) =>
@@ -259,6 +306,11 @@ namespace MIMA
                         break;
                 }
             }
+            
+            // enable camera controller
+            cameraOrbitMotion = Camera.main.GetComponent<SimpleCameraController>();
+            if (cameraOrbitMotion == null) cameraOrbitMotion = Camera.main.gameObject.AddComponent<SimpleCameraController>();
+            cameraOrbitMotion.enabled = false;
 
         }
 

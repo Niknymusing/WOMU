@@ -158,9 +158,11 @@ namespace MIMA
                     GotoCameraPositionOverTime.Invoke(camera1, f);
                 };
 
-                cameraUIController.SetCameraOrbit += f => SetCameraOrbitSensitivity.Invoke(f);
+                cameraUIController.SetCameraOrbitSpeed += f => SetCameraOrbitSensitivity.Invoke(f);
                 cameraUIController.SetCameraWobble += f => SetCameraRandomMotion.Invoke(f);
+                cameraUIController.SetCameraOrbitEnabled += e => SetCameraOrbitEnabled.Invoke(e);
                 
+
 
             }
 
@@ -254,7 +256,8 @@ namespace MIMA
         {
             public Action<Transform, float> TakeCameraOverTime;
             public Action<float> SetCameraWobble;
-            public Action<float> SetCameraOrbit;
+            public Action<float> SetCameraOrbitSpeed;
+            public Action<bool> SetCameraOrbitEnabled;
             
             public VisualElement root;
             private DropdownField dropdown_camera_list;
@@ -262,6 +265,7 @@ namespace MIMA
             private Slider slider_transitionTime;
             private Slider slider_wobble;
             private Slider slider_orbit;
+            private Toggle toggle_orbit;
 
             private Button button_take;
             private Button button_set;
@@ -274,6 +278,7 @@ namespace MIMA
                 slider_orbit = r.Q<Slider>("OrbitSlider");
                 button_take = r.Q<Button>("ButtonTake");
                 button_set = r.Q<Button>("ButtonSet");
+                toggle_orbit = r.Q<Toggle>("OrbitCameraToggle");
 
                 dropdown_camera_list.choices = s.cameraPositions;
 
@@ -308,9 +313,17 @@ namespace MIMA
 
                 slider_orbit.RegisterValueChangedCallback(evt =>
                 {
-                    if (SetCameraOrbit != null)
+                    if (SetCameraOrbitSpeed != null)
                     {
-                        SetCameraOrbit.Invoke(slider_orbit.value);
+                        SetCameraOrbitSpeed.Invoke(slider_orbit.highValue - slider_orbit.value);
+                    }
+                });
+
+                toggle_orbit.RegisterValueChangedCallback(evt =>
+                {
+                    if (SetCameraOrbitEnabled != null)
+                    {
+                        SetCameraOrbitEnabled.Invoke(toggle_orbit.value);
                     }
                 });
             }
