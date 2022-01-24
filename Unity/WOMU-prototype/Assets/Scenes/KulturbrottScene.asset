@@ -53,10 +53,22 @@ MonoBehaviour:
     offset: {x: 0, y: 0}
     scale: 1
     sourceName: TestRedRamp
+  - TargetName: CharacterMaterial
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 7a748ef56012fa445ba78216335c4c17, type: 2}
+    targetLightName: 
+    targetProjectorName: 
+    textureNames:
+    - _BaseColorMap
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestRedRamp
   cameraPositions:
   - Kulturbrott-ScreenCamera
   - Kulturbrott-StageCamera
   - Kulturbrott-LowCamera
+  reflectionProbeRefreshMode: 0
+  RadicalCharacterStartingPos: {x: 0, y: 0.6, z: 0}
   _scenePath: Assets/Scenes/Kulturbrott/KulturbrottScene.unity
   _sceneGUID: 4e7dd0d9c15862c458a4ce3f672dde86
   _sceneName: KulturbrottScene

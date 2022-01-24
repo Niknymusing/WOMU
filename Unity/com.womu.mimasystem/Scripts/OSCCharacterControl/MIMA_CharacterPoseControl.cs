@@ -5,9 +5,12 @@ using Unity.Mathematics;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityOSC;
 
 public class MIMA_CharacterPoseControl : MonoBehaviour
 {
+    public static string FRAME_KEY = "rootPosition";
+    
     // matches Mixamo skeleton layout
     public string name_rootBone = "Hips";
 
@@ -152,8 +155,8 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
         while (true)
         {
             var newFrame = new SkeletonFrame();
-            newFrame.rootPosition = transform_rootBone.position;
-            newFrame.rootRotation = transform_rootBone.rotation;
+            newFrame.rootPosition = transform_rootBone.localPosition;
+            newFrame.rootRotation = transform_rootBone.localRotation;
 
             newFrame.rot_spineBone0 = transform_spineBone0.localRotation;
             newFrame.rot_spineBone1 = transform_spineBone1.localRotation;
@@ -183,8 +186,8 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
 
     public void ApplyFrame(SkeletonFrame frame)
     {
-        transform_rootBone.position = frame.rootPosition;
-        transform_rootBone.rotation = frame.rootRotation;
+        transform_rootBone.localPosition = frame.rootPosition;
+        transform_rootBone.localRotation = frame.rootRotation;
         transform_spineBone0.localRotation = frame.rot_spineBone0;
         transform_spineBone1.localRotation = frame.rot_spineBone1;
         transform_spineBone2.localRotation = frame.rot_spineBone2;
@@ -206,7 +209,7 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
         transform_leftFootBone.localRotation = frame.rot_leftFootBone;
     }
 
-    public static OscMessage[] FrameToOsc(SkeletonFrame frame)
+    public static OSCMessage[] FrameToOsc(SkeletonFrame frame)
     {
         var messageDict = new Dictionary<string, object[]>();
         messageDict.Add("rootPosition", VectorToObjectArgs(frame.rootPosition));
@@ -231,43 +234,40 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
         messageDict.Add("rot_leftLegBone", QuaternionToObjectArgs(frame.rot_leftLegBone));
         messageDict.Add("rot_leftFootBone", QuaternionToObjectArgs(frame.rot_leftFootBone));
 
-        var messages = new List<OscMessage>();
+        var messages = new List<OSCMessage>();
         foreach (var k in messageDict.Keys)
         {
-            var newMsg = new OscMessage();
-            newMsg.address = k;
-            newMsg.values = new ArrayList(messageDict[k]);
-            messages.Add(newMsg);
+            messages.Add(MIMA_OSCManager.CreateMessage(k, messageDict[k]));
         }
 
         return messages.ToArray();
     }
 
-    public static SkeletonFrame OscToFrame(OscMessage[] messages)
+    public static SkeletonFrame OscToFrame(Dictionary<string, object[]> messages)
     {
         var frame = new SkeletonFrame();
 
-        frame.rootPosition = ObjectArgsToVector(messages.First(m => m.address == "rootPosition").values);
-        frame.rootRotation = ObjectArgsToQuaternion(messages.First(m => m.address == "rootRotation").values);
-        frame.rot_spineBone0 = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_spineBone0").values);
-        frame.rot_spineBone1 = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_spineBone1").values);
-        frame.rot_spineBone2 = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_spineBone2").values);
-        frame.rot_neckBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_neckBone").values);
-        frame.rot_headBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_headBone").values);
-        frame.rot_rightShoulderBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_rightShoulderBone").values);
-        frame.rot_rightArmBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_rightArmBone").values);
-        frame.rot_rightForearmBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_rightForearmBone").values);
-        frame.rot_rightHandBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_rightHandBone").values);
-        frame.rot_leftShoulderBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_leftShoulderBone").values);
-        frame.rot_leftArmBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_leftArmBone").values);
-        frame.rot_leftForearmBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_leftForearmBone").values);
-        frame.rot_leftHandBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_leftHandBone").values);
-        frame.rot_rightLegUpBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_rightLegUpBone").values);
-        frame.rot_rightLegBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_rightLegBone").values);
-        frame.rot_rightFootBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_rightFootBone").values);
-        frame.rot_leftLegUpBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_leftLegUpBone").values);
-        frame.rot_leftLegBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_leftLegBone").values);
-        frame.rot_leftFootBone = ObjectArgsToQuaternion(messages.First(m => m.address == "rot_leftFootBone").values);
+        if (messages.ContainsKey("rootPosition")) frame.rootPosition = ObjectArgsToVector(messages["rootPosition"]);
+        if (messages.ContainsKey("rootRotation")) frame.rootRotation = ObjectArgsToQuaternion(messages["rootRotation"]);
+        if (messages.ContainsKey("rot_spineBone0")) frame.rot_spineBone0 = ObjectArgsToQuaternion(messages["rot_spineBone0"]);
+        if (messages.ContainsKey("rot_spineBone1")) frame.rot_spineBone1 = ObjectArgsToQuaternion(messages["rot_spineBone1"]);
+        if (messages.ContainsKey("rot_spineBone2")) frame.rot_spineBone2 = ObjectArgsToQuaternion(messages["rot_spineBone2"]);
+        if (messages.ContainsKey("rot_neckBone")) frame.rot_neckBone = ObjectArgsToQuaternion(messages["rot_neckBone"]);
+        if (messages.ContainsKey("rot_headBone")) frame.rot_headBone = ObjectArgsToQuaternion(messages["rot_headBone"]);
+        if (messages.ContainsKey("rot_rightShoulderBone")) frame.rot_rightShoulderBone = ObjectArgsToQuaternion(messages["rot_rightShoulderBone"]);
+        if (messages.ContainsKey("rot_rightArmBone")) frame.rot_rightArmBone = ObjectArgsToQuaternion(messages["rot_rightArmBone"]);
+        if (messages.ContainsKey("rot_rightForearmBone")) frame.rot_rightForearmBone = ObjectArgsToQuaternion(messages["rot_rightForearmBone"]);
+        if (messages.ContainsKey("rot_rightHandBone")) frame.rot_rightHandBone = ObjectArgsToQuaternion(messages["rot_rightHandBone"]);
+        if (messages.ContainsKey("rot_leftShoulderBone")) frame.rot_leftShoulderBone = ObjectArgsToQuaternion(messages["rot_leftShoulderBone"]);
+        if (messages.ContainsKey("rot_leftArmBone")) frame.rot_leftArmBone = ObjectArgsToQuaternion(messages["rot_leftArmBone"]);
+        if (messages.ContainsKey("rot_leftForearmBone")) frame.rot_leftForearmBone = ObjectArgsToQuaternion(messages["rot_leftForearmBone"]);
+        if (messages.ContainsKey("rot_leftHandBone")) frame.rot_leftHandBone = ObjectArgsToQuaternion(messages["rot_leftHandBone"]);
+        if (messages.ContainsKey("rot_rightLegUpBone")) frame.rot_rightLegUpBone = ObjectArgsToQuaternion(messages["rot_rightLegUpBone"]);
+        if (messages.ContainsKey("rot_rightLegBone")) frame.rot_rightLegBone = ObjectArgsToQuaternion(messages["rot_rightLegBone"]);
+        if (messages.ContainsKey("rot_rightFootBone")) frame.rot_rightFootBone = ObjectArgsToQuaternion(messages["rot_rightFootBone"]);
+        if (messages.ContainsKey("rot_leftLegUpBone")) frame.rot_leftLegUpBone = ObjectArgsToQuaternion(messages["rot_leftLegUpBone"]);
+        if (messages.ContainsKey("rot_leftLegBone")) frame.rot_leftLegBone = ObjectArgsToQuaternion(messages["rot_leftLegBone"]);
+        if (messages.ContainsKey("rot_leftFootBone")) frame.rot_leftFootBone = ObjectArgsToQuaternion(messages["rot_leftFootBone"]);
 
         return frame;
     }
@@ -277,7 +277,7 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
         return new object[] {v.x, v.y, v.z};
     }
 
-    private static Vector3 ObjectArgsToVector(ArrayList args)
+    private static Vector3 ObjectArgsToVector(object[] args)
     {
         return new Vector3((float) args[0], (float) args[1], (float) args[2]);
     }
@@ -287,7 +287,7 @@ public class MIMA_CharacterPoseControl : MonoBehaviour
         return new object[] {q.x, q.y, q.z, q.w};
     }
 
-    private static Quaternion ObjectArgsToQuaternion(ArrayList args)
+    private static Quaternion ObjectArgsToQuaternion(object[] args)
     {
         return new Quaternion((float) args[0], (float) args[1], (float) args[2], (float) args[3]);
     }

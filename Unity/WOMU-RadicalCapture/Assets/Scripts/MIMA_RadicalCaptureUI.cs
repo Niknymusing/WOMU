@@ -9,7 +9,7 @@ public class MIMA_RadicalCaptureUI : MonoBehaviour
     public UIDocument uiDocument;
 
     public Action<bool> OnToggleSpoutOutput;
-    public Action<bool, int, int> OnToggleOSCSend;
+    public Action<bool, string, int> OnToggleOSCSend;
     public Action<string, string> OnStartRadical;
     public Action OnStopRadical;
 
@@ -17,6 +17,7 @@ public class MIMA_RadicalCaptureUI : MonoBehaviour
     private Toggle toggle_oscSend;
     private TextField field_oscPortIn;
     private TextField field_oscPortOut;
+    private TextField field_oscIP;
     private TextField field_radicalRoomName;
     private TextField field_radicalURL;
     private Label label_oscStatus;
@@ -34,6 +35,7 @@ public class MIMA_RadicalCaptureUI : MonoBehaviour
         toggle_oscSend = root.Q<Toggle>("ToggleOSCSend");
         field_oscPortIn = root.Q<TextField>("Field_OSCPortIn");
         field_oscPortOut = root.Q<TextField>("Field_OSCPortOut");
+        field_oscIP = root.Q<TextField>("Field_OSCIPOut");
         field_radicalRoomName = root.Q<TextField>("Field_RadicalRoom");
         field_radicalURL = root.Q<TextField>("Field_RadicalSocketURL");
         label_oscStatus = root.Q<Label>("LabelOSCStatus");
@@ -47,16 +49,15 @@ public class MIMA_RadicalCaptureUI : MonoBehaviour
             {
                 if (OnToggleOSCSend != null)
                 {
-                    int portIn = int.Parse(field_oscPortIn.value);
                     int portOut= int.Parse(field_oscPortOut.value);
-                    OnToggleOSCSend.Invoke(true, portIn, portOut);
+                    OnToggleOSCSend.Invoke(true, field_oscIP.value, portOut);
                 }
             }
             else
             {
                 if (OnToggleOSCSend != null)
                 {
-                    OnToggleOSCSend.Invoke(false, -1, -1);
+                    OnToggleOSCSend.Invoke(false, "", -1);
                 }
             }
         });

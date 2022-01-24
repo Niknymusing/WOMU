@@ -43,6 +43,8 @@ namespace MIMA
         private SimpleCameraController cameraOrbitMotion;
         private Tween cameraTween;
 
+        public MIMA_CharacterReceiver radicalCharacter;
+
         public bool Vsync = true;
 
         public MIMA_ExternalSourceManagerBase externalTextureSource
@@ -263,6 +265,14 @@ namespace MIMA
                 controller.UpdateUI();
             }
             
+             
+            // reposition Radical character
+            if (radicalCharacter == null) radicalCharacter = FindObjectOfType<MIMA_CharacterReceiver>();
+            if (radicalCharacter != null)
+            {
+                radicalCharacter.transform.position = scene.RadicalCharacterStartingPos;
+            }
+            
             // append syphon or spout behaviour to main camera
             Debug.Log($"Searching for main camera to append Spout/Syphon behaviour");
             while (Camera.main == null)
@@ -311,6 +321,7 @@ namespace MIMA
             cameraOrbitMotion = Camera.main.GetComponent<SimpleCameraController>();
             if (cameraOrbitMotion == null) cameraOrbitMotion = Camera.main.gameObject.AddComponent<SimpleCameraController>();
             cameraOrbitMotion.enabled = false;
+           
 
         }
 

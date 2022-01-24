@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class MIMA_RadicalCaptureSystem : MonoBehaviour
 {
-     public MIMA_OSCServer oscServer;
+     public MIMA_OSCManager oscManager;
      public MIMA_RadicalCaptureUI radicalUI;
      public RadicalLiveInterface radicalLiveInterface;
      public AnimationPlayback radicalAnimPlayback;
@@ -48,10 +48,10 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
                characterOSC.OnFrame += frame =>
                {
                     characterFrames++;
-                    if (oscServer.IsStarted)
+                    if (oscManager.IsSending)
                     {
                          var messages = MIMA_CharacterPoseControl.FrameToOsc(frame);
-                         oscServer.SendMessages(messages);
+                         oscManager.SendMessages(messages);
                          oscFramesSent++;
                     }
                };
@@ -76,15 +76,15 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
                radicalLiveInterface.Connect();
           };
 
-          radicalUI.OnToggleOSCSend += (enableOSC, portIn, portOut) =>
+          radicalUI.OnToggleOSCSend += (enableOSC, IP, portOut) =>
           {
                if (enableOSC)
                {
-                    oscServer.StartOSCServer(portIn, portOut);
+                    oscManager.StartOSCSending(IP, portOut);
                }
                else
                {
-                    oscServer.StopOsc();
+                    oscManager.StopOsc();
                }
           };
 
@@ -150,8 +150,9 @@ public class MIMA_RadicalCaptureSystem : MonoBehaviour
 
      private void FixedUpdate()
      {
-          string oscStatus = $"status: {oscServer.currentStatus.ToString()} frames : {oscFramesSent}";
-          radicalUI.SetOSCStatus(oscServer.currentStatus.ToString());
+
+          string oscStatus = oscManager.IsSending ? "sending" : "not sending";
+          radicalUI.SetOSCStatus($"{oscStatus} frames : {oscFramesSent}");
           string connStatus = radicalConnected ? "connected" : "disconnected";
           radicalUI.SetRadicalStatus($"{radicalLastErrorString} {connStatus}, frames : {radicalNumFrames}");
      }

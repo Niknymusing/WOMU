@@ -36,6 +36,8 @@ namespace MIMA
         public List<string> cameraPositions;
 
         public ReflectionProbeRefreshMode reflectionProbeRefreshMode;
+
+        public Vector3 RadicalCharacterStartingPos = Vector3.zero;
         
         
         // internal representation for scene

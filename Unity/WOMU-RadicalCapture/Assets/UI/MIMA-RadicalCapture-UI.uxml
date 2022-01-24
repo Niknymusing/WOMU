@@ -9,8 +9,9 @@
             <ui:GroupBox>
                 <ui:Label text="OSC Skeleton / Meta output" display-tooltip-when-elided="true" class="textureMapControl" style="-unity-text-align: upper-center;" />
                 <ui:Toggle label="OSC send" name="ToggleOSCSend" class="textureMapControl" />
-                <ui:TextField picking-mode="Ignore" label="In Port" value="7777" text="7777" name="Field_OSCPortIn" readonly="false" max-length="4" class="textureMapControl" />
+                <ui:TextField picking-mode="Ignore" label="In Port" value="7777" text="7777" name="Field_OSCPortIn" readonly="false" max-length="4" class="textureMapControl" style="display: none;" />
                 <ui:TextField picking-mode="Ignore" label="Out Port" value="5555" text="5555&#10;" name="Field_OSCPortOut" readonly="false" max-length="4" class="textureMapControl" />
+                <ui:TextField picking-mode="Ignore" label="Out IP" value="127.0.0.1" text="127.0.0.1" name="Field_OSCIPOut" readonly="false" max-length="4" class="textureMapControl" />
                 <ui:Label text="OSC Status" name="LabelOSCStatus" display-tooltip-when-elided="true" class="textureMapControl" />
             </ui:GroupBox>
             <ui:GroupBox>

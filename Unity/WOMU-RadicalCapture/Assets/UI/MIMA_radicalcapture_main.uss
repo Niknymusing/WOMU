@@ -138,7 +138,7 @@
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
     overflow: visible;
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
@@ -156,6 +156,7 @@
     flex-wrap: nowrap;
     align-items: center;
     -unity-text-outline-width: 0;
+    width: 100%;
 }
 
 .unity-base-popup-field__input {
@@ -179,10 +180,10 @@
 }
 
 .unity-group-box {
-    border-left-color: rgba(209, 209, 209, 255);
-    border-right-color: rgba(209, 209, 209, 255);
-    border-top-color: rgba(209, 209, 209, 255);
-    border-bottom-color: rgba(209, 209, 209, 255);
+    border-left-color: rgb(209, 209, 209);
+    border-right-color: rgb(209, 209, 209);
+    border-top-color: rgb(209, 209, 209);
+    border-bottom-color: rgb(209, 209, 209);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;

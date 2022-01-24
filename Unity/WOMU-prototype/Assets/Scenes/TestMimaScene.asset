@@ -13,24 +13,49 @@ MonoBehaviour:
   m_Name: TestMimaScene
   m_EditorClassIdentifier: 
   textureMaps:
-  - targetMat: {fileID: 2100000, guid: 0e936e040bced804f8f848e5869354ea, type: 2}
+  - TargetName: 
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 0e936e040bced804f8f848e5869354ea, type: 2}
+    targetLightName: 
+    targetProjectorName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0.136, y: 0}
     scale: 0.9090909
     sourceName: TestGreen
-  - targetMat: {fileID: 2100000, guid: 60ab54cca5a00294093ed262bc8b64de, type: 2}
+  - TargetName: 
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 60ab54cca5a00294093ed262bc8b64de, type: 2}
+    targetLightName: 
+    targetProjectorName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0.386, y: 0}
     scale: 1
     sourceName: TestBlue
-  - targetMat: {fileID: 2100000, guid: 1a59c8bea750dde42bfab70cf551c0f3, type: 2}
+  - TargetName: 
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 1a59c8bea750dde42bfab70cf551c0f3, type: 2}
+    targetLightName: 
+    targetProjectorName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0.002, y: 0}
     scale: 1
     sourceName: TestGreen
+  - TargetName: 
+    TargetType: 0
+    targetMat: {fileID: 2100000, guid: 7a748ef56012fa445ba78216335c4c17, type: 2}
+    targetLightName: 
+    targetProjectorName: 
+    textureNames:
+    - _BaseColorMap
+    offset: {x: 0.002, y: 0}
+    scale: 1
+    sourceName: TestGreen
+  cameraPositions: []
+  reflectionProbeRefreshMode: 0
+  RadicalCharacterStartingPos: {x: 0, y: 0.6, z: 0}
   _scenePath: Assets/Scenes/TestScene.unity
   _sceneGUID: 9c450f9de7a95184f8e87cea8383fe81
   _sceneName: TestScene
