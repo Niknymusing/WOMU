@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.09916948, g: 0.090278134, b: 0.16458172, a: 1}
+  m_IndirectSpecularColor: {r: 0.09559897, g: 0.08662124, b: 0.15871769, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 193081614}
   - component: {fileID: 193081617}
   - component: {fileID: 193081619}
+  - component: {fileID: 193081620}
   m_Layer: 0
   m_Name: Fasching-MainCamera
   m_TagString: MainCamera
@@ -272,14 +273,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193081613}
-  m_LocalRotation: {x: -0.05232232, y: -0.07632038, z: -0.0040101097, w: 0.9957015}
-  m_LocalPosition: {x: 1.4389095, y: 1.8985109, z: -7.2014976}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.9840193, y: 4.1328406, z: -10.940776}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -3.96, y: -29.92, z: 0.002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &193081617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,7 +288,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193081613}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
   m_Name: 
@@ -411,7 +412,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193081613}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 543ddbe12367a4899b011d43ef41f357, type: 3}
   m_Name: 
@@ -427,6 +428,24 @@ MonoBehaviour:
   frequency: 0.05
   octaves: 2
   seed: 0
+--- !u!114 &193081620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193081613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144aa36c8629c4373a7a403f580d08c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainSpeed: 1
+  shiftAdd: 250
+  maxShift: 1000
+  camSens: 0.25
+  invertY: 1
+  scrollWheelSens: 1
 --- !u!1 &308470312
 GameObject:
   m_ObjectHideFlags: 0
