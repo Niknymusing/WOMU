@@ -153,7 +153,7 @@ namespace MIMA
                     }
                 };
 
-                controller.SetCameraOrbitEnabled += e =>
+                controller.SetCameraOrbitEnabled += (c, e) =>
                 {
                     if (e)
                     {
@@ -186,40 +186,40 @@ namespace MIMA
 
                 };
 
-                controller.SetCameraOrbitSensitivity += f =>
+                controller.SetCameraOrbitSensitivity += (c, f) =>
                 {
-                    
+                    cameraOrbitMotion = c.GetComponent<SimpleCameraController>();
                     cameraOrbitMotion.positionLerpTime = f * defaultCameraPositionLerpTime;
                     cameraOrbitMotion.rotationLerpTime = f * defaultCameraRotationLerpTime;
                 };
                 
-                controller.SetCameraRandomMotion += f =>
+                controller.SetCameraRandomMotion += (c, f) =>
                 {
-                    if (cameraBrownianMotion == null) cameraBrownianMotion = Camera.main.GetComponent<BrownianMotion>();
+                    if (cameraBrownianMotion == null) cameraBrownianMotion = c.GetComponent<BrownianMotion>();
                     cameraBrownianMotion.positionAmount = defaultCameraMotionPosition * f;
                     cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation * f;
                     lastCameraBrownianAmount = f;
                 };
 
-                controller.GotoCameraPositionOverTime += (cam, f) =>
+                controller.GotoCameraPositionOverTime += (cam, target, f) =>
                 {
-                    Debug.Log($"Moving camera to {cam.position} / {cam.rotation} over {f} seconds");
+                    Debug.Log($"Moving camera to {target.position} / {target.rotation} over {f} seconds");
                     if (f == 0.0f)
                     {
                         cameraBrownianMotion.enabled = false;
-                        Camera.main.transform.SetPositionAndRotation(cam.position, cam.rotation);
+                        cam.transform.SetPositionAndRotation(target.position, target.rotation);
                         cameraBrownianMotion.enabled = true;
                     }
                     else
                     {
                         cameraBrownianMotion.enabled = false;
-                        Vector3 startPos = Camera.main.transform.position;
-                        Quaternion startRot = Camera.main.transform.rotation;
+                        Vector3 startPos = cam.transform.position;
+                        Quaternion startRot = cam.transform.rotation;
                         if (cameraTween != null) cameraTween.Kill(false);
                         cameraTween = DOVirtual.Float(0.0f, 1.0f, f, v =>
                         {
-                            Camera.main.transform.position = Vector3.Lerp(startPos, cam.position, v);
-                            Camera.main.transform.rotation = Quaternion.Slerp(startRot, cam.rotation, v);
+                            cam.transform.position = Vector3.Lerp(startPos, target.position, v);
+                            cam.transform.rotation = Quaternion.Slerp(startRot, target.rotation, v);
                         }).SetEase(Ease.InOutSine).OnComplete(() =>
                         {
                             cameraBrownianMotion.enabled = true;

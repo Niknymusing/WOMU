@@ -155,12 +155,12 @@ namespace MIMA
 
                 cameraUIController.TakeCameraOverTime += (camera1, f) =>
                 {
-                    GotoCameraPositionOverTime.Invoke(camera1, f);
+                    GotoCameraPositionOverTime.Invoke(Camera.main, camera1, f);
                 };
 
-                cameraUIController.SetCameraOrbitSpeed += f => SetCameraOrbitSensitivity.Invoke(f);
-                cameraUIController.SetCameraWobble += f => SetCameraRandomMotion.Invoke(f);
-                cameraUIController.SetCameraOrbitEnabled += e => SetCameraOrbitEnabled.Invoke(e);
+                cameraUIController.SetCameraOrbitSpeed += f => SetCameraOrbitSensitivity.Invoke(Camera.main, f);
+                cameraUIController.SetCameraWobble += f => SetCameraRandomMotion.Invoke(Camera.main, f);
+                cameraUIController.SetCameraOrbitEnabled += e => SetCameraOrbitEnabled.Invoke(Camera.main, e);
                 
 
 

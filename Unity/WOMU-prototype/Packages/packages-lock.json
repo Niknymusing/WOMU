@@ -191,7 +191,8 @@
       "source": "local",
       "dependencies": {
         "jp.keijiro.klak.spout": "2.0.3",
-        "jp.keijiro.klak.motion": "1.0.2"
+        "jp.keijiro.klak.motion": "1.0.2",
+        "jp.keijiro.osc-jack": "1.0.3"
       }
     },
     "jp.keijiro.klak.motion": {
@@ -210,6 +211,13 @@
       "dependencies": {
         "com.unity.modules.screencapture": "1.0.0"
       },
+      "url": "https://registry.npmjs.com"
+    },
+    "jp.keijiro.osc-jack": {
+      "version": "1.0.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://registry.npmjs.com"
     },
     "com.unity.modules.ai": {
