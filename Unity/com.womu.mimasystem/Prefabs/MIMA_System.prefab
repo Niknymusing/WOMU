@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2694863780101988288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6477886522323582951}
+  - component: {fileID: 771399647237605419}
+  m_Layer: 0
+  m_Name: OSCInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6477886522323582951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694863780101988288}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7102357997131406743}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &771399647237605419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694863780101988288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8fde1f41ac499ea7e03a73bd265d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oscPortServer: 8888
+  oscPortClient: 8889
+  debug: 0
+  AttachToDebugLog: 1
 --- !u!1 &3102487126763868402
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +160,8 @@ MonoBehaviour:
   mainUI: {fileID: 7102357997107787572}
   textureMapVisual: {fileID: 9197481963319205126, guid: 6f2c7338b99ef3b4a9db10b6fc968104,
     type: 3}
+  cameraControlVisual: {fileID: 9197481963319205126, guid: c98e3e1a0b4135245a4366b2530ea081,
+    type: 3}
 --- !u!114 &7102357997107787572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +210,7 @@ Transform:
   m_Children:
   - {fileID: 7102357997107787570}
   - {fileID: 6858254319809433086}
+  - {fileID: 6477886522323582951}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -175,6 +226,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed337c360e394fb791a5fbf868bb380a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneCollection: {fileID: 0}
+  sceneCollection: {fileID: 11400000, guid: 5c1e8350cc8a8a849bae789049b3bc3f, type: 2}
   currentScene: {fileID: 0}
-  controlSources: []
+  controlSources:
+  - {fileID: 7102357997107787573}
+  defaultDecalMaterial: {fileID: 2100000, guid: 120f2551ddcb9a748b99941f49c78799,
+    type: 2}
+  defaultCameraMotionPosition: {x: 1, y: 1, z: 1}
+  defaultCameraMotionRotation: {x: 5, y: 10, z: 1}
+  defaultCameraMotionFrequency: 0.05
+  defaultCameraPositionLerpTime: 1
+  defaultCameraRotationLerpTime: 1
+  radicalCharacter: {fileID: 0}
+  Vsync: 1

@@ -12,7 +12,8 @@ namespace MIMA
         public Action<Camera, float> SetCameraOrbitSensitivity;
         public Action<Camera, bool> SetCameraOrbitEnabled;
         public Action<Camera,Transform,float> GotoCameraPositionOverTime;
-
+        public Action<Transform, Vector3, float> MoveTransformByOverTime;
+        public Action<Transform, Vector3, float> RotateTransformByOverTime;
         
         public virtual void UpdateUI()
         {

@@ -12,6 +12,8 @@ using System;
 
 public class MIMA_ExternalSourceManagerBase : MonoBehaviour
 {
+    internal readonly List<string> BuiltInTextureSources = new List<string>() {"black", "white" };
+    
     public virtual List<string> GetExternalSources()
     {
         return new List<string>() {"black", "white" };
@@ -24,5 +26,17 @@ public class MIMA_ExternalSourceManagerBase : MonoBehaviour
     {
         return Texture2D.blackTexture;
     }
-    
+
+
+    internal static Texture GetBuiltInTexture(string name)
+    {
+        switch (name)
+        {
+            case "white":
+                return Texture2D.whiteTexture;
+            case "black":
+            default:
+                return Texture2D.blackTexture;
+        }
+    }
 }

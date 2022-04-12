@@ -154,12 +154,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7102357997107787573, guid: 78bbc47df1a152d48bc58ae3473de672,
+    - target: {fileID: 7102357997107787571, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
-      propertyPath: cameraControlVisual
-      value: 
-      objectReference: {fileID: 9197481963319205126, guid: c98e3e1a0b4135245a4366b2530ea081,
-        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7102357997131406740, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
       propertyPath: m_Name
@@ -167,85 +166,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
-      propertyPath: Vsync
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: currentScene
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: sceneCollection
-      value: 
-      objectReference: {fileID: 11400000, guid: 5c1e8350cc8a8a849bae789049b3bc3f,
-        type: 2}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
       propertyPath: radicalCharacter
       value: 
       objectReference: {fileID: 672129475}
     - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
-      propertyPath: defaultDecalMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 120f2551ddcb9a748b99941f49c78799, type: 2}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
       propertyPath: controlSources.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
       propertyPath: controlSources.Array.data[0]
       value: 
+      objectReference: {fileID: 7102357997129344570}
+    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: controlSources.Array.data[1]
+      value: 
       objectReference: {fileID: 63901964}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraMotionFrequency
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraMotionPosition.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraMotionPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraMotionPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraMotionRotation.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraMotionRotation.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraMotionRotation.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraPositionLerpTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102357997131406742, guid: 78bbc47df1a152d48bc58ae3473de672,
-        type: 3}
-      propertyPath: defaultCameraRotationLerpTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7102357997131406743, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
       propertyPath: m_RootOrder
@@ -301,9 +239,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5021376674913711932, guid: 78bbc47df1a152d48bc58ae3473de672, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78bbc47df1a152d48bc58ae3473de672, type: 3}
+--- !u!114 &7102357997129344570 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 771399647237605419, guid: 78bbc47df1a152d48bc58ae3473de672,
+    type: 3}
+  m_PrefabInstance: {fileID: 7102357997129344569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8fde1f41ac499ea7e03a73bd265d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9004911469033655963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -311,6 +260,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9004911467981118286, guid: 86dd9e4160b260844bf9e02e8751d396,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9004911468631060313, guid: 86dd9e4160b260844bf9e02e8751d396,
         type: 3}
       propertyPath: m_RootOrder
@@ -370,6 +324,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MIMA_RadicalCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004911468631060314, guid: 86dd9e4160b260844bf9e02e8751d396,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86dd9e4160b260844bf9e02e8751d396, type: 3}

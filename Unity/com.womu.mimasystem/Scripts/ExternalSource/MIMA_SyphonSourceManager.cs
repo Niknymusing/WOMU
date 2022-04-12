@@ -17,8 +17,8 @@ public class MIMA_SyphonSourceManager : MIMA_ExternalSourceManagerBase
     private static MIMA_SyphonSourceManager _instance;
     
      
-// #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-#if true
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+//#if true
     
 
 // Struct for holding info about syphon sources, because they annoyingly have both server + app name
@@ -53,7 +53,7 @@ public class MIMA_SyphonSourceManager : MIMA_ExternalSourceManagerBase
     public override List<string> GetExternalSources()
     {
         var list = syphonSources.ConvertAll(s => s.AsSingleString);
-        list.AddRange(new string[]{ "black", "white"});
+        list.AddRange(BuiltInTextureSources);
 
         return list;
     }
@@ -80,8 +80,7 @@ public class MIMA_SyphonSourceManager : MIMA_ExternalSourceManagerBase
 
     public override Texture GetTextureForSource(string source)
     {
-        if (source == "black") return Texture2D.blackTexture;
-        if (source == "white") return Texture2D.whiteTexture;
+        if (BuiltInTextureSources.Contains(source)) return GetBuiltInTexture(source);
         
         string[] parts = source.Split('~');
         string serverName = parts[0];
@@ -126,6 +125,9 @@ public class MIMA_SyphonSourceManager : MIMA_ExternalSourceManagerBase
             // create new ones
             foreach (var s in syphonSources)
             {
+                // don't create receiver for built in sources
+                if (BuiltInTextureSources.Contains(s)) continue;
+
                 if (!receivers.Exists(r => r.sourceInfo.AsSingleString == s.AsSingleString))
                 {
                     var newReceiverGO = Instantiate(syphonReceiverPrefab, Vector3.zero, Quaternion.identity, transform);

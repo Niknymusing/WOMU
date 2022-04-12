@@ -23,7 +23,7 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
     {
         #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         var list = SpoutManager.GetSourceNames().ToList();
-        list.AddRange(new string[]{"black", "white"});
+        list.AddRange(BuiltInTextureSources);
         return list;
 #endif
 
@@ -89,9 +89,8 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
 
     public override Texture GetTextureForSource(string source)
     {
-        if (source == "black") return Texture2D.blackTexture;
-        if (source == "white") return Texture2D.whiteTexture;
-        
+        if (BuiltInTextureSources.Contains(source)) return GetBuiltInTexture(source);
+
         var r = receivers.FindLast(s => s.sourceName == source);
         if (r != null) return r.targetTexture;
         else
@@ -136,7 +135,8 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
             // create new ones
             foreach (var s in sources)
             {
-                
+                // don't create receiver for built in sources
+                if (BuiltInTextureSources.Contains(s)) continue;
                 
                 
                 if (!receivers.Exists(r => r.sourceName == s))

@@ -45,7 +45,7 @@ namespace MIMA
     
         Queue<OSCMsg> MessageQueue = new Queue<OSCMsg>();
         Queue<LogMsg> LogToOSCQueue = new Queue<LogMsg>();
-        private List<Camera> CamerasInScene = new List<Camera>();
+        private List<Transform> CamerasInScene = new List<Transform>();
 
         void Start()
         {
@@ -57,7 +57,7 @@ namespace MIMA
                 MessageQueue.Enqueue(msg);
             });
 
-            client = new OscClient("0.0.0.0", oscPortClient);
+            client = new OscClient("255.255.255.255", oscPortClient);
             
             // reroute all Unity error messages to OSC
             Application.logMessageReceivedThreaded += (condition, trace, type) =>
@@ -85,20 +85,22 @@ namespace MIMA
                 }
                 
             };
-            
-            // Cache all cameras when scene is loaded
-            SceneManager.sceneLoaded += (scene, mode) =>
-            {
-                // we don't care about the Main scene
-                if (!scene.name.Contains("Main"))
-                {
-                    CamerasInScene.Clear();
-                    CamerasInScene.AddRange(GameObject.FindObjectsOfType<Camera>());
-                    Debug.Log("Loaded new scene, found " + CamerasInScene.Count + " cameras");
-                }
-            };
+
         }
-        
+
+        public override void UpdateUI()
+        {
+            CamerasInScene.Clear();
+            var camPosNames = MIMA_System.Instance.currentScene.cameraPositions;
+            for (int i = 0; i < camPosNames.Count; i++)
+            {
+                var camGO = GameObject.Find(camPosNames[i]);
+                if (camGO != null) CamerasInScene.Add(camGO.transform);
+                else Debug.LogError($"ERROR - no object found for {camPosNames[i]}");
+                    
+            }
+        }
+
         private void Update()
         {
             // OSC API DEFINED MOSTLY HERE
@@ -107,17 +109,33 @@ namespace MIMA
             {
                 
                     var msg = MessageQueue.Dequeue();
-                    if (debug) Debug.Log("Processing OSC: " + msg);
-                    var parts = msg.address.Split('/');
+                    if (debug) Debug.Log($"Processing OSC: {msg.address} / with {msg.data.GetElementCount()} args");
+                    if (debug)
+                    {
+                        for (int i = 0; i < msg.data.GetElementCount(); i++)
+                        {
+                            Debug.Log($"arg {i} : {msg.data.GetElementAsString(i)}");
+                        }
+                    }
                     
+                    
+                    var parts = msg.address.Split('/');
+
+                    if (debug)
+                    {
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            Debug.Log($"{i} : {parts[i]}");
+                        }
+                    }
                     try
                     {
-                        switch (parts[0])
+                        switch (parts[1])
                         {
                             case "scene":
                                 // scene-level stuff here, like loading scenes, setting sources etc
 
-                                switch (parts[1])
+                                switch (parts[2])
                                 {
                                     case "load":
                                         var targetScene = msg.data.GetElementAsString(0);
@@ -133,48 +151,59 @@ namespace MIMA
                                         break;
                                     case "camera":
 
-                                        var targetCamera = Camera.main;
-                                        if (parts[2] != "main")
+                                        var targetCamera = Camera.main.transform;
+                                        int camIndex = -1;
+                                        if (parts[3] != "main")
                                         {
-                                            int camIndex = int.Parse(parts[2]);
+                                            camIndex = int.Parse(parts[3]);
                                             targetCamera = CamerasInScene[camIndex];
+                                        }
+                                       
+
+                                        switch (parts[4])
+                                        {
+                                            case "setRandomMotion":
+                                                var randomMotionAmount = float.Parse(msg.data.GetElementAsString(0));
+                                                if (debug) Debug.Log($"Setting camera random motion to {randomMotionAmount}");
+                                                if (SetCameraRandomMotion != null) SetCameraRandomMotion.Invoke(Camera.main, randomMotionAmount);
+                                            break;
+                                            case "take":
+                                                if (debug) Debug.Log($"Setting main camera settings from camera {camIndex}");
+                                                if (GotoCameraPositionOverTime != null) GotoCameraPositionOverTime.Invoke(Camera.main, targetCamera, 0.0f);
+                                            break;
+                                            case "takeOverTime":
+                                                var takeTime = float.Parse(msg.data.GetElementAsString(0));
+                                                if (debug) Debug.Log($"Going to cam position {camIndex} over {takeTime}");
+                                                if (GotoCameraPositionOverTime != null) GotoCameraPositionOverTime.Invoke(Camera.main, targetCamera, takeTime);
+                                            break;
+                                            case "move":
+                                                var mX = float.Parse(msg.data.GetElementAsString(0));
+                                                var mY = float.Parse(msg.data.GetElementAsString(1));
+                                                var mZ = float.Parse(msg.data.GetElementAsString(2));
+                                                var mVector = new Vector3(mX, mY, mZ);
+                                                float moveTime = 0.0f;
+                                                if (msg.data.GetElementCount() > 3)
+                                                    moveTime = float.Parse(msg.data.GetElementAsString(3));
+                                                if (debug) Debug.Log($"Moving camera {camIndex} by {mVector} over {moveTime}");
+                                                // rotate direction by camera's 'forward' and move camera
+                                                mVector = targetCamera.transform.TransformVector(mVector);
+                                                if (MoveTransformByOverTime != null) MoveTransformByOverTime.Invoke(targetCamera, mVector, moveTime);
+                                                
+                                            break;
+                                            case "rotate":
+                                                var rX = float.Parse(msg.data.GetElementAsString(0));
+                                                var rY = float.Parse(msg.data.GetElementAsString(1));
+                                                var rZ = float.Parse(msg.data.GetElementAsString(2));
+                                                var rVector = new Vector3(rX, rY, rZ);
+                                                float rotateTime = 0.0f;
+                                                if (msg.data.GetElementCount() > 3)
+                                                    rotateTime = float.Parse(msg.data.GetElementAsString(3));
+                                                if (debug) Debug.Log($"Rotating camera {camIndex} by {rVector} over {rotateTime}");
+                                                // rotate camera
+                                                if (RotateTransformByOverTime != null) RotateTransformByOverTime.Invoke(targetCamera, rVector, rotateTime);
+                                                
+                                            break;
                                             
-                                            switch (parts[3])
-                                            {
-                                                case "setRandomMotion":
-                                                    var randomMotionAmount = msg.data.GetElementAsFloat(0);
-                                                    if (debug) Debug.Log($"Setting camera random motion to {randomMotionAmount}");
-                                                    if (SetCameraRandomMotion != null) SetCameraRandomMotion.Invoke(targetCamera, randomMotionAmount);
-                                                break;
-                                                case "take":
-                                                    if (debug) Debug.Log($"Setting main camera settings from camera {camIndex}");
-                                                    CopyCameraSettings(Camera.main, targetCamera);
-                                                break;
-                                                case "takeOverTime":
-                                                    var takeTime = msg.data.GetElementAsFloat(0);
-                                                    if (debug) Debug.Log($"Going to cam position {camIndex} over {takeTime}");
-                                                    if (GotoCameraPositionOverTime != null) GotoCameraPositionOverTime.Invoke(Camera.main, targetCamera.transform, takeTime);
-                                                break;
-                                                case "move":
-                                                    var mX = msg.data.GetElementAsFloat(0);
-                                                    var mY = msg.data.GetElementAsFloat(1);
-                                                    var mZ = msg.data.GetElementAsFloat(2);
-                                                    var mVector = new Vector3(mX, mY, mZ);
-                                                    if (debug) Debug.Log($"Moving camera {camIndex} by {mVector}");
-                                                    // rotate direction by camera's 'forward' and move camera
-                                                    mVector = targetCamera.transform.TransformVector(mVector);
-                                                    targetCamera.transform.position += mVector;
-                                                break;
-                                                case "rotate":
-                                                    var rX = msg.data.GetElementAsFloat(0);
-                                                    var rY = msg.data.GetElementAsFloat(1);
-                                                    var rZ = msg.data.GetElementAsFloat(2);
-                                                    var rVector = new Vector3(rX, rY, rZ);
-                                                    if (debug) Debug.Log($"Rotating camera {camIndex} by {rVector}");
-                                                    // rotate camera
-                                                    targetCamera.transform.Rotate(rVector);
-                                                break;
-                                            }
                                         }
 
                                     break;
@@ -203,12 +232,12 @@ namespace MIMA
                                     case "map":
                                         // a mapped texture in the scene
                                         // find out which one
-                                        string mapName = parts[2];
+                                        string mapName = parts[3];
                                         var map = MIMA_System.Instance.currentScene.textureMaps.Where(m =>
                                             m.TargetName == mapName).First();
                                         if (map != null)
                                         {
-                                            switch (parts[3])
+                                            switch (parts[4])
                                             {
                                                 // what do we actually want to do with this map
                                                 case "setSource":
@@ -217,13 +246,13 @@ namespace MIMA
                                                     if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
                                                 break;
                                                 case "setScale":
-                                                    var newScale = msg.data.GetElementAsFloat(0);
+                                                    var newScale = float.Parse(msg.data.GetElementAsString(0));
                                                     map.scale = newScale;
                                                     if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
                                                     break;
                                                 case "setOffset":
-                                                    var offsetX = msg.data.GetElementAsFloat(0);
-                                                    var offsetY = msg.data.GetElementAsFloat(1);
+                                                    var offsetX = float.Parse(msg.data.GetElementAsString(0));
+                                                    var offsetY = float.Parse(msg.data.GetElementAsString(1));
                                                     Vector2 offset = new Vector2(offsetX, offsetY);
                                                     map.offset = offset;
                                                     if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
@@ -243,10 +272,10 @@ namespace MIMA
                             case "system":
                                 // System-level stuff here, like rendering quality, window resolution etc
 
-                                switch (parts[1])
+                                switch (parts[2])
                                 {
                                     case "setLoggingToOSC":
-                                        var param = msg.data.GetElementAsInt(0);
+                                        var param = int.Parse(msg.data.GetElementAsString(0));
                                         AttachToDebugLog = param > 0; 
                                     break;
                                 }

@@ -77,6 +77,8 @@ namespace MIMA
                 QualitySettings.vSyncCount = 1;
             }
             
+            // handle controller messages
+            
             foreach (var controller in controlSources)
             {
                 controller.LaunchSceneCommand += sceneName =>
@@ -206,13 +208,15 @@ namespace MIMA
                     Debug.Log($"Moving camera to {target.position} / {target.rotation} over {f} seconds");
                     if (f == 0.0f)
                     {
-                        cameraBrownianMotion.enabled = false;
+                        if (cameraBrownianMotion == null) cameraBrownianMotion = cam.GetComponent<BrownianMotion>();
+                        if (cameraBrownianMotion != null)  cameraBrownianMotion.enabled = false;
                         cam.transform.SetPositionAndRotation(target.position, target.rotation);
-                        cameraBrownianMotion.enabled = true;
+                        if (cameraBrownianMotion != null)  cameraBrownianMotion.enabled = true;
                     }
                     else
                     {
-                        cameraBrownianMotion.enabled = false;
+                        if (cameraBrownianMotion == null) cameraBrownianMotion = cam.GetComponent<BrownianMotion>();
+                        if (cameraBrownianMotion != null)  cameraBrownianMotion.enabled = false;
                         Vector3 startPos = cam.transform.position;
                         Quaternion startRot = cam.transform.rotation;
                         if (cameraTween != null) cameraTween.Kill(false);
@@ -222,10 +226,57 @@ namespace MIMA
                             cam.transform.rotation = Quaternion.Slerp(startRot, target.rotation, v);
                         }).SetEase(Ease.InOutSine).OnComplete(() =>
                         {
-                            cameraBrownianMotion.enabled = true;
+                            if (cameraBrownianMotion != null)  cameraBrownianMotion.enabled = true;
                         });
                     }
                     
+                };
+
+                controller.MoveTransformByOverTime += (target, moveBy, overTime) =>
+                {
+                    // check if there's no brownian motion on this object
+                    BrownianMotion bm;
+                    bm = target.gameObject.GetComponent<BrownianMotion>();
+                    if (bm != null) bm.enabled = false;
+                    if (overTime > 0.0f)
+                    {
+                        // tween to new position
+                        target.DOKill(false);
+                        var endPos = target.position += moveBy;
+                        target.DOMove(endPos, overTime).OnComplete(() =>
+                            {
+                                if (bm != null) bm.enabled = true;
+                            });
+                    }
+                    else
+                    {
+                        // move directly
+                        target.position += moveBy;
+                        if (bm != null) bm.enabled = true;
+                    }
+                };
+                
+                controller.RotateTransformByOverTime += (target, rotateBy, overTime) =>
+                {
+                    // check if there's no brownian motion on this object
+                    BrownianMotion bm;
+                    bm = target.gameObject.GetComponent<BrownianMotion>();
+                    if (bm != null) bm.enabled = false;
+                    if (overTime > 0.0f)
+                    {
+                        // tween to new rotation
+                        target.DOKill(false);
+                        target.DOBlendableRotateBy(rotateBy, overTime).OnComplete(() =>
+                        {
+                            if (bm != null) bm.enabled = true;
+                        });
+                    }
+                    else
+                    {
+                        // rotate directly
+                        target.Rotate(rotateBy);
+                        if (bm != null) bm.enabled = true;
+                    }
                 };
             }
         }
@@ -262,7 +313,7 @@ namespace MIMA
 
             foreach (var controller in controlSources)
             {
-                controller.UpdateUI();
+                if (controller.gameObject.activeSelf) controller.UpdateUI();
             }
             
              
