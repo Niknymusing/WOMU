@@ -8,7 +8,8 @@
   "dependencies": {
     "jp.keijiro.klak.spout": "2.0.3",
     "jp.keijiro.klak.motion": "1.0.2",
-    "jp.keijiro.osc-jack": "1.0.3"
+    "jp.keijiro.osc-jack": "1.0.3",
+    "jp.keijiro.klak.ndi": "2.0.3"
   },
   "scopedRegistries": [
     {

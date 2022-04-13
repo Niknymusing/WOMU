@@ -168,6 +168,15 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
         }
         yield return null;
     }
+#else 
+    void Start() { this.gameObject.SetActive(false);}
+    private void OnValidate()
+    {
+        this.gameObject.SetActive(false);
+        Debug.LogWarning("Deactivating Spout on unsupported platform");
+    }
+
+
 #endif
 
 }

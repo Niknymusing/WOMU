@@ -221,7 +221,7 @@ namespace MIMA
 
                                         break;
                                     case "listSources":
-                                        var sources = MIMA_System.Instance.externalTextureSource.GetExternalSources();
+                                        var sources = MIMA_System.Instance.GetExternalSources();
                                         LogMessageOSC("/scene/numExternalSources", sources.Count.ToString());
                                         string sourceList = "";
                                         for (int i = 0; i < sources.Count; i++)
@@ -291,6 +291,8 @@ namespace MIMA
                         Debug.LogError($"ERROR processing message {msg.address}");
                         Debug.LogError(ex.Message);
                         Debug.LogError(ex.StackTrace);
+
+                        throw ex;
                     }
                 
             }

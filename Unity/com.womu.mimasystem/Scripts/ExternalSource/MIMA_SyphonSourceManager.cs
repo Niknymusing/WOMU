@@ -208,5 +208,12 @@ public class MIMA_SyphonSourceManager : MIMA_ExternalSourceManagerBase
 
         #endregion
 
+#else
+    void Start() { this.gameObject.SetActive(false);}
+    private void OnValidate()
+    {
+        this.gameObject.SetActive(false);
+        Debug.LogWarning("Deactivating Syphon on unsupported platform");
+    }
 #endif
 }

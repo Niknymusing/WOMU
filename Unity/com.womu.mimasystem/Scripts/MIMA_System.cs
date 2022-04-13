@@ -47,16 +47,29 @@ namespace MIMA
 
         public bool Vsync = true;
 
-        public MIMA_ExternalSourceManagerBase externalTextureSource
+        internal MIMA_ExternalSourceManagerBase[] externalTextureSources
         {
             get
             {
                 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-                    return MIMA_SpoutSourceManager.Instance;
-                #else
-                    return MIMA_SyphonSourceManager.Instance;
-                #endif
+                return new MIMA_ExternalSourceManagerBase[]
+                    { MIMA_SpoutSourceManager.Instance };
+#else
+                    return new MIMA_ExternalSourceManagerBase[]
+                    { MIMA_SyphonSourceManager.Instance, MIMA_NDISourceManager.Instance };
+#endif
             }
+        }
+
+        public List<string> GetExternalSources()
+        {
+            var l = new List<string>();
+            foreach (var s in externalTextureSources)
+            {
+                l.AddRange(s.GetExternalSources());
+            }
+
+            return l;
         }
 
         private void Awake()
@@ -97,7 +110,11 @@ namespace MIMA
                 controller.TextureMapChanged += map =>
                 {
                     // get material, assign texture
-                    var tex = externalTextureSource.GetTextureForSource(map.sourceName);
+                    Texture tex = null;
+                    foreach (var s in externalTextureSources)
+                    {
+                        if (s.GetTextureForSource(map.sourceName) != null) tex = s.GetTextureForSource(map.sourceName);
+                    }
                     if (tex == null) Debug.LogError($"ERROR - no texture found for source {map.sourceName}");
                     else
                     {

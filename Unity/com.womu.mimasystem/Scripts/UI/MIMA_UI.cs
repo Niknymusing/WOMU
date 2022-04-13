@@ -8,6 +8,7 @@ namespace MIMA
 {
     public class MIMA_UI : MIMA_ControlSourceBase
     {
+        /*
         public UIDocument mainUI;
         public VisualTreeAsset textureMapVisual;
         public VisualTreeAsset cameraControlVisual;
@@ -330,5 +331,7 @@ namespace MIMA
             
             
         }
+        */
     }
+    
 }
