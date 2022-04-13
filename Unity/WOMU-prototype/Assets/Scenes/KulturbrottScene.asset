@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: KulturbrottScene
   m_EditorClassIdentifier: 
   textureMaps:
-  - TargetName: Main Screen
+  - TargetName: MainScreen
     TargetType: 0
     targetMat: {fileID: 2100000, guid: 02f35bfd041aa814c8629b7f2ecc5527, type: 2}
     targetLightName: 
@@ -23,7 +23,7 @@ MonoBehaviour:
     - _EmissiveColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: TestBlue
+    sourceName: TDSyphonSpoutOut
   - TargetName: ScreenLight
     TargetType: 1
     targetMat: {fileID: 0}

@@ -211,22 +211,24 @@ namespace MIMA
                                     case "listMaps":
                                         var maps = MIMA_System.Instance.currentScene.textureMaps;
                                         LogMessageOSC("/scene/numTextureMaps", maps.Count.ToString());
+                                        string mapList = "";
+                                        
                                         for (int i = 0; i < maps.Count; i++)
                                         {
-                                            switch (maps[i].TargetType)
-                                            {
-                                                case MIMA_Scene.TEXTURE_TARGET_TYPE.MATERIAL:
-                                                    LogMessageOSC($"/scene/textureMap", $"{maps[i].TargetName} mapped to material {maps[i].targetMat.name}");
-                                                    break;
-                                                case MIMA_Scene.TEXTURE_TARGET_TYPE.LIGHT_COOKIE:
-                                                    LogMessageOSC($"/scene/textureMap", $"{maps[i].TargetName} mapped to light {maps[i].targetLightName}");
-                                                    break;
-                                                case MIMA_Scene.TEXTURE_TARGET_TYPE.DECAL_PROJECTOR:
-                                                    LogMessageOSC($"/scene/textureMap", $"{maps[i].TargetName} mapped to projector {maps[i].targetProjectorName}");
-                                                    break;
-                                            }
+                                            mapList += maps[i].TargetName + "|";
                                         }
+                                        LogMessageOSC($"/scene/textureMaps", $"{mapList}");
 
+                                        break;
+                                    case "listSources":
+                                        var sources = MIMA_System.Instance.externalTextureSource.GetExternalSources();
+                                        LogMessageOSC("/scene/numExternalSources", sources.Count.ToString());
+                                        string sourceList = "";
+                                        for (int i = 0; i < sources.Count; i++)
+                                        {
+                                            sourceList += sources[i] + "|";
+                                        }
+                                        LogMessageOSC("/scene/externalSources", $"{sourceList}");
                                         break;
                                     
                                     case "map":
@@ -310,15 +312,15 @@ namespace MIMA
             to.farClipPlane = from.farClipPlane;
         }
 
-        public void LogMessageOSC(string address, string msg)
+        public void LogMessageOSC(string address, string arg)
         {
             try
             {
-                client.Send(address, msg);
+                client.Send(address, arg);
             }
             catch (Exception e)
             {
-                Debug.LogError($"ERROR sending mesage to address {address} : {msg}");
+                Debug.LogError($"ERROR sending mesage to address {address} : {arg}");
             }
         }
 

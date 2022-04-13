@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FaschingScene
   m_EditorClassIdentifier: 
   textureMaps:
-  - TargetName: Main Screen
+  - TargetName: MainScreen
     TargetType: 0
     targetMat: {fileID: 2100000, guid: 270624418a05d794c9702889bfa7fe33, type: 2}
     targetLightName: 

@@ -38,8 +38,15 @@ namespace MIMA
         public ReflectionProbeRefreshMode reflectionProbeRefreshMode;
 
         public Vector3 RadicalCharacterStartingPos = Vector3.zero;
-        
-        
+
+        private void OnValidate()
+        {
+            for (int i = 0; i < textureMaps.Count; i++)
+            {
+                if (textureMaps[i].TargetName.IndexOf(" ") != -1) Debug.LogError("ERROR - Cannot have spaces in Texture Target Name");
+            }
+        }
+
         // internal representation for scene
         [HideInInspector] public string _scenePath;
         [HideInInspector] public string _sceneGUID;
