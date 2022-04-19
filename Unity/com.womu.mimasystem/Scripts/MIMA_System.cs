@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Klak.Spout;
 using Klak.Syphon;
 
@@ -45,6 +46,9 @@ namespace MIMA
 
         public MIMA_CharacterReceiver radicalCharacter;
 
+        public Volume customPostProcessVolume;
+        private MIMA_PostProcess postProcess;
+
         public bool Vsync = true;
 
         internal MIMA_ExternalSourceManagerBase[] externalTextureSources
@@ -53,7 +57,7 @@ namespace MIMA
             {
                 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
                 return new MIMA_ExternalSourceManagerBase[]
-                    { MIMA_SpoutSourceManager.Instance };
+                    { MIMA_SpoutSourceManager.Instance, MIMA_NDISourceManager.Instance };
 #else
                     return new MIMA_ExternalSourceManagerBase[]
                     { MIMA_SyphonSourceManager.Instance, MIMA_NDISourceManager.Instance };
@@ -89,6 +93,12 @@ namespace MIMA
             {
                 QualitySettings.vSyncCount = 1;
             }
+
+            // grab a reference to global custom post process
+            var c = customPostProcessVolume.profile.components.Where(v => v is MIMA_PostProcess);
+            if (c.Count() > 0) postProcess = c.First() as MIMA_PostProcess;
+            if (postProcess == null) Debug.LogError("Error - could not find post process component");
+            
             
             // handle controller messages
             
@@ -113,7 +123,7 @@ namespace MIMA
                     Texture tex = null;
                     foreach (var s in externalTextureSources)
                     {
-                        if (s.GetTextureForSource(map.sourceName) != null) tex = s.GetTextureForSource(map.sourceName);
+                        if (s.GetExternalSources().Contains(map.sourceName)) tex = s.GetTextureForSource(map.sourceName);
                     }
                     if (tex == null) Debug.LogError($"ERROR - no texture found for source {map.sourceName}");
                     else
@@ -295,6 +305,24 @@ namespace MIMA
                         if (bm != null) bm.enabled = true;
                     }
                 };
+
+                controller.SetBlackoutOverTime += (finalValue, overTime) =>
+                {
+                    if (postProcess == null)
+                    {
+                        Debug.LogError("ERROR - post process not working");
+                    }
+                    else
+                    {
+                        DOVirtual.Float(postProcess.blackoutAmount.GetValue<float>(), Mathf.Clamp01(finalValue),
+                            overTime, value =>
+                            {
+                                postProcess.blackoutAmount.value = value;
+                            });
+                    }
+                    
+                };
+                
             }
         }
         

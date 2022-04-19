@@ -14,6 +14,8 @@ namespace MIMA
         public Action<Camera,Transform,float> GotoCameraPositionOverTime;
         public Action<Transform, Vector3, float> MoveTransformByOverTime;
         public Action<Transform, Vector3, float> RotateTransformByOverTime;
+
+        public Action<float, float> SetBlackoutOverTime;
         
         public virtual void UpdateUI()
         {

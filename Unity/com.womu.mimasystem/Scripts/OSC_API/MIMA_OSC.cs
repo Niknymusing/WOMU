@@ -128,8 +128,8 @@ namespace MIMA
                             Debug.Log($"{i} : {parts[i]}");
                         }
                     }
-                    try
-                    {
+                    // try
+                    // {
                         switch (parts[1])
                         {
                             case "scene":
@@ -148,6 +148,12 @@ namespace MIMA
                                         for (int i=0; i < CamerasInScene.Count; i++)
                                             LogMessageOSC("/scene/cameraName", $"{i} : {CamerasInScene[i].name}");
                                         
+                                        break;
+                                    case "blackout":
+                                        var toValue = float.Parse(msg.data.GetElementAsString(0));
+                                        var overTime = float.Parse(msg.data.GetElementAsString(1));
+                                        Debug.Log($"Setting blackout to {toValue} over {overTime}");
+                                        if (SetBlackoutOverTime != null) SetBlackoutOverTime.Invoke(toValue, overTime);
                                         break;
                                     case "camera":
 
@@ -209,16 +215,20 @@ namespace MIMA
                                     break;
                                     
                                     case "listMaps":
-                                        var maps = MIMA_System.Instance.currentScene.textureMaps;
-                                        LogMessageOSC("/scene/numTextureMaps", maps.Count.ToString());
-                                        string mapList = "";
-                                        
-                                        for (int i = 0; i < maps.Count; i++)
+                                        if (MIMA_System.Instance.currentScene == null) LogMessageOSC("/log/error", "No scene loaded");
+                                        else
                                         {
-                                            mapList += maps[i].TargetName + "|";
+                                            var maps = MIMA_System.Instance.currentScene.textureMaps;
+                                            LogMessageOSC("/scene/numTextureMaps", maps.Count.ToString());
+                                            string mapList = "";
+                                        
+                                            for (int i = 0; i < maps.Count; i++)
+                                            {
+                                                mapList += maps[i].TargetName + "|";
+                                            }
+                                            LogMessageOSC($"/scene/textureMaps", $"{mapList}");
+ 
                                         }
-                                        LogMessageOSC($"/scene/textureMaps", $"{mapList}");
-
                                         break;
                                     case "listSources":
                                         var sources = MIMA_System.Instance.GetExternalSources();
@@ -232,42 +242,46 @@ namespace MIMA
                                         break;
                                     
                                     case "map":
-                                        // a mapped texture in the scene
-                                        // find out which one
-                                        string mapName = parts[3];
-                                        var map = MIMA_System.Instance.currentScene.textureMaps.Where(m =>
-                                            m.TargetName == mapName).First();
-                                        if (map != null)
-                                        {
-                                            switch (parts[4])
-                                            {
-                                                // what do we actually want to do with this map
-                                                case "setSource":
-                                                    var mapNewSourceName = msg.data.GetElementAsString(0);
-                                                    map.sourceName = mapNewSourceName;
-                                                    if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
-                                                break;
-                                                case "setScale":
-                                                    var newScale = float.Parse(msg.data.GetElementAsString(0));
-                                                    map.scale = newScale;
-                                                    if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
-                                                    break;
-                                                case "setOffset":
-                                                    var offsetX = float.Parse(msg.data.GetElementAsString(0));
-                                                    var offsetY = float.Parse(msg.data.GetElementAsString(1));
-                                                    Vector2 offset = new Vector2(offsetX, offsetY);
-                                                    map.offset = offset;
-                                                    if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
-                                                    break;
-                                            }
-                                            
-                                        }
+                                        if (MIMA_System.Instance.currentScene == null) LogMessageOSC("/log/error", "No scene loaded");
                                         else
                                         {
-                                            Debug.LogError($"ERROR - no texture map found for {mapName}");
+                                            // a mapped texture in the scene
+                                            // find out which one
+                                            string mapName = parts[3];
+                                            var map = MIMA_System.Instance.currentScene.textureMaps.Where(m =>
+                                                m.TargetName == mapName).First();
+                                            if (map != null)
+                                            {
+                                                switch (parts[4])
+                                                {
+                                                    // what do we actually want to do with this map
+                                                    case "setSource":
+                                                        var mapNewSourceName = msg.data.GetElementAsString(0);
+                                                        map.sourceName = mapNewSourceName;
+                                                        if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
+                                                        break;
+                                                    case "setScale":
+                                                        var newScale = float.Parse(msg.data.GetElementAsString(0));
+                                                        map.scale = newScale;
+                                                        if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
+                                                        break;
+                                                    case "setOffset":
+                                                        var offsetX = float.Parse(msg.data.GetElementAsString(0));
+                                                        var offsetY = float.Parse(msg.data.GetElementAsString(1));
+                                                        Vector2 offset = new Vector2(offsetX, offsetY);
+                                                        map.offset = offset;
+                                                        if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
+                                                        break;
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                Debug.LogError($"ERROR - no texture map found for {mapName}");
+                                            }
                                         }
 
-                                    break;
+                                        break;
                                 }
                                 break;
 
@@ -285,15 +299,15 @@ namespace MIMA
                                 break;
 
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"ERROR processing message {msg.address}");
-                        Debug.LogError(ex.Message);
-                        Debug.LogError(ex.StackTrace);
-
-                        throw ex;
-                    }
+                    // }
+                    // catch (Exception ex)
+                    // {
+                    //     Debug.LogError($"ERROR processing message {msg.address}");
+                    //     Debug.LogError(ex.Message);
+                    //     Debug.LogError(ex.StackTrace);
+                    //
+                    //     throw ex;
+                    // }
                 
             }
 

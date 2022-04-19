@@ -17,20 +17,21 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
     }
 
     private static MIMA_SpoutSourceManager _instance;
-    
 
+    private List<string> sourceList = new List<string>();
     public override List<string> GetExternalSources()
     {
         #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-        var list = SpoutManager.GetSourceNames().ToList();
-        list.AddRange(BuiltInTextureSources);
-        return list;
+        sourceList.Clear();
+        sourceList.AddRange(SpoutManager.GetSourceNames());
+        sourceList.AddRange(BuiltInTextureSources);
+        return sourceList;
 #endif
 
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
             var list = Plugin_CreateServerList();
             var count = Plugin_GetServerListCount(list);
-            var sourceList = new List<string>();
+            sourceList.Clear();
 
             if (count == 0){
                 return new string[0];
@@ -49,6 +50,7 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
                 }
             }
             Plugin_DestroyServerList(list);
+            sourceList.AddRange(BuiltInTextureSources);
             return sourceList;
 
 #endif
