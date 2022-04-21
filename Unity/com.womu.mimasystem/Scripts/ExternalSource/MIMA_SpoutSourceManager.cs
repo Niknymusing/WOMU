@@ -122,17 +122,16 @@ public class MIMA_SpoutSourceManager : MIMA_ExternalSourceManagerBase
             bool didSourcesChange = false;
         
             // remove all sources
-            foreach (var r in receivers)
+            var removalList = receivers.Where(r => !sources.Contains(r.sourceName)).ToList();
+            foreach (var r in removalList)
             {
-                if (!sources.Contains(r.sourceName))
-                {
-                    Debug.Log($"removing old source {r.sourceName}");
-                    Destroy(r.gameObject);
-                    renderTextures.Remove(r);
-                    receivers.Remove(r);
-                    didSourcesChange = true;
-                }
+                Debug.Log($"removing old source {r.sourceName}");
+                Destroy(r.gameObject);
+                renderTextures.Remove(r);
+                receivers.Remove(r);
+                didSourcesChange = true;
             }
+            
         
             // create new ones
             foreach (var s in sources)
