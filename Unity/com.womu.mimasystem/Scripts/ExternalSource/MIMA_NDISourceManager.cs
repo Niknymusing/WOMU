@@ -47,7 +47,7 @@ namespace MIMA
                 bool didSourcesChange = false;
 
                 // remove all prefabs for sources that don't exist anymore
-                var removalList = receivers.Where(r => !sources.Contains(r.ndiName));
+                var removalList = receivers.Where(r => !sources.Contains(r.ndiName)).ToList();
                 foreach (var r in removalList)
                 {
                     Debug.Log($"removing old source {r.ndiName}");
