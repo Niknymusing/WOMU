@@ -1,6 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
+
 namespace Editor
 {
     public class RenderCubemapWizard : ScriptableWizard
@@ -37,3 +40,4 @@ namespace Editor
         }
     }
 }
+#endif

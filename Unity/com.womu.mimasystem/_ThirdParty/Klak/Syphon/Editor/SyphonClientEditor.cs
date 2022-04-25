@@ -1,6 +1,6 @@
 // KlakSyphon - Syphon plugin for Unity
 // https://github.com/keijiro/KlakSyphon
-
+#if UNITY_EDITOR_OSX
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -137,3 +137,4 @@ namespace Klak.Syphon
         }
     }
 }
+#endif

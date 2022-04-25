@@ -1,3 +1,4 @@
+#if UNITY_EDITOR_OSX
 // KlakSyphon - Syphon plugin for Unity
 // https://github.com/keijiro/KlakSyphon
 
@@ -83,3 +84,4 @@ namespace Klak.Syphon
         #endregion
     }
 }
+#endif

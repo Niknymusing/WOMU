@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 namespace MIMA
 {
     [CustomEditor(typeof(MIMA_Scene), true)]
@@ -43,3 +44,4 @@ namespace MIMA
     
     
 }
+#endif
