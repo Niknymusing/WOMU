@@ -418,6 +418,17 @@ namespace MIMA
             if (cameraOrbitMotion == null) cameraOrbitMotion = Camera.main.gameObject.AddComponent<SimpleCameraController>();
             cameraOrbitMotion.enabled = false;
            
+            // instantiate effects
+            foreach (var eff in scene.effects)
+            {
+                Debug.Log($"Instantiating effect {eff.Name}");
+                var eGO = Instantiate(eff.Prefab, Vector3.zero, Quaternion.identity, null);
+                eff._effect = eGO.GetComponent<MIMA_Effect>();
+                if (eff._effect == null)
+                {
+                    Debug.LogError($"Error - no MIMA_Effect class found for effect prefab {eff.Name}");
+                }
+            }
 
         }
 

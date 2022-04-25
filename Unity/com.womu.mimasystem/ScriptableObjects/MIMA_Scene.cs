@@ -33,6 +33,20 @@ namespace MIMA
 
         public List<ExternalTextureMap> textureMaps;
 
+        [Serializable]
+        public class EffectObject
+        {
+            public string Name;
+            public GameObject Prefab;
+            internal MIMA_Effect _effect;
+            public MIMA_Effect Effect
+            {
+                get { return _effect;  }
+            }
+        }
+
+        public List<EffectObject> effects;
+
         public List<string> cameraPositions;
 
         public ReflectionProbeRefreshMode reflectionProbeRefreshMode;

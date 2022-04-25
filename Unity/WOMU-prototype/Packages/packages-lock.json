@@ -183,7 +183,8 @@
         "jp.keijiro.klak.spout": "2.0.3",
         "jp.keijiro.klak.motion": "1.0.2",
         "jp.keijiro.osc-jack": "1.0.3",
-        "jp.keijiro.klak.ndi": "2.0.3"
+        "jp.keijiro.klak.ndi": "2.0.3",
+        "jp.keijiro.vfxgraphassets": "1.0.10"
       }
     },
     "jp.keijiro.klak.motion": {
@@ -218,6 +219,24 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://registry.npmjs.com"
+    },
+    "jp.keijiro.shadergraphassets": {
+      "version": "1.0.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.shadergraph": "10.0.0"
+      },
+      "url": "https://registry.npmjs.com"
+    },
+    "jp.keijiro.vfxgraphassets": {
+      "version": "1.0.10",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "jp.keijiro.shadergraphassets": "1.0.4"
+      },
       "url": "https://registry.npmjs.com"
     },
     "com.unity.modules.ai": {
