@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Klak.Spout;
 using Klak.Syphon;
@@ -8,6 +9,7 @@ using Klak.Syphon;
 using MIMA;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using Klak.Motion;
@@ -161,6 +163,8 @@ namespace MIMA
                                     newDecalMat.SetTextureOffset(texName, map.offset);
                                     newDecalMat.SetTextureScale(texName, new Vector2(map.scale, map.scale));
                                 }
+
+                                newDecalMat.EnableKeyword("_COLORMAP");
                                 
                                 // find projector and replace material, because reasons
                                 var projGO = GameObject.Find(map.targetProjectorName);
@@ -169,6 +173,25 @@ namespace MIMA
                                     var proj = projGO.GetComponent<DecalProjector>();
                                     proj.material = newDecalMat;
                                 }
+
+                                break;
+                            case MIMA_Scene.TEXTURE_TARGET_TYPE.VISUAL_EFFECT:
+
+                                var eff = currentScene.effects.FirstOrDefault(eff => eff.Name == map.targetEffectName);
+                                if (eff != null)
+                                {
+                                    foreach (var texName in map.textureNames)
+                                    {
+                                        Debug.Log($"Updating effect  {eff.Name} with {map.targetEffectName} at {texName}");
+                                        eff.Effect.vfx.SetTexture(texName, tex);
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.LogError($"ERROR - no effect found from {map.targetEffectName}");
+                                }
+
+                                
 
                                 break;
                         }
@@ -323,6 +346,24 @@ namespace MIMA
                     
                 };
                 
+                // effects params
+                controller.SetEffectParamBool += (targetEffect, paramId, paramValue) =>
+                    targetEffect.vfx.SetBool(paramId, paramValue);
+                controller.SetEffectParamFloat += (targetEffect, paramId, paramValue) => 
+                    targetEffect.vfx.SetFloat(paramId, paramValue);
+                controller.SetEffectParamInt += (targetEffect, paramId, paramValue) =>
+                    targetEffect.vfx.SetInt(paramId, paramValue);
+                controller.SetEffectParamUint += (targetEffect, paramId, paramValue) =>
+                    targetEffect.vfx.SetUInt(paramId, paramValue);
+                controller.SetEffectParamVector2 += (targetEffect, paramId, paramValue) =>
+                    targetEffect.vfx.SetVector2(paramId, paramValue);
+                controller.SetEffectParamVector3 += (targetEffect, paramId, paramValue) =>
+                    targetEffect.vfx.SetVector3(paramId, paramValue);
+                controller.SetEffectSimSpeed += (targetEffect, speed) =>
+                    targetEffect.vfx.playRate = speed;
+                controller.SetEffectSimSpeedOverTime += (targetEffect, speed, overTime) =>
+                    DOVirtual.Float(targetEffect.vfx.playRate, speed, overTime, val => targetEffect.vfx.playRate = val);
+
             }
         }
         
@@ -340,6 +381,12 @@ namespace MIMA
             if (currentScene != null)
             {
                 Debug.Log($"Unloading scene {currentScene._sceneName}");
+                // destroy effects
+                foreach (var eff in currentScene.effects)
+                {
+                    if (eff.Effect != null) Destroy(eff.Effect.gameObject);
+                }
+                
                 // unload this scene first
                 var asyncUnload = SceneManager.UnloadSceneAsync(currentScene._sceneName);
                 yield return new WaitUntil(() => asyncUnload.isDone);

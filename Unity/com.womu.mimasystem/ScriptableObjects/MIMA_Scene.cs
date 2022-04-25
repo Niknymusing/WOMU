@@ -14,7 +14,8 @@ namespace MIMA
         {
             MATERIAL,
             LIGHT_COOKIE,
-            DECAL_PROJECTOR
+            DECAL_PROJECTOR,
+            VISUAL_EFFECT
         }
         
         [Serializable]
@@ -25,6 +26,7 @@ namespace MIMA
             public Material targetMat;
             public string targetLightName;
             public string targetProjectorName;
+            public string targetEffectName;
             public string[] textureNames = {"_MainTex" };
             public Vector2 offset = Vector2.zero;
             public float scale = 1.0f;

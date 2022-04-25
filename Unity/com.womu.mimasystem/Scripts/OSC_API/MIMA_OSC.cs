@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -149,6 +150,13 @@ namespace MIMA
                                             LogMessageOSC("/scene/cameraName", $"{i} : {CamerasInScene[i].name}");
                                         
                                         break;
+                                    
+                                    case "listEffects":
+                                        LogMessageOSC("/scene/numEffects", MIMA_System.Instance.currentScene.effects.Count.ToString());
+                                        foreach (var eff in MIMA_System.Instance.currentScene.effects)
+                                            LogMessageOSC("/scene/effect", $"{eff.Name}");
+                                        break;
+                                    
                                     case "blackout":
                                         var toValue = float.Parse(msg.data.GetElementAsString(0));
                                         var overTime = float.Parse(msg.data.GetElementAsString(1));
@@ -213,6 +221,111 @@ namespace MIMA
                                         }
 
                                     break;
+                                    
+                                    case "effect":
+                
+                                        var effName = parts[3];
+                                        var targetEffect = MIMA_System.Instance.currentScene.effects.FirstOrDefault(eff =>
+                                            eff.Name == effName);
+                                        if (targetEffect != null)
+                                        {
+                                            switch (parts[4])
+                                            {
+                                                case "set":
+                                                    var paramName = parts[5];
+                                                    if (debug) Debug.Log($"Settting param {paramName} on {targetEffect.Name}");
+                                                   
+                                                    MIMA_Effect.EffectParameter p;
+                                                    if (targetEffect.Effect.parameters.TryGetValue(paramName, out p))
+                                                    {
+                                                        if (p.valueType == typeof(bool)) SetEffectParamBool.Invoke(targetEffect.Effect, p.id, int.Parse(msg.data.GetElementAsString(0)) > 0);
+                                                        if (p.valueType == typeof(float)) SetEffectParamFloat.Invoke(targetEffect.Effect, p.id, float.Parse(msg.data.GetElementAsString(0)));
+                                                        if (p.valueType == typeof(int)) SetEffectParamInt.Invoke(targetEffect.Effect, p.id, (int)float.Parse(msg.data.GetElementAsString(0)));
+                                                        if (p.valueType == typeof(uint)) SetEffectParamUint.Invoke(targetEffect.Effect, p.id, (uint)float.Parse(msg.data.GetElementAsString(0)));
+                                                        if (p.valueType == typeof(Vector2))
+                                                        {
+                                                            var pX = float.Parse(msg.data.GetElementAsString(0));
+                                                            var pY = float.Parse(msg.data.GetElementAsString(1));
+                                                            SetEffectParamVector2.Invoke(targetEffect.Effect, p.id, new Vector2(pX, pY));
+                                                        }
+                                                        if (p.valueType == typeof(Vector3))
+                                                        {
+                                                            var pX = float.Parse(msg.data.GetElementAsString(0));
+                                                            var pY = float.Parse(msg.data.GetElementAsString(1));
+                                                            var pZ = float.Parse(msg.data.GetElementAsString(2));
+                                                            SetEffectParamVector3.Invoke(targetEffect.Effect, p.id, new Vector3(pX, pY, pZ));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        Debug.LogError($"ERROR - couldn't find effect parameter for {paramName}");
+                                                    }
+
+                                                    
+                                                    break;
+                                                case "simSpeed":
+                                                    float targetSpeed = float.Parse(msg.data.GetElementAsString(0));
+                                                    float speedOverTime = 0;
+                                                    if (msg.data.GetElementCount() > 1)
+                                                    {
+                                                        speedOverTime = float.Parse(msg.data.GetElementAsString(1));
+                                                    }
+
+                                                    if (speedOverTime > 0)
+                                                    {
+                                                        SetEffectSimSpeedOverTime.Invoke(targetEffect.Effect, targetSpeed, speedOverTime);
+                                                    }
+                                                    else
+                                                    {
+                                                        SetEffectSimSpeed.Invoke(targetEffect.Effect, targetSpeed);
+                                                    }
+                                                    break;
+                                                case "move":
+                                                    var mX = float.Parse(msg.data.GetElementAsString(0));
+                                                    var mY = float.Parse(msg.data.GetElementAsString(1));
+                                                    var mZ = float.Parse(msg.data.GetElementAsString(2));
+                                                    var mVector = new Vector3(mX, mY, mZ);
+                                                    float moveTime = 0.0f;
+                                                    if (msg.data.GetElementCount() > 3)
+                                                        moveTime = float.Parse(msg.data.GetElementAsString(3));
+                                                    if (debug) Debug.Log($"Moving effect object {targetEffect.Name} by {mVector} over {moveTime}");
+                                                    // rotate direction by camera's 'forward' and move camera
+                                                    mVector = targetEffect.Effect.transform.TransformVector(mVector);
+                                                    if (MoveTransformByOverTime != null) MoveTransformByOverTime.Invoke(targetEffect.Effect.transform, mVector, moveTime); 
+                                                    break;
+                                                case "rotate":
+                                                    var rX = float.Parse(msg.data.GetElementAsString(0));
+                                                    var rY = float.Parse(msg.data.GetElementAsString(1));
+                                                    var rZ = float.Parse(msg.data.GetElementAsString(2));
+                                                    var rVector = new Vector3(rX, rY, rZ);
+                                                    float rotateTime = 0.0f;
+                                                    if (msg.data.GetElementCount() > 3)
+                                                        rotateTime = float.Parse(msg.data.GetElementAsString(3));
+                                                    if (debug) Debug.Log($"Rotating effect object {targetEffect.Name} by {rVector} over {rotateTime}");
+                                                    // rotate camera
+                                                    if (RotateTransformByOverTime != null) RotateTransformByOverTime.Invoke(targetEffect.Effect.transform, rVector, rotateTime);
+                                                    break;
+                                                case "scale":
+                                                    var sX = float.Parse(msg.data.GetElementAsString(0));
+                                                    var sY = float.Parse(msg.data.GetElementAsString(1));
+                                                    var sZ = float.Parse(msg.data.GetElementAsString(2));
+                                                    var sVector = new Vector3(sX, sY, sZ);
+                                                    float scaleTime = 0.0f;
+                                                    if (msg.data.GetElementCount() > 3)
+                                                        scaleTime = float.Parse(msg.data.GetElementAsString(3));
+                                                    if (debug) Debug.Log($"Setting scale on {targetEffect.Name} to {sVector} over {scaleTime}");
+                                                    // rotate camera
+                                                    if (SetTransformScaleOverTime != null) SetTransformScaleOverTime.Invoke(targetEffect.Effect.transform, sVector, scaleTime);
+                                                    break;
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            Debug.LogError($"ERROR - could not find effect {effName}");
+                                        }
+
+                                        break;
                                     
                                     case "listMaps":
                                         if (MIMA_System.Instance.currentScene == null) LogMessageOSC("/log/error", "No scene loaded");

@@ -18,6 +18,7 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: 02f35bfd041aa814c8629b7f2ecc5527, type: 2}
     targetLightName: 
     targetProjectorName: 
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     - _EmissiveColorMap
@@ -29,6 +30,7 @@ MonoBehaviour:
     targetMat: {fileID: 0}
     targetLightName: ScreenAreaLight
     targetProjectorName: 
+    targetEffectName: 
     textureNames: []
     offset: {x: 0, y: 0}
     scale: 1
@@ -38,6 +40,7 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: 9aba656c00532604f9361afdbbf9d970, type: 2}
     targetLightName: 
     targetProjectorName: ProjectorA
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0, y: 0}
@@ -48,6 +51,7 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: 721b373c7b51b3a4dbaeef642bd75a35, type: 2}
     targetLightName: 
     targetProjectorName: ProjectorB
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0, y: 0}
@@ -58,11 +62,27 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: 7a748ef56012fa445ba78216335c4c17, type: 2}
     targetLightName: 
     targetProjectorName: 
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0, y: 0}
     scale: 1
     sourceName: TestRedRamp
+  - TargetName: ParticleColour
+    TargetType: 3
+    targetMat: {fileID: 0}
+    targetLightName: 
+    targetProjectorName: 
+    targetEffectName: particles
+    textureNames:
+    - colourTexture
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestRedRamp
+  effects:
+  - Name: particles
+    Prefab: {fileID: 7001931725540199630, guid: d73088d04a9bfac4d85bfe030a0b5cd6,
+      type: 3}
   cameraPositions:
   - Kulturbrott-ScreenCamera
   - Kulturbrott-StageCamera

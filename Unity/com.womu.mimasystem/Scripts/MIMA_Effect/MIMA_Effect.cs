@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace MIMA
     public class MIMA_Effect : MonoBehaviour
     {
         public VisualEffect vfx;
-
+       
  
         [Serializable]
         public class EffectParameter
@@ -39,7 +40,7 @@ namespace MIMA
         public void Start()
         {
             UpdateParamsList();
-            
+
         }
 
         internal void UpdateParamsList()
@@ -59,70 +60,94 @@ namespace MIMA
             }
         }
 
-        public void SetFloatParam(string name, float value)
+        public List<string> GetParamsList()
         {
-            if (parameters.ContainsKey(name))
-            {
-                var p = parameters[name];
-                if (p.valueType == typeof(float)) vfx.SetFloat(p.id, value);
-                else Debug.LogError($"Error - parameter {name} is not a float");
-            }
-            else
-            {
-                Debug.LogError($"Error - no parameter {name} found in vfx graph");
-            }
+            return parameters.Keys.ToList();
         }
         
-        public void SetIntParam(string name, int value)
-        {
-            if (parameters.ContainsKey(name))
-            {
-                var p = parameters[name];
-                if (p.valueType == typeof(int)) vfx.SetInt(p.id, value);
-                else if (p.valueType == typeof(uint)) vfx.SetUInt(p.id, (uint)value);
-                else Debug.LogError($"Error - parameter {name} is not an int");
-            }
-            else
-            {
-                Debug.LogError($"Error - no parameter {name} found in vfx graph");
-            }
-        }
-        
-        public void SetVectorParam(string name, Vector3 value)
-        {
-            if (parameters.ContainsKey(name))
-            {
-                var p = parameters[name];
-                if (p.valueType == typeof(Vector2)) vfx.SetVector2(p.id, new Vector2(value.x, value.y));
-                else if (p.valueType == typeof(Vector3)) vfx.SetVector3(p.id, value);
-                else Debug.LogError($"Error - parameter {name} is not a Vector2 or 3");
-            }
-            else
-            {
-                Debug.LogError($"Error - no parameter {name} found in vfx graph");
-            }
-        }
-        
-        public void SetBooleanParam(string name, bool value)
-        {
-            if (parameters.ContainsKey(name))
-            {
-                var p = parameters[name];
-                if (p.valueType == typeof(bool)) vfx.SetBool(p.id, value);
-                else Debug.LogError($"Error - parameter {name} is not a boolean");
-            }
-            else
-            {
-                Debug.LogError($"Error - no parameter {name} found in vfx graph");
-            }
-        }
-
-        
-        
-
         private void Update()
         {
-            
+            if (Camera.main != null)
+            {
+                vfx.SetVector3("mainCameraTransform_position", Camera.main.transform.position);
+                vfx.SetVector3("mainCameraTransform_angles", Camera.main.transform.rotation.eulerAngles);
+            }
         }
+        
+        //
+        // public void SetFloatParam(string name, float value)
+        // {
+        //     if (parameters.ContainsKey(name))
+        //     {
+        //         var p = parameters[name];
+        //         if (p.valueType == typeof(float)) vfx.SetFloat(p.id, value);
+        //         else Debug.LogError($"Error - parameter {name} is not a float");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError($"Error - no parameter {name} found in vfx graph");
+        //     }
+        // }
+        //
+        // public void SetIntParam(string name, int value)
+        // {
+        //     if (parameters.ContainsKey(name))
+        //     {
+        //         var p = parameters[name];
+        //         if (p.valueType == typeof(int)) vfx.SetInt(p.id, value);
+        //         else if (p.valueType == typeof(uint)) vfx.SetUInt(p.id, (uint)value);
+        //         else Debug.LogError($"Error - parameter {name} is not an int");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError($"Error - no parameter {name} found in vfx graph");
+        //     }
+        // }
+        //
+        // public void SetVectorParam(string name, Vector3 value)
+        // {
+        //     if (parameters.ContainsKey(name))
+        //     {
+        //         var p = parameters[name];
+        //         if (p.valueType == typeof(Vector2)) vfx.SetVector2(p.id, new Vector2(value.x, value.y));
+        //         else if (p.valueType == typeof(Vector3)) vfx.SetVector3(p.id, value);
+        //         else Debug.LogError($"Error - parameter {name} is not a Vector2 or 3");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError($"Error - no parameter {name} found in vfx graph");
+        //     }
+        // }
+        //
+        // public void SetBooleanParam(string name, bool value)
+        // {
+        //     if (parameters.ContainsKey(name))
+        //     {
+        //         var p = parameters[name];
+        //         if (p.valueType == typeof(bool)) vfx.SetBool(p.id, value);
+        //         else Debug.LogError($"Error - parameter {name} is not a boolean");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError($"Error - no parameter {name} found in vfx graph");
+        //     }
+        // }
+        //
+        // public void SetTextureParam(string name, Texture value)
+        // {
+        //     if (parameters.ContainsKey(name))
+        //     {
+        //         var p = parameters[name];
+        //         if (p.valueType == typeof(Texture)) vfx.SetTexture(p.id, value);
+        //         else Debug.LogError($"Error - parameter {name} is not a texture");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError($"Error - no parameter {name} found in vfx graph");
+        //     }
+        // }
+        
+
+      
     }
 }

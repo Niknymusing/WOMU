@@ -18,6 +18,7 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: 270624418a05d794c9702889bfa7fe33, type: 2}
     targetLightName: 
     targetProjectorName: 
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     - _EmissiveColorMap
@@ -29,6 +30,7 @@ MonoBehaviour:
     targetMat: {fileID: 0}
     targetLightName: ScreenAreaLight
     targetProjectorName: 
+    targetEffectName: 
     textureNames: []
     offset: {x: 0, y: 0}
     scale: 1
@@ -38,6 +40,7 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: a518b1bbdf138dc41b64a4754ebd14e0, type: 2}
     targetLightName: 
     targetProjectorName: ProjectorA
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0, y: 0}
@@ -48,6 +51,7 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: 1c0bf7ddb08cd2b45ac426ed00f56453, type: 2}
     targetLightName: 
     targetProjectorName: ProjectorB
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0, y: 0}
@@ -58,11 +62,27 @@ MonoBehaviour:
     targetMat: {fileID: 2100000, guid: 7a748ef56012fa445ba78216335c4c17, type: 2}
     targetLightName: 
     targetProjectorName: 
+    targetEffectName: 
     textureNames:
     - _BaseColorMap
     offset: {x: 0, y: 0}
     scale: 1
     sourceName: TestRedRamp
+  - TargetName: Particles
+    TargetType: 3
+    targetMat: {fileID: 0}
+    targetLightName: 
+    targetProjectorName: 
+    targetEffectName: particles
+    textureNames:
+    - colorTexture
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: TestRedRamp
+  effects:
+  - Name: particles
+    Prefab: {fileID: 7001931725540199630, guid: d73088d04a9bfac4d85bfe030a0b5cd6,
+      type: 3}
   cameraPositions:
   - Fasching-ScreenCamera
   - Fasching-StageCamera
