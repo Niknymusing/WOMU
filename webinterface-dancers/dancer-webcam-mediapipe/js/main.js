@@ -4,6 +4,9 @@
 document.addEventListener("DOMContentLoaded", function(){
     
     console.log("Starting...");
+    const pose = new Pose({locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+      }});
     const videoElement = document.getElementsByClassName('input_video')[0];
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
@@ -14,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function(){
     sourceSelectElement.addEventListener("onchange", function(){
         console.log("selected source changed");
 
+    });
+    const restartButton = document.querySelector("#sourceSelect");
+    restartButton.addEventListener("click", function(){
+        pose.reset();
     });
     
     // handle results from pose calculator
@@ -48,9 +55,7 @@ document.addEventListener("DOMContentLoaded", function(){
       grid.updateLandmarks(results.poseWorldLandmarks);
     }
     
-    const pose = new Pose({locateFile: (file) => {
-      return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
-    }});
+    
     pose.setOptions({
       modelComplexity: 1,
       smoothLandmarks: true,
@@ -72,8 +77,31 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
-function UpdateSources(sourceSelectElement){
+function onFrame(){
 
+
+    
+}
+
+function UpdateSources(sourceSelectElement){
+    var videoInputs = [];
+    navigator.mediaDevices.enumerateDevices()
+        .then(function(devices){
+            devices.forEach(function(d){
+                if (d.kind == "videoinput") videoInputs.push(d);                
+            });
+
+            sourceSelectElement.innerHTML = "";
+            videoInputs.forEach(function(input){
+                var opt = document.createElement("option");
+                opt.setAttribute("value", input.deviceId);
+                opt.innerHTML = input.label;
+                sourceSelectElement.appendChild(opt);
+            });
+
+        });
+
+    
 }
 
 
