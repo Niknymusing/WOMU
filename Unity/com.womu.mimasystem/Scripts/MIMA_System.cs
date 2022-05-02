@@ -46,7 +46,7 @@ namespace MIMA
         private SimpleCameraController cameraOrbitMotion;
         private Tween cameraTween;
 
-        public MIMA_CharacterReceiver radicalCharacter;
+        public MIMA_CharacterReceiverRadical radicalCharacter;
 
         public Volume customPostProcessVolume;
         private MIMA_PostProcess postProcess;
@@ -364,6 +364,13 @@ namespace MIMA
                 controller.SetEffectSimSpeedOverTime += (targetEffect, speed, overTime) =>
                     DOVirtual.Float(targetEffect.vfx.playRate, speed, overTime, val => targetEffect.vfx.playRate = val);
 
+                
+                // pose params
+                controller.SetCharacterIDLandmarkPosition += (clientID, landmarkID, position) =>
+                {
+                    
+                };
+
             }
         }
         
@@ -410,7 +417,7 @@ namespace MIMA
             
              
             // reposition Radical character
-            if (radicalCharacter == null) radicalCharacter = FindObjectOfType<MIMA_CharacterReceiver>();
+            if (radicalCharacter == null) radicalCharacter = FindObjectOfType<MIMA_CharacterReceiverRadical>();
             if (radicalCharacter != null)
             {
                 radicalCharacter.transform.position = scene.RadicalCharacterStartingPos;

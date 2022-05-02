@@ -395,6 +395,21 @@ namespace MIMA
                                         }
 
                                         break;
+                                    
+                                    case "pose":
+                                        // incoming pose for character models (or anything else for that matter)
+                                        int clientID = int.Parse(parts[3]);
+                                        int landscapeID = int.Parse(parts[4]);
+
+                                        float poseX = msg.data.GetElementAsFloat(0);
+                                        float poseY = msg.data.GetElementAsFloat(1);
+                                        float poseZ = msg.data.GetElementAsFloat(2);
+
+                                        if (SetCharacterIDLandmarkPosition != null)
+                                            SetCharacterIDLandmarkPosition(clientID, landscapeID,
+                                                new Vector3(poseX, poseY, poseZ));
+
+                                        break;
                                 }
                                 break;
 
