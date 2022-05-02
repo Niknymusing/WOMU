@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d@0.2/landmark_grid.css" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css"
-        href="main.css" crossorigin="anonymous">
+        href="css/main.css" crossorigin="anonymous">
     <meta charset="utf-8">
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
@@ -14,7 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+    <script type="module" src="js/SocketConnection.js"></script>
+    <script type="module" src="js/PoseVisualiser.js"></script>
+    <script type="module" src="js/CameraControl.js"></script>
     <script type="module" src="js/main.js"></script>
+    <script src="js/socket.io.js"></script>
 
 </head>
 
@@ -27,8 +31,8 @@
     <div class="controls">
         <select id="sourceSelect">
             <option value="none">None</option>
-        </select>
-        <button id="buttonRestart">Restart Pose Detection</button>
+        </select>        
+        <button id="buttonStartCamera">Start Camera</button>
     </div>
 </body>
 
