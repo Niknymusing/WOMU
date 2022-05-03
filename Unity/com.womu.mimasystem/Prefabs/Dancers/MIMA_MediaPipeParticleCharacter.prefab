@@ -49,7 +49,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: -0.09
+      - m_Value: 0.5
         m_Name: sphericalSpread
         m_Overridden: 1
       - m_Value: 1
@@ -58,10 +58,10 @@ VisualEffect:
       - m_Value: 0
         m_Name: edgeThickness
         m_Overridden: 1
-      - m_Value: 0.009
+      - m_Value: 0.14
         m_Name: trailThickness
         m_Overridden: 1
-      - m_Value: 0.1
+      - m_Value: 0.021
         m_Name: speed
         m_Overridden: 1
       - m_Value: 0.1
@@ -885,7 +885,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4367289473571617917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: -1, y: -1, z: -1}
   m_Children:
   - {fileID: 6641516435147105456}
@@ -1591,7 +1591,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9004911468631060313}
   - component: {fileID: 5826013549013395222}
-  - component: {fileID: 1977222020}
   m_Layer: 0
   m_Name: MIMA_MediaPipeParticleCharacter
   m_TagString: Untagged
@@ -1628,6 +1627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069cee13ff3c0ec43b9b3bf7bb321803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vfx: {fileID: 695544397}
   Nose: {fileID: 6641516435147105456}
   LeftEye: {fileID: 2249085352710180697}
   RightEye: {fileID: 1920955926709868467}
@@ -1653,22 +1653,8 @@ MonoBehaviour:
   RightHeel: {fileID: 1383658768074312564}
   LeftFootIndex: {fileID: 1267927057545352519}
   RightFootIndex: {fileID: 456846574141057051}
-  PosScale: 1
+  PosScale: 5
   debug: 0
---- !u!114 &1977222020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9004911468631060314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eabd6330b18f0e4db2687b89bc6d071, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vfx: {fileID: 695544397}
-  controller: {fileID: 5826013549013395222}
 --- !u!1 &9171325497440057494
 GameObject:
   m_ObjectHideFlags: 0

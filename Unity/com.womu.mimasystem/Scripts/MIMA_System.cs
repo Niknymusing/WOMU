@@ -48,6 +48,9 @@ namespace MIMA
 
         public MIMA_CharacterReceiverRadical radicalCharacter;
 
+        public List<MIMA_CharacterPoseControlMediaPipe> dancerControllers =
+            new List<MIMA_CharacterPoseControlMediaPipe>();
+
         public Volume customPostProcessVolume;
         private MIMA_PostProcess postProcess;
 
@@ -369,19 +372,24 @@ namespace MIMA
                 controller.SetDancerLandmarkPositionByClientID += (clientID, landmarkID, position) =>
                 {
                     if (currentScene == null) return;
-                    var d = currentScene.dancers.FirstOrDefault(d => d.clientID == clientID);
-                    if (d == null && currentScene.dancers.Count > 0)
+                    var d = dancerControllers.FirstOrDefault(d => d.clientID == clientID);
+                    if (d == null && dancerControllers.Count > 0)
                     {
                         // if client id is not found, set the first dancer to respond to this clientID
-                        d = currentScene.dancers[0];
+                        d = dancerControllers[0];
                         d.clientID = clientID;
                     }
-                    d.Controller.SetLandmarkPosition(landmarkID, position);
+                    d.SetLandmarkPosition(landmarkID, position);
                 };
 
                 controller.SetDancerObjectClientID += (index, newClientID) =>
                 {
-                    currentScene.dancers[index].clientID = newClientID;
+                    dancerControllers[index].clientID = newClientID;
+                };
+
+                controller.SetDancerPositionScale += (index, scale) =>
+                {
+                    dancerControllers[index].PosScale = scale;
                 };
 
             }
@@ -495,19 +503,13 @@ namespace MIMA
                 {
                     Debug.LogError($"Error - no MIMA_Effect class found for effect prefab {eff.Name}");
                 }
-            }
-            
-            // instantiate dancers
-            foreach (var d in scene.dancers)
-            {
-                Debug.Log($"Instantiating dancer {d.Name}");
-                var dGO = Instantiate(d.Prefab, Vector3.zero, Quaternion.identity, null);
-                d._characterController = dGO.GetComponent<MIMA_CharacterPoseControlMediaPipe>();
-                if (d._characterController == null)
+
+                if (eff._effect is MIMA_CharacterPoseControlMediaPipe)
                 {
-                    Debug.LogError($"Error - no MIMA_CharacterPoseControlMediaPipe class found for effect prefab {d.Name}");
+                    dancerControllers.Add(eff._effect as MIMA_CharacterPoseControlMediaPipe);
                 }
             }
+           
 
         }
 

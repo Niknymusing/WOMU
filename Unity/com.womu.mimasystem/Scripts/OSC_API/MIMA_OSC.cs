@@ -432,11 +432,19 @@ namespace MIMA
 
                                                 break;
                                             case "setId":
-                                                int index = int.Parse(parts[4]);
+                                                int targetIndex = int.Parse(parts[4]);
                                                 int newClientId = int.Parse(msg.args[0]);
                                                 
                                                 if (SetDancerObjectClientID != null)
-                                                    SetDancerObjectClientID.Invoke(index, newClientId);
+                                                    SetDancerObjectClientID.Invoke(targetIndex, newClientId);
+                                                
+                                                break;
+                                            case "scale":
+                                                int scaleIndex = int.Parse(parts[4]);
+                                                float newScale = float.Parse(msg.args[0]);
+                                                
+                                                if (SetDancerPositionScale != null)
+                                                    SetDancerPositionScale.Invoke(scaleIndex, newScale);
                                                 
                                                 break;
                                         }

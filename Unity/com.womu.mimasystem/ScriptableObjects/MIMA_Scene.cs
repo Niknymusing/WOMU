@@ -46,22 +46,9 @@ namespace MIMA
                 get { return _effect;  }
             }
         }
-        
-        [Serializable]
-        public class DancerObject
-        {
-            public string Name;
-            public GameObject Prefab;
-            public int clientID = 0;
-            internal MIMA_CharacterPoseControlMediaPipe _characterController;
-            public MIMA_CharacterPoseControlMediaPipe Controller
-            {
-                get { return _characterController;  }
-            }
-        }
+      
 
         public List<EffectObject> effects;
-        public List<DancerObject> dancers;
 
         public List<string> cameraPositions;
 

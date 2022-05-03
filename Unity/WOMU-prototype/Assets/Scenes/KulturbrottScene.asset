@@ -83,11 +83,9 @@ MonoBehaviour:
   - Name: particles
     Prefab: {fileID: 7001931725540199630, guid: d73088d04a9bfac4d85bfe030a0b5cd6,
       type: 3}
-  dancers:
-  - Name: MainDancer
-    Prefab: {fileID: 9004911468631060314, guid: 00ade2a094e4e8848bbf85b4fdf0a5fc,
+  - Name: dancer
+    Prefab: {fileID: 9004911468631060314, guid: cbf3718bd7ba7f443bc7efaef5cfd1d1,
       type: 3}
-    clientID: 3
   cameraPositions:
   - Kulturbrott-ScreenCamera
   - Kulturbrott-StageCamera

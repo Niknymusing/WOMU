@@ -46,6 +46,7 @@ namespace MIMA
         internal void UpdateParamsList()
         {
             parameters.Clear();
+            if (vfx == null) return;
             if (vfx.visualEffectAsset != null)
             {
                 var plist = new List<VFXExposedProperty>();

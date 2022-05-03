@@ -2,10 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using MIMA;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class MIMA_CharacterPoseControlMediaPipe : MonoBehaviour
+public class MIMA_CharacterPoseControlMediaPipe : MIMA_Effect
 {
+    [Header("The pose 'channel' we'll be listening to")]
+    public int clientID = 0;
+    
     // GHUM3D Landmarks
     public Transform Nose;
     public Transform LeftEye;
@@ -35,20 +40,47 @@ public class MIMA_CharacterPoseControlMediaPipe : MonoBehaviour
 
     public float PosScale = 1.0f;
 
-    
+    private int emitterPositionID = Shader.PropertyToID("positionOffset_position");
 
     public bool debug = false;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+   
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
+        base.Update();
         
+        int val = Random.Range(0, 24);
+            
+        Vector3 emitterPos = Vector3.zero;
+
+        if (val == 0) emitterPos = Nose.position;
+        if (val == 1) emitterPos = LeftEye.position;
+        if (val == 2) emitterPos = RightEye.position;
+        if (val == 3) emitterPos = LeftShoulder.position;
+        if (val == 4) emitterPos = RightShoulder.position;
+        if (val == 5) emitterPos = LeftElbow.position;
+        if (val == 6) emitterPos = RightElbow.position;
+        if (val == 7) emitterPos = LeftWrist.position;
+        if (val == 8) emitterPos = RightWrist.position;
+        if (val == 9) emitterPos = LeftPinky.position;
+        if (val == 10) emitterPos = RightPinky.position;
+        if (val == 11) emitterPos = LeftIndex.position;
+        if (val == 12) emitterPos = RightIndex.position;
+        if (val == 13) emitterPos = LeftThumb.position;
+        if (val == 14) emitterPos = RightThumb.position;
+        if (val == 15) emitterPos = LeftHip.position;
+        if (val == 16) emitterPos = RightHip.position;
+        if (val == 17) emitterPos = LeftKnee.position;
+        if (val == 18) emitterPos = RightKnee.position;
+        if (val == 19) emitterPos = LeftAnkle.position;
+        if (val == 20) emitterPos = RightAnkle.position;
+        if (val == 21) emitterPos = LeftHeel.position;
+        if (val == 22) emitterPos = RightHeel.position;
+        if (val == 23) emitterPos = LeftFootIndex.position;
+        if (val == 24) emitterPos = RightFootIndex.position;
+            
+        vfx.SetVector3(emitterPositionID, emitterPos);
     }
 
     public void SetLandmarkPosition(int index, Vector3 pos)

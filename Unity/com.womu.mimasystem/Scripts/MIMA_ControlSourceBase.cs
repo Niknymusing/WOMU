@@ -29,6 +29,7 @@ namespace MIMA
 
         public Action<int, int, Vector3> SetDancerLandmarkPositionByClientID;
         public Action<int, int> SetDancerObjectClientID;
+        public Action<int, float> SetDancerPositionScale;
 
         public virtual void UpdateUI()
         {
