@@ -21,7 +21,7 @@ namespace MIMA
         public bool debug = false;
         public bool AttachToDebugLog = true;
         
-        public struct OSCMsg
+        public class OSCMsg
         {
             public string address;
             public List<string> args;
@@ -123,6 +123,12 @@ namespace MIMA
                         {
                             Debug.Log($"arg {i} : {msg.args[i]}");
                         }
+                    }
+
+                    if (msg == null)
+                    {
+                        Debug.LogWarning("WARNING - ignoring null msg for some reason");
+                        continue;
                     }
                     
                     
