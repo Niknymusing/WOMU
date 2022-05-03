@@ -19,8 +19,8 @@
     }
 
     SocketConnection.sendPoseData = (results)=>{
-        if (socket != null && results.poseWorldLandmarks){
-            socket.send(results.poseWorldLandmarks);
+        if (socket != null && results.poseLandmarks){
+            socket.send(results.poseLandmarks);
         }
     }
 

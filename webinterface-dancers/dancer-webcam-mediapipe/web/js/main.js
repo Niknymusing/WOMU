@@ -57,11 +57,14 @@ document.addEventListener("DOMContentLoaded", function(){
     const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];    
     
     PoseVisualiser.setup(canvasElement, landmarkContainer);
+
+    const enableTransmit = document.querySelector("#enableTransmit");
+    const enableVisualise = document.querySelector("#enableVisualise");
     
     // handle results from pose calculator
     function onResults(results) {
-      PoseVisualiser.visualise(results);
-      SocketConnection.sendPoseData(results);
+      if (enableVisualise.checked) PoseVisualiser.visualise(results);
+      if (enableTransmit.checked) SocketConnection.sendPoseData(results);
     }
 
     pose.onResults(onResults);

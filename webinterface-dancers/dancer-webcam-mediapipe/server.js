@@ -6,7 +6,7 @@
 var SOCKET_PORT = 8081;
 var HTML_PORT = 8080;
 var OSC_LOCAL_IP = "127.0.0.1"
-var OSC_LOCAL_PORT = 8001;
+var OSC_LOCAL_PORT = 8888;
 
 
 // Websocket server
@@ -44,7 +44,7 @@ var clientIDCount = 0;
 io.on('connection', function (socket) { 
   
   var clientID = ++clientIDCount;
-  var poseAddress = '/scene/pose/' + clientID;
+  var poseAddress = '/scene/dancer/pose/' + clientID;
   console.log("New websocket connection, clientID = " + clientID);
   socket.on('message', function (obj) {
     // console.log(obj);
@@ -54,6 +54,7 @@ io.on('connection', function (socket) {
     // then send the individual landmark positions, with the clientID
     
     for (var i=0; i < obj.length; i++){
+      //console.log("Sending " + poseAddress + '/' + i + " : " + [obj[i].x, obj[i].y, obj[i].z]);
       oscClient.send(poseAddress + '/' + i, [obj[i].x, obj[i].y, obj[i].z]);
     }
 
