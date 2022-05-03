@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
@@ -31,8 +32,12 @@ public class MIMA_CharacterPoseControlMediaPipe : MonoBehaviour
     public Transform RightHeel;
     public Transform LeftFootIndex;
     public Transform RightFootIndex;
+
+    public float PosScale = 1.0f;
+
     
-    
+
+    public bool debug = false;
     
     // Start is called before the first frame update
     void Start()
@@ -48,6 +53,10 @@ public class MIMA_CharacterPoseControlMediaPipe : MonoBehaviour
 
     public void SetLandmarkPosition(int index, Vector3 pos)
     {
+        pos *= PosScale;
+
+        if (debug) Debug.Log($"Setting landmark {index} to {pos}");
+        
         switch (index)
         {
             case 0:
@@ -90,10 +99,10 @@ public class MIMA_CharacterPoseControlMediaPipe : MonoBehaviour
                 RightShoulder.localPosition = pos;
                 break;
             case 13:
-                LeftShoulder.localPosition = pos;
+                LeftElbow.localPosition = pos;
                 break;
             case 14:
-                RightShoulder.localPosition = pos;
+                RightElbow.localPosition = pos;
                 break;
             case 15:
                 LeftWrist.localPosition = pos;

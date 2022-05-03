@@ -27,7 +27,8 @@ namespace MIMA
         public Action<MIMA_Effect, float> SetEffectSimSpeed;
         public Action<MIMA_Effect, float, float> SetEffectSimSpeedOverTime;
 
-        public Action<int, int, Vector3> SetCharacterIDLandmarkPosition;
+        public Action<int, int, Vector3> SetDancerLandmarkPositionByClientID;
+        public Action<int, int> SetDancerObjectClientID;
 
         public virtual void UpdateUI()
         {

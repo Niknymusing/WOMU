@@ -24,12 +24,12 @@ namespace MIMA
         public struct OSCMsg
         {
             public string address;
-            public OscDataHandle data;
+            public List<string> args;
 
-            public OSCMsg(string addr, OscDataHandle d)
+            public OSCMsg(string addr, List<string> a)
             {
                 address = addr;
-                data = d;
+                args = a;
             }
         }
 
@@ -54,7 +54,13 @@ namespace MIMA
             server.MessageDispatcher.AddCallback(String.Empty, (address, data) =>
             {
                 // add messages to a queue, because this callback doesn't happen on the Update thread
-                var msg = new OSCMsg(address, data);
+                // BUT! we need to deep clone this because it's a shared buffer
+                var args = new List<string>();
+                for (int i = 0; i < data.GetElementCount(); i++)
+                {
+                    args.Add(data.GetElementAsString(i));
+                }
+                var msg = new OSCMsg(address, args);
                 MessageQueue.Enqueue(msg);
             });
 
@@ -110,12 +116,12 @@ namespace MIMA
             {
                 
                     var msg = MessageQueue.Dequeue();
-                    if (debug) Debug.Log($"Processing OSC: {msg.address} / with {msg.data.GetElementCount()} args");
+                    if (debug) Debug.Log($"Processing OSC: {msg.address} / with {msg.args.Count} args");
                     if (debug)
                     {
-                        for (int i = 0; i < msg.data.GetElementCount(); i++)
+                        for (int i = 0; i < msg.args.Count; i++)
                         {
-                            Debug.Log($"arg {i} : {msg.data.GetElementAsString(i)}");
+                            Debug.Log($"arg {i} : {msg.args[i]}");
                         }
                     }
                     
@@ -139,7 +145,7 @@ namespace MIMA
                                 switch (parts[2])
                                 {
                                     case "load":
-                                        var targetScene = msg.data.GetElementAsString(0);
+                                        var targetScene = msg.args[0];
                                         if (debug) Debug.Log($"Loading scene {targetScene}");
                                         if (LaunchSceneCommand != null) LaunchSceneCommand.Invoke(targetScene);
                                         break;
@@ -158,8 +164,8 @@ namespace MIMA
                                         break;
                                     
                                     case "blackout":
-                                        var toValue = float.Parse(msg.data.GetElementAsString(0));
-                                        var overTime = float.Parse(msg.data.GetElementAsString(1));
+                                        var toValue = float.Parse(msg.args[0]);
+                                        var overTime = float.Parse(msg.args[1]);
                                         Debug.Log($"Setting blackout to {toValue} over {overTime}");
                                         if (SetBlackoutOverTime != null) SetBlackoutOverTime.Invoke(toValue, overTime);
                                         break;
@@ -177,7 +183,7 @@ namespace MIMA
                                         switch (parts[4])
                                         {
                                             case "setRandomMotion":
-                                                var randomMotionAmount = float.Parse(msg.data.GetElementAsString(0));
+                                                var randomMotionAmount = float.Parse(msg.args[0]);
                                                 if (debug) Debug.Log($"Setting camera random motion to {randomMotionAmount}");
                                                 if (SetCameraRandomMotion != null) SetCameraRandomMotion.Invoke(Camera.main, randomMotionAmount);
                                             break;
@@ -186,18 +192,18 @@ namespace MIMA
                                                 if (GotoCameraPositionOverTime != null) GotoCameraPositionOverTime.Invoke(Camera.main, targetCamera, 0.0f);
                                             break;
                                             case "takeOverTime":
-                                                var takeTime = float.Parse(msg.data.GetElementAsString(0));
+                                                var takeTime = float.Parse(msg.args[0]);
                                                 if (debug) Debug.Log($"Going to cam position {camIndex} over {takeTime}");
                                                 if (GotoCameraPositionOverTime != null) GotoCameraPositionOverTime.Invoke(Camera.main, targetCamera, takeTime);
                                             break;
                                             case "move":
-                                                var mX = float.Parse(msg.data.GetElementAsString(0));
-                                                var mY = float.Parse(msg.data.GetElementAsString(1));
-                                                var mZ = float.Parse(msg.data.GetElementAsString(2));
+                                                var mX = float.Parse(msg.args[0]);
+                                                var mY = float.Parse(msg.args[1]);
+                                                var mZ = float.Parse(msg.args[2]);
                                                 var mVector = new Vector3(mX, mY, mZ);
                                                 float moveTime = 0.0f;
-                                                if (msg.data.GetElementCount() > 3)
-                                                    moveTime = float.Parse(msg.data.GetElementAsString(3));
+                                                if (msg.args.Count > 3)
+                                                    moveTime = float.Parse(msg.args[3]);
                                                 if (debug) Debug.Log($"Moving camera {camIndex} by {mVector} over {moveTime}");
                                                 // rotate direction by camera's 'forward' and move camera
                                                 mVector = targetCamera.transform.TransformVector(mVector);
@@ -205,13 +211,13 @@ namespace MIMA
                                                 
                                             break;
                                             case "rotate":
-                                                var rX = float.Parse(msg.data.GetElementAsString(0));
-                                                var rY = float.Parse(msg.data.GetElementAsString(1));
-                                                var rZ = float.Parse(msg.data.GetElementAsString(2));
+                                                var rX = float.Parse(msg.args[0]);
+                                                var rY = float.Parse(msg.args[1]);
+                                                var rZ = float.Parse(msg.args[2]);
                                                 var rVector = new Vector3(rX, rY, rZ);
                                                 float rotateTime = 0.0f;
-                                                if (msg.data.GetElementCount() > 3)
-                                                    rotateTime = float.Parse(msg.data.GetElementAsString(3));
+                                                if (msg.args.Count > 3)
+                                                    rotateTime = float.Parse(msg.args[3]);
                                                 if (debug) Debug.Log($"Rotating camera {camIndex} by {rVector} over {rotateTime}");
                                                 // rotate camera
                                                 if (RotateTransformByOverTime != null) RotateTransformByOverTime.Invoke(targetCamera, rVector, rotateTime);
@@ -238,21 +244,21 @@ namespace MIMA
                                                     MIMA_Effect.EffectParameter p;
                                                     if (targetEffect.Effect.parameters.TryGetValue(paramName, out p))
                                                     {
-                                                        if (p.valueType == typeof(bool)) SetEffectParamBool.Invoke(targetEffect.Effect, p.id, int.Parse(msg.data.GetElementAsString(0)) > 0);
-                                                        if (p.valueType == typeof(float)) SetEffectParamFloat.Invoke(targetEffect.Effect, p.id, float.Parse(msg.data.GetElementAsString(0)));
-                                                        if (p.valueType == typeof(int)) SetEffectParamInt.Invoke(targetEffect.Effect, p.id, (int)float.Parse(msg.data.GetElementAsString(0)));
-                                                        if (p.valueType == typeof(uint)) SetEffectParamUint.Invoke(targetEffect.Effect, p.id, (uint)float.Parse(msg.data.GetElementAsString(0)));
+                                                        if (p.valueType == typeof(bool)) SetEffectParamBool.Invoke(targetEffect.Effect, p.id, int.Parse(msg.args[0]) > 0);
+                                                        if (p.valueType == typeof(float)) SetEffectParamFloat.Invoke(targetEffect.Effect, p.id, float.Parse(msg.args[0]));
+                                                        if (p.valueType == typeof(int)) SetEffectParamInt.Invoke(targetEffect.Effect, p.id, (int)float.Parse(msg.args[0]));
+                                                        if (p.valueType == typeof(uint)) SetEffectParamUint.Invoke(targetEffect.Effect, p.id, (uint)float.Parse(msg.args[0]));
                                                         if (p.valueType == typeof(Vector2))
                                                         {
-                                                            var pX = float.Parse(msg.data.GetElementAsString(0));
-                                                            var pY = float.Parse(msg.data.GetElementAsString(1));
+                                                            var pX = float.Parse(msg.args[0]);
+                                                            var pY = float.Parse(msg.args[1]);
                                                             SetEffectParamVector2.Invoke(targetEffect.Effect, p.id, new Vector2(pX, pY));
                                                         }
                                                         if (p.valueType == typeof(Vector3))
                                                         {
-                                                            var pX = float.Parse(msg.data.GetElementAsString(0));
-                                                            var pY = float.Parse(msg.data.GetElementAsString(1));
-                                                            var pZ = float.Parse(msg.data.GetElementAsString(2));
+                                                            var pX = float.Parse(msg.args[0]);
+                                                            var pY = float.Parse(msg.args[1]);
+                                                            var pZ = float.Parse(msg.args[2]);
                                                             SetEffectParamVector3.Invoke(targetEffect.Effect, p.id, new Vector3(pX, pY, pZ));
                                                         }
                                                     }
@@ -264,11 +270,11 @@ namespace MIMA
                                                     
                                                     break;
                                                 case "simSpeed":
-                                                    float targetSpeed = float.Parse(msg.data.GetElementAsString(0));
+                                                    float targetSpeed = float.Parse(msg.args[0]);
                                                     float speedOverTime = 0;
-                                                    if (msg.data.GetElementCount() > 1)
+                                                    if (msg.args.Count > 1)
                                                     {
-                                                        speedOverTime = float.Parse(msg.data.GetElementAsString(1));
+                                                        speedOverTime = float.Parse(msg.args[1]);
                                                     }
 
                                                     if (speedOverTime > 0)
@@ -281,38 +287,38 @@ namespace MIMA
                                                     }
                                                     break;
                                                 case "move":
-                                                    var mX = float.Parse(msg.data.GetElementAsString(0));
-                                                    var mY = float.Parse(msg.data.GetElementAsString(1));
-                                                    var mZ = float.Parse(msg.data.GetElementAsString(2));
+                                                    var mX = float.Parse(msg.args[0]);
+                                                    var mY = float.Parse(msg.args[1]);
+                                                    var mZ = float.Parse(msg.args[2]);
                                                     var mVector = new Vector3(mX, mY, mZ);
                                                     float moveTime = 0.0f;
-                                                    if (msg.data.GetElementCount() > 3)
-                                                        moveTime = float.Parse(msg.data.GetElementAsString(3));
+                                                    if (msg.args.Count > 3)
+                                                        moveTime = float.Parse(msg.args[3]);
                                                     if (debug) Debug.Log($"Moving effect object {targetEffect.Name} by {mVector} over {moveTime}");
                                                     // rotate direction by camera's 'forward' and move camera
                                                     mVector = targetEffect.Effect.transform.TransformVector(mVector);
                                                     if (MoveTransformByOverTime != null) MoveTransformByOverTime.Invoke(targetEffect.Effect.transform, mVector, moveTime); 
                                                     break;
                                                 case "rotate":
-                                                    var rX = float.Parse(msg.data.GetElementAsString(0));
-                                                    var rY = float.Parse(msg.data.GetElementAsString(1));
-                                                    var rZ = float.Parse(msg.data.GetElementAsString(2));
+                                                    var rX = float.Parse(msg.args[0]);
+                                                    var rY = float.Parse(msg.args[1]);
+                                                    var rZ = float.Parse(msg.args[2]);
                                                     var rVector = new Vector3(rX, rY, rZ);
                                                     float rotateTime = 0.0f;
-                                                    if (msg.data.GetElementCount() > 3)
-                                                        rotateTime = float.Parse(msg.data.GetElementAsString(3));
+                                                    if (msg.args.Count > 3)
+                                                        rotateTime = float.Parse(msg.args[3]);
                                                     if (debug) Debug.Log($"Rotating effect object {targetEffect.Name} by {rVector} over {rotateTime}");
                                                     // rotate camera
                                                     if (RotateTransformByOverTime != null) RotateTransformByOverTime.Invoke(targetEffect.Effect.transform, rVector, rotateTime);
                                                     break;
                                                 case "scale":
-                                                    var sX = float.Parse(msg.data.GetElementAsString(0));
-                                                    var sY = float.Parse(msg.data.GetElementAsString(1));
-                                                    var sZ = float.Parse(msg.data.GetElementAsString(2));
+                                                    var sX = float.Parse(msg.args[0]);
+                                                    var sY = float.Parse(msg.args[1]);
+                                                    var sZ = float.Parse(msg.args[2]);
                                                     var sVector = new Vector3(sX, sY, sZ);
                                                     float scaleTime = 0.0f;
-                                                    if (msg.data.GetElementCount() > 3)
-                                                        scaleTime = float.Parse(msg.data.GetElementAsString(3));
+                                                    if (msg.args.Count > 3)
+                                                        scaleTime = float.Parse(msg.args[3]);
                                                     if (debug) Debug.Log($"Setting scale on {targetEffect.Name} to {sVector} over {scaleTime}");
                                                     // rotate camera
                                                     if (SetTransformScaleOverTime != null) SetTransformScaleOverTime.Invoke(targetEffect.Effect.transform, sVector, scaleTime);
@@ -369,18 +375,18 @@ namespace MIMA
                                                 {
                                                     // what do we actually want to do with this map
                                                     case "setSource":
-                                                        var mapNewSourceName = msg.data.GetElementAsString(0);
+                                                        var mapNewSourceName = msg.args[0];
                                                         map.sourceName = mapNewSourceName;
                                                         if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
                                                         break;
                                                     case "setScale":
-                                                        var newScale = float.Parse(msg.data.GetElementAsString(0));
+                                                        var newScale = float.Parse(msg.args[0]);
                                                         map.scale = newScale;
                                                         if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
                                                         break;
                                                     case "setOffset":
-                                                        var offsetX = float.Parse(msg.data.GetElementAsString(0));
-                                                        var offsetY = float.Parse(msg.data.GetElementAsString(1));
+                                                        var offsetX = float.Parse(msg.args[0]);
+                                                        var offsetY = float.Parse(msg.args[1]);
                                                         Vector2 offset = new Vector2(offsetX, offsetY);
                                                         map.offset = offset;
                                                         if (TextureMapChanged != null) TextureMapChanged.Invoke(map);
@@ -396,19 +402,45 @@ namespace MIMA
 
                                         break;
                                     
-                                    case "pose":
-                                        // incoming pose for character models (or anything else for that matter)
-                                        int clientID = int.Parse(parts[3]);
-                                        int landscapeID = int.Parse(parts[4]);
+                                    case "dancer":
 
-                                        float poseX = msg.data.GetElementAsFloat(0);
-                                        float poseY = msg.data.GetElementAsFloat(1);
-                                        float poseZ = msg.data.GetElementAsFloat(2);
+                                        switch (parts[3])
+                                        {
+                                            case "pose":
+                                                // incoming pose for character models
+                                                int clientID = int.Parse(parts[4]);
+                                                int landmarkID = int.Parse(parts[5]);
 
-                                        if (SetCharacterIDLandmarkPosition != null)
-                                            SetCharacterIDLandmarkPosition(clientID, landscapeID,
-                                                new Vector3(poseX, poseY, poseZ));
+                                                if (msg.args.Count >= 3)
+                                                {
+                                                    float poseX = float.Parse(msg.args[0]);
+                                                    float poseY = float.Parse(msg.args[1]);
+                                                    float poseZ = float.Parse(msg.args[2]);
 
+                                                    if (debug) Debug.Log($"x:{poseX} y:{poseY} z:{poseZ}");
+                                                    Vector3 newPose = new Vector3(poseX, poseY, poseZ);
+                                                    if (debug) Debug.Log(newPose);
+
+                                                    if (SetDancerLandmarkPositionByClientID != null)
+                                                        SetDancerLandmarkPositionByClientID.Invoke(clientID, landmarkID,
+                                                            newPose);
+                                                }
+                                                else
+                                                {
+                                                    Debug.LogWarning("ERROR - invalid pose message");
+                                                }
+
+                                                break;
+                                            case "setId":
+                                                int index = int.Parse(parts[4]);
+                                                int newClientId = int.Parse(msg.args[0]);
+                                                
+                                                if (SetDancerObjectClientID != null)
+                                                    SetDancerObjectClientID.Invoke(index, newClientId);
+                                                
+                                                break;
+                                        }
+                                        
                                         break;
                                 }
                                 break;
@@ -419,7 +451,7 @@ namespace MIMA
                                 switch (parts[2])
                                 {
                                     case "setLoggingToOSC":
-                                        var param = int.Parse(msg.data.GetElementAsString(0));
+                                        var param = int.Parse(msg.args[0]);
                                         AttachToDebugLog = param > 0; 
                                     break;
                                 }

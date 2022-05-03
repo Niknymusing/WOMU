@@ -65,7 +65,7 @@ namespace MIMA
             return parameters.Keys.ToList();
         }
         
-        private void Update()
+        internal void Update()
         {
             if (Camera.main != null)
             {
