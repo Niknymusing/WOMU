@@ -45,6 +45,7 @@ namespace MIMA
         }
     
         Queue<OSCMsg> MessageQueue = new Queue<OSCMsg>();
+        private Queue<OSCMsg> CurrentUpdateQueue = new Queue<OSCMsg>();
         Queue<LogMsg> LogToOSCQueue = new Queue<LogMsg>();
         private List<Transform> CamerasInScene = new List<Transform>();
 
@@ -61,7 +62,10 @@ namespace MIMA
                     args.Add(data.GetElementAsString(i));
                 }
                 var msg = new OSCMsg(address, args);
-                MessageQueue.Enqueue(msg);
+                lock (MessageQueue)
+                {
+                    MessageQueue.Enqueue(msg);    
+                }
             });
 
             client = new OscClient("255.255.255.255", oscPortClient);
@@ -110,12 +114,19 @@ namespace MIMA
 
         private void Update()
         {
+            // copy message queue into a separate queue because threading 
+            lock (MessageQueue)
+            {
+                CurrentUpdateQueue = new Queue<OSCMsg>(MessageQueue);
+                MessageQueue.Clear();
+            }
+            
             // OSC API DEFINED MOSTLY HERE
             // process the message queue on the update thread, so we can actually do Unity things
-            while (MessageQueue.Count > 0)
+            while (CurrentUpdateQueue.Count > 0)
             {
                 
-                    var msg = MessageQueue.Dequeue();
+                    var msg = CurrentUpdateQueue.Dequeue();
                     if (debug) Debug.Log($"Processing OSC: {msg.address} / with {msg.args.Count} args");
                     if (debug)
                     {
@@ -412,9 +423,9 @@ namespace MIMA
 
                                         switch (parts[3])
                                         {
-                                            case "pose":
-                                                // incoming pose for character models
-                                                int clientID = int.Parse(parts[4]);
+                                            case "poseMediapipe":
+                                                // incoming pose for character models via Mediapipe landmark position-based system
+                                                string clientID = parts[4];
                                                 int landmarkID = int.Parse(parts[5]);
 
                                                 if (msg.args.Count >= 3)
@@ -427,8 +438,8 @@ namespace MIMA
                                                     Vector3 newPose = new Vector3(poseX, poseY, poseZ);
                                                     if (debug) Debug.Log(newPose);
 
-                                                    if (SetDancerLandmarkPositionByClientID != null)
-                                                        SetDancerLandmarkPositionByClientID.Invoke(clientID, landmarkID,
+                                                    if (SetDancerPosePosition != null)
+                                                        SetDancerPosePosition.Invoke(clientID, landmarkID,
                                                             newPose);
                                                 }
                                                 else
@@ -437,20 +448,55 @@ namespace MIMA
                                                 }
 
                                                 break;
+                                            case "poseRadical":
+                                                // incoming pose for character models via Radical pose estimation system (uses quaternions + root position)
+                                                string radicalClientID = parts[4];
+                                                string componentName = parts[5];
+
+                                                if (msg.args.Count == 3)
+                                                {
+                                                    // we're receiving a position - which should be the absolute position of the hips
+                                                    Vector3 pos = new Vector3(float.Parse(msg.args[0]),
+                                                        float.Parse(msg.args[1]), float.Parse(msg.args[2]));
+                                                    if (componentName == "root_t")
+                                                    {
+                                                        if (SetDancerPosePosition != null) SetDancerPosePosition.Invoke(radicalClientID, 0, pos);    
+                                                    }
+                                                    else
+                                                    {
+                                                        Debug.LogWarning("Warning - received position for unrecognised bone name " + componentName);
+                                                    }
+                                                    
+                                                } else if (msg.args.Count == 4)
+                                                {
+                                                    // we're receiving a quaternion - the rotation of a specific bone
+                                                    float qX = float.Parse(msg.args[0]);
+                                                    float qY = float.Parse(msg.args[1]);
+                                                    float qZ = float.Parse(msg.args[2]);
+                                                    float qW = float.Parse(msg.args[3]);
+                                                    
+                                                    if (SetRadicalDancerBoneRotationByPlayerID != null) SetRadicalDancerBoneRotationByPlayerID.Invoke(radicalClientID, componentName, new Quaternion(qX, qY, qZ, qW));
+                                                }
+
+                                                break;
                                             case "setId":
-                                                int targetIndex = int.Parse(parts[4]);
-                                                int newClientId = int.Parse(msg.args[0]);
+                                                string dancerName = parts[4];
+                                                string newPlayerID = msg.args[0];
+                                                Debug.Log(
+                                                    $"Setting {dancerName} to listen to new playerID {newPlayerID}");
                                                 
-                                                if (SetDancerObjectClientID != null)
-                                                    SetDancerObjectClientID.Invoke(targetIndex, newClientId);
+                                                if (SetDancerObjectPlayerID != null)
+                                                    SetDancerObjectPlayerID.Invoke(dancerName, newPlayerID);
                                                 
                                                 break;
                                             case "scale":
-                                                int scaleIndex = int.Parse(parts[4]);
+                                                string dancerName2 = parts[4];
                                                 float newScale = float.Parse(msg.args[0]);
                                                 
+                                                Debug.Log( $"Setting {dancerName2} scale to {newScale}");
+                                                
                                                 if (SetDancerPositionScale != null)
-                                                    SetDancerPositionScale.Invoke(scaleIndex, newScale);
+                                                    SetDancerPositionScale.Invoke(dancerName2, newScale);
                                                 
                                                 break;
                                         }

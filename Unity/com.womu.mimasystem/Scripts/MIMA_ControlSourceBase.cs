@@ -27,9 +27,19 @@ namespace MIMA
         public Action<MIMA_Effect, float> SetEffectSimSpeed;
         public Action<MIMA_Effect, float, float> SetEffectSimSpeedOverTime;
 
-        public Action<int, int, Vector3> SetDancerLandmarkPositionByClientID;
-        public Action<int, int> SetDancerObjectClientID;
-        public Action<int, float> SetDancerPositionScale;
+        /// <summary>
+        /// Sets
+        /// </summary>
+        public Action<string, string> SetDancerObjectPlayerID;
+        
+        /// <summary>
+        /// Sets a pose position on the dancer, string = the playerID, int = the landmark number, Vector3 = pos
+        /// </summary>
+        public Action<string, int, Vector3> SetDancerPosePosition;
+        
+        public Action<string, float> SetDancerPositionScale;
+        public Action<string, string, Quaternion> SetRadicalDancerBoneRotationByPlayerID;
+
 
         public virtual void UpdateUI()
         {

@@ -48,8 +48,11 @@ namespace MIMA
 
         public MIMA_CharacterReceiverRadical radicalCharacter;
 
-        public List<MIMA_CharacterPoseControlMediaPipe> dancerControllers =
-            new List<MIMA_CharacterPoseControlMediaPipe>();
+        private Dictionary<string, MIMA_CharacterPoseControlBase> dancerControllers =
+            new Dictionary<string, MIMA_CharacterPoseControlBase>();
+
+        private Dictionary<string, MIMA_CharacterPoseControlBase> dancerControllersByPlayerID =
+            new Dictionary<string, MIMA_CharacterPoseControlBase>();
 
         public Volume customPostProcessVolume;
         private MIMA_PostProcess postProcess;
@@ -106,7 +109,6 @@ namespace MIMA
             
             
             // handle controller messages
-            
             foreach (var controller in controlSources)
             {
                 controller.LaunchSceneCommand += sceneName =>
@@ -253,6 +255,7 @@ namespace MIMA
                     if (cameraBrownianMotion == null) cameraBrownianMotion = c.GetComponent<BrownianMotion>();
                     cameraBrownianMotion.positionAmount = defaultCameraMotionPosition * f;
                     cameraBrownianMotion.rotationAmount = defaultCameraMotionRotation * f;
+                    cameraBrownianMotion.enabled = f > 0;
                     lastCameraBrownianAmount = f;
                 };
 
@@ -369,28 +372,49 @@ namespace MIMA
 
                 
                 // pose params
-                controller.SetDancerLandmarkPositionByClientID += (clientID, landmarkID, position) =>
+                controller.SetDancerPosePosition += (playerID, landmarkID, position) =>
                 {
                     if (currentScene == null) return;
-                    var d = dancerControllers.FirstOrDefault(d => d.clientID == clientID);
-                    if (d == null && dancerControllers.Count > 0)
+                    
+                    // find a dancer controller that is listening to this clientID
+                    if (dancerControllersByPlayerID.ContainsKey(playerID))
                     {
-                        // if client id is not found, set the first dancer to respond to this clientID
-                        d = dancerControllers[0];
-                        d.clientID = clientID;
+                        dancerControllersByPlayerID[playerID].SetPosePosition(landmarkID, position);    
                     }
-                    d.SetLandmarkPosition(landmarkID, position);
+                    else
+                    {
+                        // Debug.LogWarning($"Warning - no dancer assigned to clientID {clientID}");
+                    }
+                    
                 };
 
-                controller.SetDancerObjectClientID += (index, newClientID) =>
+                controller.SetDancerObjectPlayerID += (dancerName, newPlayerID) =>
                 {
-                    dancerControllers[index].clientID = newClientID;
+                    if (currentScene == null) return;
+                    var d = dancerControllers[dancerName];
+                    // remove lookup reference from dictionary
+                    if (dancerControllersByPlayerID.ContainsKey(d.clientID))
+                        dancerControllersByPlayerID.Remove(d.clientID);
+                    
+                    d.clientID = newPlayerID;
+                    dancerControllersByPlayerID.Add(newPlayerID, d);
                 };
 
-                controller.SetDancerPositionScale += (index, scale) =>
+                controller.SetDancerPositionScale += (dancerName, scale) =>
                 {
-                    dancerControllers[index].PosScale = scale;
+                    if (currentScene == null) return;
+                    dancerControllers[dancerName].PosScale = scale;
                 };
+
+                controller.SetRadicalDancerBoneRotationByPlayerID += (playerID, boneName, rotation) =>
+                {
+                    if (currentScene == null) return;
+                    if (dancerControllersByPlayerID.ContainsKey(playerID))
+                    {
+                        dancerControllersByPlayerID[playerID].SetJointRotation(boneName, rotation);    
+                    }
+                };
+
 
             }
         }
@@ -492,21 +516,32 @@ namespace MIMA
             cameraOrbitMotion = Camera.main.GetComponent<SimpleCameraController>();
             if (cameraOrbitMotion == null) cameraOrbitMotion = Camera.main.gameObject.AddComponent<SimpleCameraController>();
             cameraOrbitMotion.enabled = false;
+            
+            // clear references to old dancer controllers
+            dancerControllers.Clear();
+            dancerControllersByPlayerID.Clear();
            
             // instantiate effects
             foreach (var eff in scene.effects)
             {
                 Debug.Log($"Instantiating effect {eff.Name}");
                 var eGO = Instantiate(eff.Prefab, Vector3.zero, Quaternion.identity, null);
+                eGO.name = "Effect_" + eff.Name;
                 eff._effect = eGO.GetComponent<MIMA_Effect>();
                 if (eff._effect == null)
                 {
                     Debug.LogError($"Error - no MIMA_Effect class found for effect prefab {eff.Name}");
                 }
 
-                if (eff._effect is MIMA_CharacterPoseControlMediaPipe)
+                if (eff._effect is MIMA_CharacterPoseControlBase)
                 {
-                    dancerControllers.Add(eff._effect as MIMA_CharacterPoseControlMediaPipe);
+                    var controller = eff._effect as MIMA_CharacterPoseControlBase;
+                    if(dancerControllers.ContainsKey(eff.Name)) Debug.LogError($"Error - another dancer effect named {eff.Name} already exists");
+                    else dancerControllers.Add(eff.Name, controller);
+                    if (controller.clientID != string.Empty)
+                    {
+                        dancerControllersByPlayerID.Add(controller.clientID,controller);    
+                    }
                 }
             }
            

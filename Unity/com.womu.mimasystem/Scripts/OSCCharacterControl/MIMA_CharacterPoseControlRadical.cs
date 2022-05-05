@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using System.Linq;
+using MIMA;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityOSC;
+using Random = Unity.Mathematics.Random;
 
-public class MIMA_CharacterPoseControlRadical : MonoBehaviour
+public class MIMA_CharacterPoseControlRadical : MIMA_CharacterPoseControlBase
 {
     public static string FRAME_KEY = "rootPosition";
     
@@ -65,6 +66,57 @@ public class MIMA_CharacterPoseControlRadical : MonoBehaviour
     public Transform transform_leftLegUpBone;
     public Transform transform_leftLegBone;
     public Transform transform_leftFootBone;
+    
+    public Vector3 rotation_rootBone;
+
+    public Vector3 rotation_spineBone0;
+    public Vector3 rotation_spineBone1;
+    public Vector3 rotation_spineBone2;
+
+    public Vector3 rotation_neckBone;
+    public Vector3 rotation_headBone;
+
+    public Vector3 rotation_rightShoulderBone;
+    public Vector3 rotation_rightArmBone;
+    public Vector3 rotation_rightForearmBone;
+    public Vector3 rotation_rightHandBone;
+
+    public Vector3 rotation_leftShoulderBone;
+    public Vector3 rotation_leftArmBone;
+    public Vector3 rotation_leftForearmBone;
+    public Vector3 rotation_leftHandBone;
+
+    public Vector3 rotation_rightLegUpBone;
+    public Vector3 rotation_rightLegBone;
+    public Vector3 rotation_rightFootBone;
+
+    public Vector3 rotation_leftLegUpBone;
+    public Vector3 rotation_leftLegBone;
+    public Vector3 rotation_leftFootBone;
+    
+    
+    private Quaternion quaternion_rootBone;
+    private Quaternion quaternion_spineBone0;
+    private Quaternion quaternion_spineBone1;
+    private Quaternion quaternion_spineBone2;
+    private Quaternion quaternion_neckBone;
+    private Quaternion quaternion_headBone;
+    private Quaternion quaternion_rightShoulderBone;
+    private Quaternion quaternion_rightArmBone;
+    private Quaternion quaternion_rightForearmBone;
+    private Quaternion quaternion_rightHandBone;
+    private Quaternion quaternion_leftShoulderBone;
+    private Quaternion quaternion_leftArmBone;
+    private Quaternion quaternion_leftForearmBone;
+    private Quaternion quaternion_leftHandBone;
+    private Quaternion quaternion_rightLegUpBone;
+    private Quaternion quaternion_rightLegBone;
+    private Quaternion quaternion_rightFootBone;
+    private Quaternion quaternion_leftLegUpBone;
+    private Quaternion quaternion_leftLegBone;
+    private Quaternion quaternion_leftFootBone;
+    
+    
 
     [Serializable]
     public class SkeletonFrame
@@ -102,11 +154,15 @@ public class MIMA_CharacterPoseControlRadical : MonoBehaviour
 
     public float frameFPS = 30.0f;
 
-    
+    private int emitterPositionID = Shader.PropertyToID("positionOffset_position");
+
+    public bool ConstantlyRecreateQuaternions = false;
     
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
+        
         // Find transforms in children and assign
         var transforms = GetComponentsInChildren<Transform>();
 
@@ -137,13 +193,169 @@ public class MIMA_CharacterPoseControlRadical : MonoBehaviour
         transform_leftLegUpBone = transforms.First(t => t.name.Contains(name_leftLegUpBone));
         transform_leftLegBone = transforms.First(t => t.name.Contains(name_leftLegBone));
         transform_leftFootBone = transforms.First(t => t.name.Contains(name_leftFootBone));
+        
+        GenerateQuaternions();
+    }
 
+
+    public override void SetPosePosition(int poseIndex, Vector3 pos)
+    {
+        transform_rootBone.localPosition = pos;
+    }
+
+    public override void SetJointRotation(string jointName, Quaternion rot)
+    {
+        switch (jointName)
+        {
+            case "root_t":
+                // ignore this 
+                break;
+            case "root_r":
+                transform_rootBone.localRotation = rot * quaternion_rootBone;
+                break;
+            case "LeftUpLegDummy_r":
+                // ignore
+                break;
+            case "LeftUpLeg_r":
+                transform_leftLegUpBone.localRotation = rot * quaternion_leftLegUpBone;
+                break;
+            case "LeftLeg_r":
+                transform_leftLegBone.localRotation = rot * quaternion_leftLegBone;
+                break;
+            case "LeftFoot_r":
+                transform_leftFootBone.localRotation = rot * quaternion_leftFootBone;
+                break;
+            case "RightUpLegDummy_r":
+                // ignore
+                break;
+            case "RightUpLeg_r":
+                transform_rightLegUpBone.localRotation = rot * quaternion_rightLegUpBone;
+                break;
+            case "RightLeg_r":
+                transform_rightLegBone.localRotation = rot * quaternion_rightLegBone;
+                break;
+            case "RightFoot_r":
+                transform_rightFootBone.localRotation = rot * quaternion_rightFootBone;
+                break;
+            case "SpineDummy_r":
+                // ignore
+                break;
+            case "Spine_r":
+                transform_spineBone0.localRotation = rot * quaternion_spineBone0;
+                break;
+            case "Spine1_r":
+                transform_spineBone1.localRotation = rot * quaternion_spineBone1;
+                break;
+            case "Spine2_r":
+                transform_spineBone2.localRotation = rot * quaternion_spineBone2;
+                break;
+            case "NeckDummy_r":
+                // ignore
+                break;
+            case "Neck_r":
+                transform_neckBone.localRotation = rot * quaternion_neckBone;
+                break;
+            case "Head_r":
+                transform_headBone.localRotation = rot * quaternion_headBone;
+                break;
+            case "RightShoulderDummy_r":
+                // ignore
+                break;
+            case "RightShoulder_r":
+                transform_rightShoulderBone.localRotation = rot * quaternion_rightShoulderBone;
+                break;
+            case "RightArm_r":
+                transform_rightArmBone.localRotation = rot * quaternion_rightArmBone;
+                break;
+            case "RightForeArm_r":
+                transform_rightForearmBone.localRotation = rot * quaternion_rightForearmBone;
+                break;
+            case "RightHand_r":
+                transform_rightHandBone.localRotation = rot * quaternion_rightHandBone;
+                break;
+            case "LeftShoulderDummy_r":
+                // ignore
+                break;
+            case "LeftShoulder_r":
+                transform_leftShoulderBone.localRotation = rot * quaternion_leftShoulderBone;
+                break;
+            case "LeftArm_r":
+                transform_leftArmBone.localRotation = rot * quaternion_leftArmBone;
+                break;
+            case "LeftForeArm_r":
+                transform_leftForearmBone.localRotation = rot * quaternion_leftForearmBone;
+                break;
+            case "LeftHand_r":
+                transform_leftHandBone.localRotation = rot * quaternion_leftHandBone;
+                break;
+        }
         
     }
+    
+    
+    private void GenerateQuaternions()
+    {
+         quaternion_rootBone = Quaternion.Euler(rotation_rootBone);
+         quaternion_spineBone0 = Quaternion.Euler(rotation_spineBone0);
+         quaternion_spineBone1 = Quaternion.Euler(rotation_spineBone1);
+         quaternion_spineBone2 = Quaternion.Euler(rotation_spineBone2);
+         quaternion_neckBone = Quaternion.Euler(rotation_neckBone);
+         quaternion_headBone = Quaternion.Euler(rotation_headBone);
+         quaternion_rightShoulderBone = Quaternion.Euler(rotation_rightShoulderBone);
+         quaternion_rightArmBone = Quaternion.Euler(rotation_rightArmBone);
+         quaternion_rightForearmBone = Quaternion.Euler(rotation_rightForearmBone);
+         quaternion_rightHandBone = Quaternion.Euler(rotation_rightHandBone);
+         quaternion_leftShoulderBone = Quaternion.Euler(rotation_leftShoulderBone);
+         quaternion_leftArmBone = Quaternion.Euler(rotation_leftArmBone);
+         quaternion_leftForearmBone = Quaternion.Euler(rotation_leftForearmBone);
+         quaternion_leftHandBone = Quaternion.Euler(rotation_leftHandBone);
+         quaternion_rightLegUpBone = Quaternion.Euler(rotation_rightLegUpBone);
+         quaternion_rightLegBone = Quaternion.Euler(rotation_rightLegBone);
+         quaternion_rightFootBone = Quaternion.Euler(rotation_rightFootBone);
+         quaternion_leftLegUpBone = Quaternion.Euler(rotation_leftLegUpBone);
+         quaternion_leftLegBone = Quaternion.Euler(rotation_leftLegBone);
+         quaternion_leftFootBone = Quaternion.Euler(rotation_leftFootBone);
+    }
+
 
     public void StartExportFrames()
     {
-        StartCoroutine(MakeFrameRoutine());
+        // StartCoroutine(MakeFrameRoutine());
+    }
+    
+    
+    
+    void Update()
+    {
+        int val = UnityEngine.Random.Range(0, 19);
+    
+        // spread particles around joint positions, until we can upgrade the project + support skinned mesh renderer sources
+        Vector3 emitterPos = Vector3.zero;
+        
+        if (val == 0) emitterPos = transform_spineBone0.position;
+        if (val == 1) emitterPos = transform_spineBone1.position;
+        if (val == 2) emitterPos = transform_spineBone2.position;
+        if (val == 3) emitterPos = transform_neckBone.position;
+        if (val == 4) emitterPos = transform_headBone.position;
+        if (val == 5) emitterPos = transform_rightShoulderBone.position;
+        if (val == 6) emitterPos = transform_rightArmBone.position;
+        if (val == 7) emitterPos = transform_rightForearmBone.position;
+        if (val == 8) emitterPos = transform_rightHandBone.position;
+        if (val == 9) emitterPos = transform_leftShoulderBone.position;
+        if (val == 10) emitterPos = transform_leftArmBone.position;
+        if (val == 11) emitterPos = transform_leftForearmBone.position;
+        if (val == 12) emitterPos = transform_leftHandBone.position;
+        if (val == 13) emitterPos = transform_rightLegUpBone.position;
+        if (val == 14) emitterPos = transform_rightLegBone.position;
+        if (val == 15) emitterPos = transform_rightFootBone.position;
+        if (val == 16) emitterPos = transform_leftLegUpBone.position;
+        if (val == 17) emitterPos = transform_leftLegBone.position;
+        if (val == 18) emitterPos = transform_leftFootBone.position;
+            
+        vfx.SetVector3(emitterPositionID, emitterPos);
+        
+        if (ConstantlyRecreateQuaternions) GenerateQuaternions();
+        
     }
     
     
@@ -292,8 +504,4 @@ public class MIMA_CharacterPoseControlRadical : MonoBehaviour
         return new Quaternion((float) args[0], (float) args[1], (float) args[2], (float) args[3]);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

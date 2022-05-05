@@ -6,7 +6,7 @@
 var SOCKET_PORT = 8081;
 var HTML_PORT = 8080;
 var OSC_LOCAL_IP = "127.0.0.1"
-var OSC_LOCAL_PORT = 8888;
+var OSC_LOCAL_PORT = 9000;
 
 
 // Websocket server
@@ -44,7 +44,7 @@ var clientIDCount = 0;
 io.on('connection', function (socket) { 
   
   var clientID = ++clientIDCount;
-  var poseAddress = '/scene/dancer/pose/' + clientID;
+  var poseAddress = '/scene/dancer/poseMediapipe/' + clientID;
   console.log("New websocket connection, clientID = " + clientID);
   socket.on('message', function (obj) {
     // console.log(obj);

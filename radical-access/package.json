@@ -2,15 +2,20 @@
   "name": "radical-access",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "type": "module",
+  "engines": {
+    "node": ">=16.13.2",
+    "npm": ">=8.1.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@get-rad/radical-live-client-webgl": "1.0.10",
-    "three": "^0.140.0"
+    "@get-rad/radical-live-client-webgl": "^1.0.12",
+    "node-osc": "^7.0.0",
+    "socket.io-client": "^4.5.0"
   }
 }

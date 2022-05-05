@@ -6,10 +6,10 @@ using MIMA;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MIMA_CharacterPoseControlMediaPipe : MIMA_Effect
+public class MIMA_CharacterPoseControlMediaPipe : MIMA_CharacterPoseControlBase
 {
-    [Header("The pose 'channel' we'll be listening to")]
-    public int clientID = 0;
+    
+    
     
     // GHUM3D Landmarks
     public Transform Nose;
@@ -38,7 +38,7 @@ public class MIMA_CharacterPoseControlMediaPipe : MIMA_Effect
     public Transform LeftFootIndex;
     public Transform RightFootIndex;
 
-    public float PosScale = 1.0f;
+    
 
     private int emitterPositionID = Shader.PropertyToID("positionOffset_position");
 
@@ -83,7 +83,7 @@ public class MIMA_CharacterPoseControlMediaPipe : MIMA_Effect
         vfx.SetVector3(emitterPositionID, emitterPos);
     }
 
-    public void SetLandmarkPosition(int index, Vector3 pos)
+    public override void SetPosePosition(int index, Vector3 pos)
     {
         pos *= PosScale;
 

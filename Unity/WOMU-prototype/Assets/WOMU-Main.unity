@@ -130,7 +130,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 9004911469033655963}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f517bc1c477384748b40f985c81cc415, type: 3}
   m_Name: 
@@ -142,11 +142,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 60175883, guid: 78bbc47df1a152d48bc58ae3473de672, type: 3}
-      propertyPath: sharedProfile
-      value: 
-      objectReference: {fileID: 11400000, guid: 6fcfa4f910172bc47bf2c1fa75eebb2f,
-        type: 2}
+    - target: {fileID: 2694863780101988288, guid: 78bbc47df1a152d48bc58ae3473de672,
+        type: 3}
+      propertyPath: m_Name
+      value: OSCInputControl
+      objectReference: {fileID: 0}
     - target: {fileID: 7102357997131406740, guid: 78bbc47df1a152d48bc58ae3473de672,
         type: 3}
       propertyPath: m_Name
