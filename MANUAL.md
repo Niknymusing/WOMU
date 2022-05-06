@@ -109,6 +109,9 @@ A list of places that can receive textures
 
 ### Effects
 A list of prefabs containing a `MIMA_Effect` class, that can be controlled via OSC, texture-mapped etc.
+
+*IMPORTANT NOTE* - Dancers are a special kind of Effect, that response to pose + some other specific commands.
+
 - `Name` - the name by which it will be accessed via OSC (no spaces allowed)
 - `Prefab` - the Unity prefab which gets loaded by this Effect. Must have a `MIMA_Effect` behaviour.
 
@@ -124,5 +127,50 @@ A reference to a Unity scene that gets loaded.
 
 ## OSC API
 
+### Scenes
 `/scene/load [scene name]` - Loads a scene by name from the current Collection
+
+`/scene/blackout [toValue] [timeSeconds]` - either blacks out (`toValue = 1.0`) or fades in (`toValue = 0.0`) over `timeSeconds`
+
+### Cameras
+`/scene/listCameras` - tells Unity to output a list of the current camera positions in the Scene via OSC.
+
+
+`/scene/camera/[which]/setRandomMotion [amount]` - tells camera `which` ('main', or a number) to set the amount of shake to `amount`
+`/scene/camera/[which]/move [x] [y] [z]` - moves camera `which` ('main', or a number) by x, y, z
+
+
+### Texture Maps
+`/scene/map/[map Name]/setSource [name]` - sets the source of Texture Map [map Name] to [name]
+
+### Effects
+
+`/scene/effect/[effect name]/set/[paramName] [value]` - set [paramName] on a Visual Effect called [effect name].
+
+For the Generic Particle effect, these include :
+
+- `attachToMainCamera` - 1 or 0
+- `sphericalSpread` - any float number - size of sphere
+- `spawnRate` - float 0.0 - 1.0
+- `edgeThickness` float 0.0 - 1.0 - whether the particles spawn on the edge of the sphere or completely inside it
+- `gridInterval` - int between 5 and 2000 - does a little angular dance
+- `trailThickness` - float 0.0 - 1.0 - width of trails
+- `speed` - float 0.0 - 1.0 - speed of particles
+- `turbulence` - float 0.0 - 1.0 - amount of turbulent noise
+- `turbulenceFrequency` - float - small values like 0.001 produce smooth noise, higher values produce chaos
+
+
+### Dancers
+
+`/scene/dancer/pose[Radical/Mediapipe]/[clientID]/[componentName] [x] [y] [z] ([w])` - sends a Pose to the Dancer Effect that is currently set to listen to `clientId`. 
+
+When `poseRadical` is used, it expects either 4 arguments to construct a Quaternion that is used to set the rotation of bone `componentName`, or 3 arguments to set the root (hip) position.
+
+When `poseMediapipe` is used, it expects 3 arguments x,y,z to position the landmark numbered `componentName`.
+
+`/scene/dancer/setId/[dancerName] [newId]` - sets the Dancer Effect to listen to Pose commands with the `clientId` of `newId`.
+
+`/scene/dancer/scale/[dancerName] [scale]` - sets the named Dancer Effect's position scale to `scale`
+
+
 
