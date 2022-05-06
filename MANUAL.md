@@ -86,3 +86,43 @@ MIMA currently consists of a number of systems working together, with a Unity ap
 
 ## Producer interface
 
+
+## Adding & configuring Scenes
+
+MIMA contains the concept of a `MIMA_SceneCollection`, which contains a number of `MIMA_Scene`s. Both are ScriptableObjects in Unity, that can be authored to add new scenes, or new configurations of existing scenes in the project.
+
+The default Collection is `TestCollection`.
+
+a `MIMA_Scene` Scriptable object contains the following:
+### Texture Maps
+A list of places that can receive textures
+- `Target Name` - the name of the map (no spaces allowed)
+- `Target Type` - the type of target
+- `Target Mat` - if target type == MATERIAL, which material will be overwritten
+- `Target Light Name` - if target type == LIGHT_COOKIE, finds a light with this name and sets the Cookie parameter to the texture
+- `Target Projector Name` - if target type == DECAL_PROJECTOR, finds a Projector with this name and sets the Decal texture 
+- `Target Effect Name` - if targettype == VISUAL_EFFECT, looks in the list of scene Effects and sets textures accordingly.
+- `Texture Names` - a list of texture params on Materials to overwrite with the new Textures.
+- `Offset` - sets the texture offset, where possible
+- `Scale` - sets the texture scale, where possible
+`SourceName` - the name of the NDI or Spout source that this mapping is pulling from.
+
+### Effects
+A list of prefabs containing a `MIMA_Effect` class, that can be controlled via OSC, texture-mapped etc.
+- `Name` - the name by which it will be accessed via OSC (no spaces allowed)
+- `Prefab` - the Unity prefab which gets loaded by this Effect. Must have a `MIMA_Effect` behaviour.
+
+### Camera Positions
+A list of transforms which are found by name, and stored as camera positions, which can be jumped to via OSC.
+
+### Reflection Probe Refresh Mode
+A performance thing, having the Mode on Every Frame is very heavy, so most of the time you'll want it On Awake, unless there's a particular visual effect you're after.
+
+### Scene
+A reference to a Unity scene that gets loaded.
+
+
+## OSC API
+
+`/scene/load [scene name]` - Loads a scene by name from the current Collection
+
