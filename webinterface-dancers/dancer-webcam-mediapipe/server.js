@@ -3,7 +3,7 @@
 //
 
 // Settings
-var SOCKET_PORT = 8081;
+// var SOCKET_PORT = 8081;
 var HTML_PORT = 8080;
 var OSC_LOCAL_IP = "127.0.0.1"
 var OSC_LOCAL_PORT = 9000;
@@ -11,30 +11,41 @@ var OSC_LOCAL_PORT = 9000;
 
 // Websocket server
 var osc = require('node-osc');
-var Server = require('socket.io').Server;
-const httpServerSockets = require('http').createServer();
 
-const io = new Server(httpServerSockets, {
-  cors : {
-    origin: '*',
-    methods: ["GET", "POST"]
-    }
-});
-httpServerSockets.listen(SOCKET_PORT)
-console.log("Starting socket server on port " + SOCKET_PORT);
-
-// HTML server
 const finalhandler = require('finalhandler');
 const serveStatic = require('serve-static');
+const serve = serveStatic('web', { index : ['index.html']});
 
-var serve = serveStatic('web', { index : ['index.html']});
 
-const httpServerHTML = require('http').createServer(function onRequest(req, res){
+const http = require('http').createServer(function onRequest(req, res){
   serve(req, res, finalhandler(req, res));
 });
 
-httpServerHTML.listen(HTML_PORT);
+const io = require('socket.io')(http);
+
 console.log("Starting web server on port " + HTML_PORT);
+http.listen(HTML_PORT);
+
+// const io = new Server(httpServerSockets, {
+//   cors : {
+//     origin: '*',
+//     methods: ["GET", "POST"]
+//     }
+// });
+// httpServerSockets.listen(SOCKET_PORT)
+// console.log("Starting socket server on port " + SOCKET_PORT);
+
+// HTML server
+
+
+
+
+// const httpServerHTML = require('http').createServer(function onRequest(req, res){
+//   serve(req, res, finalhandler(req, res));
+// });
+
+// httpServerHTML.listen(HTML_PORT);
+
 
 var oscClient = new osc.Client(OSC_LOCAL_IP, OSC_LOCAL_PORT);
 console.log("creating OSC client pointing at " + OSC_LOCAL_IP + " : " + OSC_LOCAL_PORT);

@@ -6,11 +6,11 @@
 
     };
 
-    SocketConnection.connect = (address)=> {
+    SocketConnection.connect = ()=> {
 
         if (socket != null) socket.disconnect();
 
-        socket = io(address);
+        socket = io();
         socket.on('connect', ()=>{
             console.log("Connected to socket server");
 

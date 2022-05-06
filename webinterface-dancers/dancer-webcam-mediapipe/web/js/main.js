@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
     /*
       SERVER CONNECTION
     */
-    SocketConnection.connect('http://' + window.location.hostname + ':8081');
+    SocketConnection.connect('https://' + window.location.hostname + ':8080');
     
     /*
       WEBCAM INPUT

@@ -1,1 +1,7 @@
 authtoken: 1T6SIPKfxS7CTfQLULYJ8hUPQs8_7Zv8gncAfLRw75eWmKngp
+version: 2
+region: us
+tunnels:
+  http-mediapipe:
+    proto: http
+    addr: 8080 
