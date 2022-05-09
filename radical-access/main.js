@@ -4,6 +4,7 @@
 
 import {io}  from "socket.io-client";
 import { Client } from "node-osc";
+import { MixamoConversion } from "./MixamoConversion.js";
 
 // RADICAL SERVER PARAMS
 const WSSERVER = 'wss://room-handler.live-prod.live.k8s.getrad.co';
