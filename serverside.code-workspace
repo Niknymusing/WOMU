@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "webinterface-dancers\\dancer-webcam-mediapipe"
+		},
+		{
+			"path": "ngrok"
 		}
 	],
 	"settings": {}
