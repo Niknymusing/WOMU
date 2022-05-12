@@ -24,7 +24,7 @@ MonoBehaviour:
     - _EmissiveColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: TDSyphonSpoutOut
+    sourceName: OWEN-DESKTOP (WebVideoNDIOutput)
   - TargetName: ScreenLight
     TargetType: 1
     targetMat: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
     - _BaseColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: TestGreen
+    sourceName: OWEN-DESKTOP (WebVideoNDIOutput)
   - TargetName: ProjectorB
     TargetType: 2
     targetMat: {fileID: 2100000, guid: 721b373c7b51b3a4dbaeef642bd75a35, type: 2}
@@ -85,9 +85,6 @@ MonoBehaviour:
       type: 3}
   - Name: dancerMediaPipe
     Prefab: {fileID: 9004911468631060314, guid: cbf3718bd7ba7f443bc7efaef5cfd1d1,
-      type: 3}
-  - Name: dancerRadical
-    Prefab: {fileID: 9004911468631060314, guid: 86dd9e4160b260844bf9e02e8751d396,
       type: 3}
   cameraPositions:
   - Kulturbrott-ScreenCamera
