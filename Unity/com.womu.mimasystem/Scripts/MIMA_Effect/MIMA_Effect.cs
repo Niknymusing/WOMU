@@ -70,8 +70,8 @@ namespace MIMA
         {
             if (Camera.main != null)
             {
-                vfx.SetVector3("mainCameraTransform_position", Camera.main.transform.position);
-                vfx.SetVector3("mainCameraTransform_angles", Camera.main.transform.rotation.eulerAngles);
+                //vfx.SetVector3("mainCameraTransform_position", Camera.main.transform.position);
+                //vfx.SetVector3("mainCameraTransform_angles", Camera.main.transform.rotation.eulerAngles);
             }
         }
         
