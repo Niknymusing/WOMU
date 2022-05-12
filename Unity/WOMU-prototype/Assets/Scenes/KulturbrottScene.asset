@@ -83,8 +83,8 @@ MonoBehaviour:
   - Name: particles
     Prefab: {fileID: 7001931725540199630, guid: d73088d04a9bfac4d85bfe030a0b5cd6,
       type: 3}
-  - Name: dancerMediaPipe
-    Prefab: {fileID: 9004911468631060314, guid: cbf3718bd7ba7f443bc7efaef5cfd1d1,
+  - Name: dancerRadical
+    Prefab: {fileID: 9004911468631060314, guid: 8b3476b1fc185404684df173b3e1259e,
       type: 3}
   cameraPositions:
   - Kulturbrott-ScreenCamera

@@ -38,7 +38,11 @@ public class MIMA_CharacterPoseControlMediaPipe : MIMA_CharacterPoseControlBase
     public Transform LeftFootIndex;
     public Transform RightFootIndex;
 
-    
+    public Transform LandmarkContainer;
+    [Header("Moves LandmarkContainer so that the feet are level with the position of this object")]
+    public bool KeepFeetOnFloor = true;
+
+    public float FeetAverageDistance = 0.1f;
 
     private int emitterPositionID = Shader.PropertyToID("positionOffset_position");
 
@@ -81,6 +85,27 @@ public class MIMA_CharacterPoseControlMediaPipe : MIMA_CharacterPoseControlBase
         if (val == 24) emitterPos = RightFootIndex.position;
             
         vfx.SetVector3(emitterPositionID, emitterPos);
+
+        if (KeepFeetOnFloor)
+        {
+            bool averageFeetY = Mathf.Abs(LeftHeel.position.y - RightHeel.position.y) > FeetAverageDistance;
+            float offset = 0;
+            if (averageFeetY)
+            {
+                offset = (LeftHeel.position.y + RightHeel.position.y) / 2.0f;
+            }
+            else
+            {
+                if (LeftHeel.position.y < RightHeel.position.y) offset = LeftHeel.position.y;
+                else offset = RightHeel.position.y;
+            }
+
+            offset -= transform.position.y;
+
+            Vector3 targetPosition = new Vector3(0.0f, -offset, 0.0f);
+            LandmarkContainer.transform.position =
+                Vector3.Lerp(LandmarkContainer.transform.position, targetPosition, 0.1f);
+        }
     }
 
     public override void SetPosePosition(int index, Vector3 pos)

@@ -23,7 +23,7 @@ public class AnimationPlaybackManager : MonoBehaviour
 
     public void Awake()
     {
-        SceneManager.LoadScene(visualizationSceneName, LoadSceneMode.Additive);
+        // SceneManager.LoadScene(visualizationSceneName, LoadSceneMode.Additive);
     }
 
     List<AIFrame> aiFrames;

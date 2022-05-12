@@ -1704,6 +1704,9 @@ MonoBehaviour:
   RightHeel: {fileID: 1383658768074312564}
   LeftFootIndex: {fileID: 1267927057545352519}
   RightFootIndex: {fileID: 456846574141057051}
+  LandmarkContainer: {fileID: 3987630879062616651}
+  KeepFeetOnFloor: 0
+  FeetAverageDistance: 0.1
   debug: 0
 --- !u!1 &9171325497440057494
 GameObject:
