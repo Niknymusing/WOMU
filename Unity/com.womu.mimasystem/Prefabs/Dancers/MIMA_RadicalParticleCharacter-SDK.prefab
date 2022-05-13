@@ -3045,13 +3045,13 @@ VisualEffect:
       - m_Value: 0.5
         m_Name: edgeThickness
         m_Overridden: 1
-      - m_Value: 0.49
+      - m_Value: 0.039
         m_Name: trailThickness
         m_Overridden: 1
       - m_Value: 0
         m_Name: speed
         m_Overridden: 1
-      - m_Value: 0.277
+      - m_Value: 0.124
         m_Name: turbulence
         m_Overridden: 1
       - m_Value: 0
@@ -3228,6 +3228,7 @@ MonoBehaviour:
   PosScale: 1
   controlMethod: 0
   smr: {fileID: 0}
+  radicalPlaybackManager: {fileID: 2078393355}
 --- !u!1001 &3588403381704743885
 PrefabInstance:
   m_ObjectHideFlags: 0

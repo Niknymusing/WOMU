@@ -48,13 +48,20 @@ public class AnimationPlaybackManager : MonoBehaviour
         }
     }
 
-    void ConnectToWSS()
+    public void ConnectToWSS()
     {
         Debug.Log("Connecting...");
         radSdk = new RadicalLiveInterface(socketServerURL, roomName);
         radSdk.OnConnected(ConnectedToRoom);
         radSdk.OnData(result => GettingData(result));
         radSdk.Connect();
+    }
+
+    public void DisconnectFromRoom()
+    {
+        if (radSdk != null) return;
+        // disposing should call Disconnect?
+        radSdk = null;
     }
 
     void GettingData(IList<JsonElement> data)

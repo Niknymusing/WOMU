@@ -45,6 +45,10 @@ namespace MIMA
             {
                 get { return _effect;  }
             }
+
+            public Vector3 StartPosition = Vector3.zero;
+            public Vector3 StartRotation = Vector3.zero;
+            public Vector3 StartScale = Vector3.one;
         }
       
 

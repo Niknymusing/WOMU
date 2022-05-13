@@ -526,6 +526,10 @@ namespace MIMA
             {
                 Debug.Log($"Instantiating effect {eff.Name}");
                 var eGO = Instantiate(eff.Prefab, Vector3.zero, Quaternion.identity, null);
+                eGO.transform.localScale = eff.StartScale;
+                eGO.transform.localRotation = Quaternion.Euler(eff.StartRotation);
+                eGO.transform.localPosition = eff.StartPosition;
+                
                 eGO.name = "Effect_" + eff.Name;
                 eff._effect = eGO.GetComponent<MIMA_Effect>();
                 if (eff._effect == null)

@@ -30,7 +30,6 @@
     <explicitExcludes>
       <Path>.idea</Path>
       <Path>Logs</Path>
-      <Path>Temp</Path>
       <Path>UIElementsSchema</Path>
       <Path>UserSettings</Path>
       <Path>obj</Path>
