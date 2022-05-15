@@ -29,13 +29,6 @@ const oscClient = new Client(OSC_TARGET_IP, OSC_TARGET_PORT);
 console.log("Connecting to Radical WS Server at " + WSSERVER);
 
 
-// import { LiveClientThreeJS } from "@get-rad/radical-live-client-webgl";
-
-// var client = new LiveClientThreeJS(WSSERVER, AUTH_TOKEN, ROOM_ID);
-// client.connect().then(()=>{
-//     console.log("Live client connected");
-// });
-
 const wsConnection = io(WSSERVER, {
     rejectUnauthorized: false,
     reconnection: false,
@@ -58,8 +51,6 @@ wsConnection.on('player-connected', (reason)=>{
 
 wsConnection.on('prediction-result', (message)=>{
 
-    // console.log("RESULT: ");
-    // console.log(message);
 
     var playerID = message.attendeeId;
 
