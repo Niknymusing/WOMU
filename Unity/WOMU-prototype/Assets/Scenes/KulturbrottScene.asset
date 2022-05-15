@@ -24,7 +24,7 @@ MonoBehaviour:
     - _EmissiveColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: OWEN-DESKTOP (WebVideoNDIOutput)
+    sourceName: OWEN-DESKTOP (VLC)
   - TargetName: ScreenLight
     TargetType: 1
     targetMat: {fileID: 0}
@@ -34,7 +34,7 @@ MonoBehaviour:
     textureNames: []
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: TestBlue
+    sourceName: OWEN-DESKTOP (VLC)
   - TargetName: ProjectorA
     TargetType: 2
     targetMat: {fileID: 2100000, guid: 9aba656c00532604f9361afdbbf9d970, type: 2}
@@ -45,7 +45,7 @@ MonoBehaviour:
     - _BaseColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: OWEN-DESKTOP (WebVideoNDIOutput)
+    sourceName: TD-AudioReactive
   - TargetName: ProjectorB
     TargetType: 2
     targetMat: {fileID: 2100000, guid: 721b373c7b51b3a4dbaeef642bd75a35, type: 2}
@@ -56,7 +56,7 @@ MonoBehaviour:
     - _BaseColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: TestRedRamp
+    sourceName: TD-AudioReactive
   - TargetName: CharacterMaterial
     TargetType: 0
     targetMat: {fileID: 2100000, guid: 7a748ef56012fa445ba78216335c4c17, type: 2}
@@ -67,7 +67,7 @@ MonoBehaviour:
     - _BaseColorMap
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: TestRedRamp
+    sourceName: OWEN-DESKTOP (VLC)
   - TargetName: ParticleColour
     TargetType: 3
     targetMat: {fileID: 0}
@@ -78,7 +78,29 @@ MonoBehaviour:
     - colourTexture
     offset: {x: 0, y: 0}
     scale: 1
-    sourceName: TestRedRamp
+    sourceName: OWEN-DESKTOP (VLC)
+  - TargetName: RadicalDancerParticles
+    TargetType: 3
+    targetMat: {fileID: 0}
+    targetLightName: 
+    targetProjectorName: 
+    targetEffectName: dancerRadical
+    textureNames:
+    - colourTexture
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: OWEN-DESKTOP (VLC)
+  - TargetName: MediapipeDancerParticles
+    TargetType: 3
+    targetMat: {fileID: 0}
+    targetLightName: 
+    targetProjectorName: 
+    targetEffectName: dancerMediapipe
+    textureNames:
+    - colourTexture
+    offset: {x: 0, y: 0}
+    scale: 1
+    sourceName: OWEN-DESKTOP (VLC)
   effects:
   - Name: particles
     Prefab: {fileID: 7001931725540199630, guid: d73088d04a9bfac4d85bfe030a0b5cd6,

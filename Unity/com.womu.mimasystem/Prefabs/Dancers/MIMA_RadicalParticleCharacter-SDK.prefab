@@ -3111,6 +3111,9 @@ VisualEffect:
       - m_Value: {fileID: 0}
         m_Name: targetSkinnedMeshRenderer
         m_Overridden: 1
+      - m_Value: {fileID: 2800000, guid: 127279d577f25ac4ea17dae3782e5074, type: 3}
+        m_Name: colourTexture
+        m_Overridden: 1
     m_Bool:
       m_Array:
       - m_Value: 0
@@ -3229,6 +3232,7 @@ MonoBehaviour:
   controlMethod: 0
   smr: {fileID: 0}
   radicalPlaybackManager: {fileID: 2078393355}
+  smrRootBone: {fileID: 0}
 --- !u!1001 &3588403381704743885
 PrefabInstance:
   m_ObjectHideFlags: 0
