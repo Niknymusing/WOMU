@@ -3213,7 +3213,7 @@ MonoBehaviour:
   fileName: 299539.json
   useLive: 1
   roomName: simulation_iWvPI
-  socketServerURL: wss://ue.getrad.co:8080
+  socketServerURL: wss://dev-rd42.getrad.co:8080
 --- !u!114 &2078393354
 MonoBehaviour:
   m_ObjectHideFlags: 0
