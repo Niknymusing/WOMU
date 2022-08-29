@@ -329,6 +329,16 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
         }
     }
 
+    private void OnDestroy()
+    {
+        if (connStatus != CONNECTION_STATUS.DISCONNECTED)
+        {
+            connStatus = CONNECTION_STATUS.DISCONNECTED;
+            Disconnect();
+            
+        }
+    }
+
 
     // Radical DLL interface
     [DllImport("Wrapper")]
