@@ -3159,7 +3159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfx: {fileID: 8089134019224380940}
-  clientID: 4ad7b61c-ffe3-42a5-bcfd-9cb4406e96fa
+  clientID: none
   PosScale: 1
   controlMethod: 1
   connStatus: 0
@@ -3172,6 +3172,7 @@ MonoBehaviour:
   RadicalCharacterPrefab: {fileID: 3995900166338458759, guid: 7a8ccbfca085d6541b2517511164cd65,
     type: 3}
   _initTime: 0
+  NoNewFrameTimeout: 180
 --- !u!1001 &3588403381704743885
 PrefabInstance:
   m_ObjectHideFlags: 0

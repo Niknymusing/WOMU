@@ -463,12 +463,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2078393354, guid: 8b3476b1fc185404684df173b3e1259e, type: 3}
-      propertyPath: clientID
-      value: b9f6420e-b615-4ac6-bba0-77fcd6224a3f
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078393354, guid: 8b3476b1fc185404684df173b3e1259e, type: 3}
-      propertyPath: ApplyPositionOffsetMultipleClients
-      value: 0
+      propertyPath: NoNewFrameTimeout
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 9004911468631060313, guid: 8b3476b1fc185404684df173b3e1259e,
         type: 3}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MIMA;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -42,6 +43,9 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
     private MyCallbackDelegate callback;
 
     public List<UserSimulationData> CurrentUsers = new List<UserSimulationData>();
+    
+    // keep a separate dictionary of the last frame time that each user was updated, so we can remove inactive ones
+    public Dictionary<string, int> UserTimeouts = new Dictionary<string, int>();
 
     public bool ApplyPositionOffsetMultipleClients = false;
     public Vector3 ClientPositionOffset;
@@ -50,7 +54,11 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
 
     public float _initTime;
 
+    // if a user hasn't received any new frames in this amount of time, kill it
+    public int NoNewFrameTimeout = 60;
+
     public Queue<string> ServerMessages = new Queue<string>();
+    public Queue<string> ExpiredUsers = new Queue<string>();
     
 
     void Start()
@@ -131,19 +139,25 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
                     if (ApplyPositionOffsetMultipleClients)
                         ClientPositionOffset += ClientPositionOffset;
                     
-
+                    // add entry to timeout dictionary
+                    UserTimeouts.Add(newUser.IDUser, 0);
                 }
                 else
                 {
                     // append frames to existing user
                     userData.AiFrames.AddRange(AnimationReader.ReadAnimationFile(
                         ReadAnimationServer.CreateToAnimationSaved(jsonData), userData.OffsetPosition, -1, false));
-                    
+
+
+                    // reset the timeout counter
+                    if (UserTimeouts.ContainsKey(userData.IDUser)) UserTimeouts[userData.IDUser] = 0;
                 }
 
             }
             
         }
+        
+        
         
         
         // iterate through current users, ensure there's a instantiated prefab for each + simulate update
@@ -160,11 +174,36 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
                 u.AiCharacter.name = $"User_{u.IDUser}";
                 
                 // make link between user ID and character
-                AIPlayer.Instance.AssignModel(u.IDUser, u.AiCharacter);
+                try
+                {
+                    AIPlayer.Instance.AssignModel(u.IDUser, u.AiCharacter);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("Warning - error linking user and character gameobject");
+                    Debug.LogWarning(ex.Message);
+                    Debug.LogWarning("Likely cause - the same userID has joined the room again");
+                }
+                    
+                
                 FixTimestamps(u);
 
                
             }
+            
+            // check this character is still receiving frames
+            if (UserTimeouts.ContainsKey(u.IDUser))
+            {
+                UserTimeouts[u.IDUser]++;
+                if (UserTimeouts[u.IDUser] > NoNewFrameTimeout)
+                {
+                    Debug.LogWarning($"Timeout expired for {u.IDUser}, removing prefab");
+                    // TODO - remove this user from AIPlayer
+                    ExpiredUsers.Enqueue(u.IDUser);
+                    continue;
+                }
+            }
+            
             
             // update simulation if it's the right time
             if (u.AiFrames.Count - 1 < u.CurrentFrame) continue;
@@ -176,7 +215,30 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
             
             // put it back because structs
             CurrentUsers[i] = u;
+            
+            
+        }
 
+        // go through and remove expired users
+        while (ExpiredUsers.Count > 0)
+        {
+            
+            var expiredUserID = ExpiredUsers.Dequeue();
+            Debug.Log($"Removing expired user {expiredUserID}");
+            var c = CurrentUsers.Where(d => d.IDUser == expiredUserID).FirstOrDefault();
+            // make sure we didn't get the default value
+            if (c.IDUser == expiredUserID)
+            {
+                // move the vfx element out of this transform in case it gets deleted
+                vfx.transform.SetParent(transform);
+                
+                Destroy(c.AiCharacter);
+                CurrentUsers.Remove(c);
+                UserTimeouts.Remove(expiredUserID);
+
+                // restart the find SMR routine in case we lost one
+                StartCoroutine(FindSkinnedMeshRenderer());
+            }
         }
         
     }
@@ -204,25 +266,30 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
         
     }
 
+    private Coroutine serverRoutine;
+
     [ContextMenu("Connect To Server")]
     public void ConnectToServer()
+    {
+        if (serverRoutine != null) StopCoroutine(serverRoutine);
+        serverRoutine = StartCoroutine(ConnectToServerRoutine());
+    }
+
+    IEnumerator ConnectToServerRoutine()
     {
         if (connStatus != CONNECTION_STATUS.DISCONNECTED)
         {
             Disconnect();
-            connStatus = CONNECTION_STATUS.DISCONNECTED;
         }
+
+        yield return new WaitWhile(() => connStatus != CONNECTION_STATUS.DISCONNECTED);
         
-        if (callback == null)
-        {
-            callback = ServerCallbackDelegate;
-            DataReceivedCallback(callback);
-        }
+        callback = ServerCallbackDelegate;
+        DataReceivedCallback(callback);
 
         Debug.Log($"Connecting to room {roomId} on {uriServer}");
         connStatus = CONNECTION_STATUS.CONNECTING;
         Connect(uriServer, userToken, roomId);
-
     }
 
     void ServerCallbackDelegate(string msg)
@@ -256,7 +323,9 @@ public class MIMA_RadicalWSCharacter : MIMA_CharacterPoseControlBase
     {
         if (connStatus != CONNECTION_STATUS.DISCONNECTED)
         {
+            connStatus = CONNECTION_STATUS.DISCONNECTED;
             Disconnect();
+            
         }
     }
 
