@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using Radical;
-using System.Text.Json;
 
 public class AnimationPlaybackManager : MonoBehaviour
 {
@@ -13,65 +12,40 @@ public class AnimationPlaybackManager : MonoBehaviour
 
     public GameObject aiCharacter;
     public AnimationPlayback animationPlayback;
-    public string fileName = "299539.json";
-    public bool useLive = false;
-    public string roomName = "test";
-    public string socketServerURL = "";
 
-    private string animationPath;
-    private RadicalLiveInterface radSdk;
+    private string animationPath = Path.Combine(Application.streamingAssetsPath, "299539.json");
+
 
     public void Awake()
     {
-        // SceneManager.LoadScene(visualizationSceneName, LoadSceneMode.Additive);
+        SceneManager.LoadScene(visualizationSceneName, LoadSceneMode.Additive);
     }
 
+    private string jsonAnimation;
     List<AIFrame> aiFrames;
-
-    void Start()
+    private IEnumerator Start()
     {
-        animationPath = Path.Combine(Application.streamingAssetsPath, fileName);
+        yield return StartCoroutine(LoadStreamingAsset(animationPath));
 
+        aiFrames = AnimationReader.ReadAnimationFile(jsonAnimation, -1, false);
         aiCharacter = Instantiate(aiCharacter);
-        AIPlayer.Instance.AssignModel(aiCharacter);
+        AIPlayer.Instance.AssignModel("0", aiCharacter);
+        animationPlayback.AssignAnimation(aiFrames);
+        animationPlayback.StartPlayback(0);
+    }
 
-        if (useLive)
+    //Temp
+    private IEnumerator LoadStreamingAsset(string filePath)
+    {
+        if (filePath.Contains("://") || filePath.Contains(":///"))
         {
-            animationPlayback.StartPlaybackLive(0);
-            ConnectToWSS();
+            UnityWebRequest www = new UnityWebRequest(filePath);
+            yield return www.SendWebRequest();
+            jsonAnimation = www.downloadHandler.text;
         }
         else
         {
-            aiFrames = AnimationReader.ReadAnimationFile(animationPath, -1, false);
-            animationPlayback.AssignAnimation(aiFrames);
-            animationPlayback.StartPlayback(0);
+            jsonAnimation = File.ReadAllText(filePath);
         }
-    }
-
-    public void ConnectToWSS()
-    {
-        Debug.Log("Connecting...");
-        radSdk = new RadicalLiveInterface(socketServerURL, roomName);
-        radSdk.OnConnected(ConnectedToRoom);
-        radSdk.OnData(result => GettingData(result));
-        radSdk.Connect();
-    }
-
-    public void DisconnectFromRoom()
-    {
-        if (radSdk != null) return;
-        // disposing should call Disconnect?
-        radSdk = null;
-    }
-
-    void GettingData(IList<JsonElement> data)
-    {
-        // Debug.Log("getting frame data");
-        animationPlayback.playLiveFrame(data);
-    }
-
-    void ConnectedToRoom()
-    {
-        // Debug.Log("Connected to room");
     }
 }

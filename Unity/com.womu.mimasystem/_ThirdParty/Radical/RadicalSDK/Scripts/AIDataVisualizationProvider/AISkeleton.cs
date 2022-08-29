@@ -186,7 +186,7 @@ public class AISkeleton : MonoBehaviour
         var boneNames = new List<string>(GetNames(AIPlayer.Instance.Type));
         var rigBoneNames = rigData.BoneNames;
         var transforms = transform.GetComponentsInChildren<Transform>();
-        
+
         for (int i = 0; i < radicalNames.Length; i++)
         {
             string radName = radicalNames[i];
@@ -231,33 +231,25 @@ public class AISkeleton : MonoBehaviour
 
     public void UpdateFromOnPrem(AIFrame aIFrame, bool useRootMotion)
     {
-        try
+        if (bones.Length == 0) SetupBones();
+        if(float.IsNaN(aIFrame.rootPosition.x) || float.IsNaN(aIFrame.rootPosition.y) || float.IsNaN(aIFrame.rootPosition.z))
         {
-
-
-            if (bones.Length == 0) SetupBones();
-            if (float.IsNaN(aIFrame.rootPosition.x) || float.IsNaN(aIFrame.rootPosition.y) || float.IsNaN(aIFrame.rootPosition.z))
-            {
-                return;
-            }
-            if (useRootMotion)
-            {
-                bones[0].boneTransform.localPosition = aIFrame.rootPosition;
-            }
-
-            for (int i = 0; i < bones.Length; i++)
-            {
-                if (bones[i].boneTransform != null)
-                    bones[i].boneTransform.localRotation = aIFrame.rotations[i];
-                else
-                {
-                    print("null");
-                }
-
-            }
-        } catch
+            return;
+        }
+        if (useRootMotion)
         {
-            //Debug.Log("something went wrong..");
+            bones[0].boneTransform.localPosition = aIFrame.rootPosition;
+        }
+
+        for (int i = 0; i < bones.Length; i++)
+        {
+            if (bones[i].boneTransform != null)
+                bones[i].boneTransform.localRotation = aIFrame.rotations[i];
+            else
+            {
+                print("null");
+            }
+
         }
     }
 }

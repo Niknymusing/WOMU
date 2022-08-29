@@ -1,22 +1,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.Json;
-
 
 public class AnimationPlayback : MonoBehaviour
 {
     public delegate void OnUpdateTimeStamp(int frame);
 
     List<AIFrame> animationInfo = null;
-    List<AIFrame> liveAnimationInfo = new List<AIFrame>();
-    AIFrame currentLiveFrame = null;
     Coroutine playbackRoutine;
-    Coroutine livePlaybackRoutine;
     private int _currentFrame;
-    public int activeCurrentFrame;
     
-    // 
 
     private void Awake()
     {
@@ -51,31 +44,18 @@ public class AnimationPlayback : MonoBehaviour
                 animationInfo[i].Timestamp = 1.0f * i / 30;
     }
 
-    public void StartPlaybackLive(int frame)
-    {
-        if (livePlaybackRoutine != null)
-            StopCoroutine(livePlaybackRoutine);
-
-        livePlaybackRoutine = StartCoroutine(LivePlaybackRoutine(frame));
-    }
-
     public void StartPlayback(int frame)
     {
-       if (animationInfo == null)
-          return;
+        if (animationInfo == null)
+            return;
 
-       if (playbackRoutine != null)
-          StopCoroutine(playbackRoutine);
+        if (playbackRoutine != null)
+            StopCoroutine(playbackRoutine);
 
         playbackRoutine = StartCoroutine(PlaybackRoutine(frame));
     }
 
-    public void playLiveFrame(IList<JsonElement> jsonData)
-    {
-        AIFrame aiframe = AnimationReader.ReadAnimationData(jsonData);
-        if (aiframe != null)
-            currentLiveFrame = aiframe;
-    }
+
 
     public IEnumerator PlaybackRoutine(int frame)
     {
@@ -84,24 +64,15 @@ public class AnimationPlayback : MonoBehaviour
         int frameInd = frame;
         while (frameInd < animationInfo.Count)
         {
+            Debug.Log($"{animationInfo[_currentFrame].Timestamp}; {Time.time}; {initTime};");
             if (Time.time - initTime + animationInfo[_currentFrame].Timestamp >= animationInfo[frameInd].Timestamp)
             {
-                AIPlayer.Instance.SampleFromValues(animationInfo[frameInd]);
+                AIPlayer.Instance.SampleFromValues("0", animationInfo[frameInd]);
                 frameInd+=1;
-                activeCurrentFrame = frameInd;
             }
             yield return null;
         }
         _currentFrame = 0;
-    }
-
-    public IEnumerator LivePlaybackRoutine(int frame)
-    {
-        while (true)
-        {
-            if (currentLiveFrame != null) AIPlayer.Instance.SampleFromValues(currentLiveFrame);
-            yield return null;
-        }
     }
 
     public void StopPlayBack()

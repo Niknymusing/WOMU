@@ -2,14 +2,17 @@
 using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 
-public class SavedAnimationFrame
+[System.Serializable]
+public struct SavedAnimationFrame
 {
-    public class FrameMeta
-    {
-        public float timestamp;
-    }
     public FrameMeta frame_meta;
     public Dictionary<string, List<float>> frame_data;
+}
+
+[System.Serializable]
+public class FrameMeta
+{
+    public float timestamp;
 }
 
 public enum eApplicationType
@@ -37,6 +40,7 @@ public enum AIArchitecture
 	Light,
 }
 
+[System.Serializable]
 public class InputMetaData
 {
     [JsonConverter(typeof(StringEnumConverter))]
@@ -55,6 +59,8 @@ public class InputMetaData
     public int user_id;
     public string date_created;
 }
+
+[System.Serializable]
 public class AnimationMetaData : InputMetaData
 {
     public AnimationMetaData()
@@ -84,6 +90,7 @@ public class AnimationMetaData : InputMetaData
 }
 
 
+[System.Serializable]
 public class SavedAnimation
 {
     public AnimationMetaData meta_data;

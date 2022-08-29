@@ -27,4 +27,5 @@ public partial class AIFrame
     public Vector3 rootPosition;
     public List<Quaternion> rotations;
     public float Timestamp;
+
 }

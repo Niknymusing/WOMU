@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AIPlayer : MonoBehaviour
@@ -36,12 +37,6 @@ public class AIPlayer : MonoBehaviour
 
     [SerializeField] public Transform _focusPivot;
 
-    [Header("Assigned Model")]
-    [SerializeField]
-    private AIModel _assignedModel;
-
-    [SerializeField] private bool _useAssignedModel;
-
     [Header("Models")] 
     [SerializeField] public AIModel _tPoseSkeleton30;
 
@@ -55,10 +50,11 @@ public class AIPlayer : MonoBehaviour
     [SerializeField] private HumanPoseHandler _playbackHandler30;
     [SerializeField] private HumanPoseHandler _playbackHandler32;
     [SerializeField] private HumanPoseHandler _tPoseHandler32;
-    [SerializeField] private HumanPoseHandler _modelHandler;
 
     [SerializeField] public bool _firstValues;
 
+
+    [SerializeField] private Dictionary<string, UserModel> _userData = new Dictionary<string, UserModel>();
 
     private AISkeleton PlaybackSkeleton
     {
@@ -68,17 +64,6 @@ public class AIPlayer : MonoBehaviour
     private HumanPoseHandler PlaybackHandler
     {
         get { return Type == RigType.Gen3x2 ? _playbackHandler32 : _playbackHandler30; }
-    }
-
-
-    private bool UseAssignedModel
-    {
-        get { return _useAssignedModel && _assignedModel != null && _assignedModel.enabled; }
-    }
-
-    private AIModel[] ActiveModels
-    {
-        get { return UseAssignedModel ? new AIModel[] { _assignedModel } : _aiModels; }
     }
 
     private void Awake()
@@ -93,7 +78,7 @@ public class AIPlayer : MonoBehaviour
 
 
 
-    void UpdateModelsJoints()
+    void UpdateModelsJoints(string idUser)
     {
         if (PlaybackHandler == null) return;
 
@@ -106,35 +91,32 @@ public class AIPlayer : MonoBehaviour
 
         _playbackHandler32.GetHumanPose(ref pose);
 
-        for (int i = 0; i < ActiveModels.Length; i++)
+        if (!_userData[idUser].UseAssignedModel)
         {
-            if (!UseAssignedModel)
-            {
-                _modelHandler = new HumanPoseHandler(ActiveModels[i].avatar, ActiveModels[i].pivot);
-                Debug.Log("Assing player for visualization");
-            }
-            _modelHandler.SetHumanPose(ref pose);
+            var model = _userData[idUser];
+            model.ModelHandler = new HumanPoseHandler(_userData[idUser].AssignedModel.avatar, _userData[idUser].AssignedModel.pivot);
+            _userData[idUser] = model;
+
+            Debug.Log("Assing player for visualization");
         }
+        _userData[idUser].ModelHandler.SetHumanPose(ref pose);
     }
 
-    public void ResetModelValues()
+    public void ResetModelValues(string idUser)
     {
         if (_useRootMotion)
         {
-            for (int i = 0; i < ActiveModels.Length; i++)
-            {
-                ActiveModels[i].ResetToDefault();
-            }
+            _userData[idUser].AssignedModel.ResetToDefault();
         }
 
         HumanPose pose = new HumanPose();
         _tPoseHandler32.GetHumanPose(ref pose);
-        if (UseAssignedModel) _modelHandler.SetHumanPose(ref pose);
+        if (_userData[idUser].UseAssignedModel) _userData[idUser].ModelHandler.SetHumanPose(ref pose);
 
         _firstValues = false;
     }
 
-    public void AssignModel(GameObject model)
+    public void AssignModel(string idUser, GameObject model)
     {
         if (model)
         {
@@ -146,23 +128,37 @@ public class AIPlayer : MonoBehaviour
                 aiModel = model.AddComponent<AIModel>();
                 aiModel.SetupAuto();
             }
+
             if (aiModel.enabled)
             {
-                _useAssignedModel = true;
-                _assignedModel = aiModel;
-                _modelHandler = new HumanPoseHandler(aiModel.avatar, aiModel.pivot);
-            }
-        Instance.ResetModelValues();
+                UserModel um = new UserModel
+                {
+                    UseAssignedModel = true,
+                    AssignedModel = aiModel,
+                    ModelHandler = new HumanPoseHandler(aiModel.avatar, aiModel.pivot)
+                };
 
+                _userData.Add(idUser, um);
+            }
+
+            Instance.ResetModelValues(idUser);
         }
     }
 
-    public void SampleFromValues(AIFrame aiFrame)
+    public void SampleFromValues(string idUser, AIFrame aiFrame)
     {
 
         PlaybackSkeleton.UpdateFromOnPrem(aiFrame, true);
-        UpdateModelsJoints();
+        UpdateModelsJoints(idUser);
         _firstValues = true;
     }
 
+}
+
+[System.Serializable]
+public struct UserModel
+{
+    public bool UseAssignedModel;
+    public AIModel AssignedModel;
+    public HumanPoseHandler ModelHandler;
 }

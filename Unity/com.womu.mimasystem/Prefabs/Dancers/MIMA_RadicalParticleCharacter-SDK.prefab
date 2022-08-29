@@ -1953,7 +1953,7 @@ Transform:
   - {fileID: 96670695}
   - {fileID: 984948071}
   m_Father: {fileID: 9004911468631060313}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1370371424
 MonoBehaviour:
@@ -1969,8 +1969,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   _focusPivot: {fileID: 610283607}
-  _assignedModel: {fileID: 0}
-  _useAssignedModel: 0
   _tPoseSkeleton30: {fileID: 1566206171}
   _tPoseSkeleton32: {fileID: 2110763701}
   _playbackSkeleton30: {fileID: 1104538329}
@@ -2888,51 +2886,6 @@ Transform:
   m_Father: {fileID: 1027770442}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2040498167
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2040498168}
-  - component: {fileID: 2040498169}
-  m_Layer: 0
-  m_Name: AnimationPlayback
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2040498168
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2040498167}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5427309, y: 1.5505936, z: -0.07082796}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9004911468631060313}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2040498169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2040498167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13a1d94a6c873a74380de4ee1bc58eb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeCurrentFrame: 0
 --- !u!1 &2110763699
 GameObject:
   m_ObjectHideFlags: 0
@@ -3168,7 +3121,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9004911468631060313}
-  - component: {fileID: 2078393355}
   - component: {fileID: 2078393354}
   m_Layer: 0
   m_Name: MIMA_RadicalParticleCharacter-SDK
@@ -3190,30 +3142,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7937646251682329158}
-  - {fileID: 2040498168}
   - {fileID: 1370371425}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2078393355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9004911468631060314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e6143548f376bc4a81e3da1c9810266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aiCharacter: {fileID: -927199367670048503, guid: 09c64d5c8b03d93488e24d08e6ae164a,
-    type: 3}
-  animationPlayback: {fileID: 2040498169}
-  fileName: 299539.json
-  useLive: 1
-  roomName: simulation_iWvPI
-  socketServerURL: wss://dev-rd42.getrad.co:8080
 --- !u!114 &2078393354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3227,12 +3159,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfx: {fileID: 8089134019224380940}
-  clientID: none
+  clientID: 4ad7b61c-ffe3-42a5-bcfd-9cb4406e96fa
   PosScale: 1
-  controlMethod: 0
+  controlMethod: 1
+  connStatus: 0
   smr: {fileID: 0}
-  radicalPlaybackManager: {fileID: 2078393355}
   smrRootBone: {fileID: 0}
+  uriServer: wss://room-handler.live-prod.live.k8s.getrad.co
+  userToken: cf6b3a2b-a48c-4ea5-977e-66e021ace875
+  ApplyPositionOffsetMultipleClients: 0
+  ClientPositionOffset: {x: 0.75, y: 0, z: 0}
+  RadicalCharacterPrefab: {fileID: 3995900166338458759, guid: 7a8ccbfca085d6541b2517511164cd65,
+    type: 3}
+  _initTime: 0
 --- !u!1001 &3588403381704743885
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text.Json;
 
 public static class AnimationReader
 {
@@ -52,38 +51,104 @@ public static class AnimationReader
         return res;
     }
 
-    public static AIFrame ReadAnimationData(IList<JsonElement> frameInfo)
+    public static List<AIFrame> ReadAnimationFile(string jsonStr, Vector3 rootOffset, float videoFrameRate = -1, bool decryptFile = true)
     {
-        List<float> rawData = new List<float>();
-        AIFrame aiframe = new AIFrame();
-        string fdata = "";
+        SavedAnimation savedAnimation;
         try
         {
-            fdata = frameInfo[0].GetProperty("result")[0].ToString();
+            savedAnimation = Newtonsoft.Json.JsonConvert.DeserializeObject<SavedAnimation>(jsonStr);
         }
-        catch
+        catch(Exception ex)
         {
-            return aiframe;
+            Debug.LogError(ex.Message);
+            return null;
         }
-        
-        SavedAnimationFrame sfdata = Newtonsoft.Json.JsonConvert.DeserializeObject<SavedAnimationFrame>(fdata);
-        
-        if (fdata != "" && sfdata.frame_data != null)
+        if (videoFrameRate > 0)
         {
-            foreach (var arr in sfdata.frame_data)
+            savedAnimation.meta_data.avg_FPS = videoFrameRate;
+        }
+        else if (savedAnimation.meta_data.avg_FPS <= 0)
+        {
+            savedAnimation.meta_data.avg_FPS = s_defalutAvgFPS;
+        }
+        List<AIFrame> res = new List<AIFrame>(savedAnimation.animation.Count);
+        float timestamp = 0.0f;
+        foreach (var frameInfo in savedAnimation.animation)
+        {
+            List<float> rawData = new List<float>();
+            foreach (var arr in frameInfo.frame_data)
             {
                 foreach (var val in arr.Value)
                 {
                     rawData.Add(val);
                 }
             }
-        } else
-        {
-            return aiframe;
-        }
-        int timestamp = 0;
+            if (savedAnimation.meta_data.has_timestamps)
+            {
+                timestamp = frameInfo.frame_meta.timestamp;
+            }
+            else
+            {
+                timestamp += 1.0f / savedAnimation.meta_data.avg_FPS;
+            }
+            res.Add(AIDataHandlingTools.CreateAIFrameFromRawData(rawData.ToArray(), timestamp));
 
-        aiframe = (AIDataHandlingTools.CreateAIFrameFromRawData(rawData.ToArray(), timestamp));
-        return aiframe;
+            for (int i = 0; i < res.Count; i++)
+            {
+                res[i].rootPosition = rootOffset;
+            }
+        }
+        return res;
+    }
+
+    public static List<AIFrame> ReadAnimationFile(SavedAnimation savedAnimation, Vector3 rootOffset, float videoFrameRate = -1, bool decryptFile = true)
+    {
+        try
+        {
+            if (videoFrameRate > 0)
+            {
+                savedAnimation.meta_data.avg_FPS = videoFrameRate;
+            }
+            else if (savedAnimation.meta_data.avg_FPS <= 0)
+            {
+                savedAnimation.meta_data.avg_FPS = s_defalutAvgFPS;
+            }
+            List<AIFrame> res = new List<AIFrame>(savedAnimation.animation.Count);
+            float timestamp = 0.0f;
+            foreach (var frameInfo in savedAnimation.animation)
+            {
+                List<float> rawData = new List<float>();
+                foreach (var arr in frameInfo.frame_data)
+                {
+                    foreach (var val in arr.Value)
+                    {
+                        rawData.Add(val);
+                    }
+                }
+                if (savedAnimation.meta_data.has_timestamps)
+                {
+                    timestamp = frameInfo.frame_meta.timestamp;
+                }
+                else
+                {
+                    timestamp += 1.0f / savedAnimation.meta_data.avg_FPS;
+                }
+                res.Add(AIDataHandlingTools.CreateAIFrameFromRawData(rawData.ToArray(), timestamp));
+
+                for (int i = 0; i < res.Count; i++)
+                {
+                    res[i].rootPosition += rootOffset;
+                }
+            }
+
+            return res;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+            return null;
+            throw;
+        }
+
     }
 }
