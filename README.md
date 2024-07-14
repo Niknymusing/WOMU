@@ -2,7 +2,7 @@
 
 This repository contains the source code for the digital live stage used in the networked music and live arts festival World Musicathon (WOMU).
 
-Check out this video to learn more about the project:
+
 
 [![Watch the video](https://img.youtube.com/vi/abcd1234/0.jpg)](https://www.youtube.com/watch?v=H_xOjrV7ccc=2780s)
 
