@@ -15,4 +15,4 @@ This repository contains the complete Unity C# project implementing the virtual 
 - Audio-reactive visual elements
 - Integrated virtual avatar dance for multiple live dancers, integrating the radical system for online dance in the digital scene.
 
-Moreover, the repository contains various other utilities for livestreaming, web audio processing, and digital live production over the web.
+Also there's various other utilities for livestreaming, web audio processing, and digital live production over the web.
