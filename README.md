@@ -9,7 +9,7 @@ This repository contains the source code for the digital live stage used in the 
 
 ## Description
 
-This repository contains the complete Unity C# project implementing the virtual stage, encompassing:
+This includes the complete Unity C# project implementing the virtual stage, encompassing:
 - 3D modelling of 3 different physical live music stages
 - Interactive camera control, that can be coordinated in live production with on-stage multi-camera production.
 - Multi-input/output livestreaming with 3D rendering in the scene
