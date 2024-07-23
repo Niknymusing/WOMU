@@ -4,7 +4,7 @@ This repository contains the source code for the digital live stage used in the 
 
 
 
-[![Watch the video]([https://img.youtube.com/vi/abcd1234/0.jpg)](https://www.youtube.com/watch?v=H_xOjrV7ccc=2780s](https://youtu.be/lOamHh26ylY))
+[![Watch the video]([https://www.youtube.com/watch?v=lOamHh26ylY])
 
 ## Description
 
